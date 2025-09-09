@@ -1,0 +1,125 @@
+# .gitignore files used in project backend -> .env , node_modules
+
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn-debug.log
+package-lock.json
+yarn.lock
+
+# Build output
+/dist
+/build
+/public
+
+# Logs
+logs
+*.log
+pids
+*.pid
+*.seed
+*.out
+*.gz
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE/Editor directories
+.vscode/
+.idea/
+*.swp
+
+# Operating System files
+.DS_Store
+Thumbs.db
+*.sublime-workspace
+*.sublime-project
+
+# Frontend specific (React, Vue, Angular, etc.)
+# React
+/.cache
+/coverage
+/.next
+/.nuxt
+/build/
+*.js.map
+*.tsbuildinfo
+
+# Vue
+/dist/
+/public/
+
+# Angular
+/.angular/
+
+# Testing
+/coverage/
+/test-results/
+
+# Miscellaneous
+*.tgz
+*.bak
+*.orig
+*.class
+*.dll
+*.exe
+*.o
+*.out
+
+# Specific to Python projects (if applicable)
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Python virtual environment
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+
+# Specific to other backend frameworks
+# Ruby on Rails
+/log/*
+/tmp/*
+/vendor/bundle/
+/vendor/cache/
+/vendor/assets
+
+# Laravel
+/vendor
+/.env
+/public/hot
+/public/storage
+/storage/*.key
+/storage/*.log
+/.vagrant/
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+# PHP
+/vendor
+/.env
+/.idea
+
+# Django
+*.pyc
+*.pyo
+__pycache__/
+db.sqlite3
+/media
+
+# Miscellaneous
+*.DS_Store
+*.log
