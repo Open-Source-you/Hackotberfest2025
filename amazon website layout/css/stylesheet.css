@@ -1,0 +1,276 @@
+/* navigation bar */
+
+
+
+/* .navbar1 {
+    height: 68px;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(6, 3, 24);
+
+} */
+
+
+.navbar2 {
+    height: 45px;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(24, 23, 31);
+    color: white;
+}
+
+
+
+
+.navbar-brand{
+    width: 135px;
+    height: 46px;
+    margin:1px;
+    padding: 1px 8px 0px 6px;
+}
+
+.hello{
+    width: 163.74px;
+    height: 50px;
+    color: aliceblue;
+    font-size: 13px;
+    padding-bottom: 5px;
+    margin-top: 14px !important;
+
+}
+
+span.select{
+    font-size: 14px;
+    font-weight: 650;
+    margin-top: 50px !important;
+    letter-spacing: 0.5px;
+}
+
+.form-outline{
+    width: 722.8px;
+    margin-top: 21px !important;
+}
+
+#search-button
+{
+    width: 43px;
+    height: 39px;
+    margin-top: 21px !important;
+    margin-left: -30px;
+    
+}
+
+.searchbuttonn{
+    height: 25px;
+    width: 25px;
+    position: relative;
+    top: 0px;
+}
+
+.fas-search{
+    position: absolute;
+}
+
+
+#flag{
+height: 25px;
+width: 25px;
+
+margin-left: 20px;
+
+}
+
+#navbarDropdown{
+    margin-top: 18px;
+}
+
+span.hellosiginin{
+    font-size: 12px;
+    margin-top: 15px;
+    line-height: 1px;
+}
+
+.nav-item2{
+    margin-top: -1px;
+line-height: 16px;
+}
+
+span.accounts{
+    font-size: 15px;
+    line-height: 1px;
+    font-weight: 650;
+}
+
+span.return{
+    font-size: 12px;
+    color: rgb(255, 255, 255);
+}
+
+span.orders{
+    font-size: 15px;
+    line-height: 1px;
+    font-weight: 650;
+    color: rgb(255, 255, 255);
+}
+
+.nav-item3{
+    margin-top: 14px;
+line-height: 16px;
+}
+
+#cart{
+    height: 46px;
+    width: 68px;
+    margin-top: 15px;
+}
+
+.nav-item4{
+    margin-top: 30px;
+font-weight: 650;
+    color: rgb(255, 255, 255);
+}
+
+span.caart{
+    font-weight: 650;
+    color: rgb(255, 255, 255);
+    padding-left: 1px;
+}
+
+span.signinbutton{
+    padding-left: 50px;
+    padding-right: 50px;
+    font-size: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    
+}
+
+#passwordHelpBlock{
+    margin-top: -40px;
+    margin-left: 100px;
+    font-size: 12px;
+}
+
+
+.menubar{
+    margin-top: -11px;
+    height: 32px;
+    width: 28px;
+}
+
+.nav-link01{
+    color: white;
+    position: relative;
+    top:4px;
+    font-size: 19px ;
+    margin-left: 5px;
+    
+}
+
+.nav-link02{
+    color: white;
+    margin-left: 20px;
+    margin-right: 15px;
+    padding-top: 5px;
+    position: relative;
+    top:4px;font-size:14px;
+    white-space: nowrap;
+}
+
+.nav-link03{
+    color: white;
+margin-left: 8px;
+padding-top: 5px;
+position: relative;
+top: 4px;
+font-size: 14px;
+}
+
+.nav-link04{
+    color: white;
+    margin-left: 20px;
+    padding-top: 5px;
+    position: relative;
+    top:4px;font-size:14px
+}
+
+.nav-link05{
+    color: white;
+    margin-left: 20px;
+    padding-top: 5px;
+    position: relative;
+    top:4px;font-size:14px
+}
+
+.nav-link06{
+    color: white;
+    margin-left: 20px;
+margin-right: 18px;
+padding-top: 5px;
+position: relative;
+top: 4px;
+font-size: 14px;
+}
+
+.nav-link07{
+    color: white;
+    margin-left: 3px;
+    padding-top: 5px;
+    position: relative;
+    top:4px;font-size:14px
+}
+
+.nav-link08{
+    color: white;
+    margin-left: 18px;
+    margin-right: 20px;
+    padding-top: 5px;
+    position: relative;
+    top:4px;font-size:14px
+}
+
+.nav-link09{
+    color: white;
+    margin-left: 2px;
+    margin-right: 20px;
+    padding-top: 5px;
+    position: relative;
+    top:4px;
+    font-size: 14px;
+}
+
+.nav-link10{
+    color: white;
+    margin-left: 0px;
+    margin-right: 20px;
+    padding-top: 5px;
+    position: relative;
+    top:4px;font-size:14px
+}
+.nav-link11{
+    color: white;
+    margin-left: 2px;
+    margin-right: 20px;
+    padding-top: 5px;
+    position: relative;
+    top:4px;font-size:14px
+
+}
+
+.shopping{
+    height: 57px;
+    width: 52px;
+    margin-left: 37px;
+    margin-top: -8px;
+}
+
+
+.nav-link12{
+    margin-left: -1px;
+    padding-top: 5px;
+    position: relative;
+    top: 4px;
+    font-size: 20px;
+    color: white;
+}
+
