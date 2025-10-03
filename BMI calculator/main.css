@@ -1,14 +1,4 @@
-*{margin: 0; padding: 0;font-family: 'Old Standard TT', serif;}
-.container{
-     display: grid;
-     justify-content: center;
-     align-content: center;
-     min-height: 100vh;
-     grid-template-columns: 30vw;
-     grid-template-rows: repeat(3,10vh) 5vh repeat(2,10vh);
-     grid-gap: 10px;
-     
-}
+
 body{
     background-color: #D9AFD9;
     background-image: linear-gradient(0deg, #D9AFD9 0%, #97D9E1 100%);
