@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro Timer - Stay Focused</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header Section -->
+        <header>
+            <h1>Pomodoro Timer</h1>
+            <p class="subtitle">Boost your productivity, one session at a time</p>
+        </header>
+
+        <!-- Session Type Selector -->
+        <div class="session-selector">
+            <button class="session-btn active" data-type="work">Work</button>
+            <button class="session-btn" data-type="short">Short Break</button>
+            <button class="session-btn" data-type="long">Long Break</button>
+        </div>
+
+        <!-- Main Timer Display with Circular Progress -->
+        <div class="timer-wrapper">
+            <svg class="progress-ring" width="280" height="280">
+                <circle class="progress-ring-bg" cx="140" cy="140" r="120"></circle>
+                <circle class="progress-ring-circle" cx="140" cy="140" r="120"></circle>
+            </svg>
+            <div class="timer-display">
+                <div class="time" id="time-display">25:00</div>
+                <div class="session-label" id="session-label">Work Session</div>
+                <div class="cycle-info" id="cycle-info">Pomodoro 1/4</div>
+            </div>
+        </div>
+
+        <!-- Control Buttons -->
+        <div class="controls">
+            <button class="control-btn primary" id="start-btn">
+                <span class="btn-icon">▶</span>
+                <span class="btn-text">Start</span>
+            </button>
+            <button class="control-btn secondary" id="pause-btn" disabled>
+                <span class="btn-icon">⏸</span>
+                <span class="btn-text">Pause</span>
+            </button>
+            <button class="control-btn secondary" id="reset-btn">
+                <span class="btn-icon">↻</span>
+                <span class="btn-text">Reset</span>
+            </button>
+            <button class="control-btn secondary" id="skip-btn">
+                <span class="btn-icon">⏭</span>
+                <span class="btn-text">Skip</span>
+            </button>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-value" id="completed-pomodoros">0</div>
+                <div class="stat-label">Completed Today</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="total-time">0h 0m</div>
+                <div class="stat-label">Total Focus Time</div>
+            </div>
+        </div>
+
+        <!-- Settings Panel -->
+        <div class="settings-panel" id="settings-panel">
+            <h3>Settings</h3>
+            <div class="setting-group">
+                <label for="work-duration">Work Duration (minutes)</label>
+                <input type="number" id="work-duration" min="1" max="60" value="25">
+            </div>
+            <div class="setting-group">
+                <label for="short-break">Short Break (minutes)</label>
+                <input type="number" id="short-break" min="1" max="30" value="5">
+            </div>
+            <div class="setting-group">
+                <label for="long-break">Long Break (minutes)</label>
+                <input type="number" id="long-break" min="1" max="60" value="15">
+            </div>
+            <div class="setting-group">
+                <label for="auto-start">
+                    <input type="checkbox" id="auto-start">
+                    Auto-start next session
+                </label>
+            </div>
+            <div class="setting-group">
+                <label for="sound-enabled">
+                    <input type="checkbox" id="sound-enabled" checked>
+                    Enable sound notifications
+                </label>
+            </div>
+            <button class="control-btn primary" id="save-settings">Save Settings</button>
+        </div>
+
+        <!-- Settings Toggle Button -->
+        <button class="settings-toggle" id="settings-toggle">⚙ Settings</button>
+
+        <!-- Theme Toggle -->
+        <button class="theme-toggle" id="theme-toggle">
+            <span class="theme-icon">🌙</span>
+        </button>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Made with ❤️ by <strong>Madhan Kumar R</strong> towards Open Source Contribution</p>
+    </footer>
+
+    <!-- Audio Element for Notification -->
+    <audio id="notification-sound" preload="auto">
+        <source src="assets/notification.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
