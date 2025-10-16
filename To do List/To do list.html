@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title> To-Do List </title>
+  <title>To-Do List</title>
   <style>
+    /* Your existing CSS remains the same */
     body {
       font-family: 'Poppins', sans-serif;
       background: linear-gradient(135deg, #dfe9f3 0%, #ffffff 100%);
@@ -33,7 +34,6 @@
       color: #2c3e50;
     }
 
-    /* ---------- Input Area ---------- */
     .input-field {
       display: flex;
       margin-bottom: 15px;
@@ -69,7 +69,6 @@
       background-color: #0056b3;
     }
 
-    /* ---------- Control Buttons ---------- */
     .control-buttons {
       display: flex;
       justify-content: space-between;
@@ -104,7 +103,6 @@
       background-color: #c82333;
     }
 
-    /* ---------- Task List ---------- */
     ul {
       list-style-type: none;
       padding: 0;
@@ -162,10 +160,12 @@
       cursor: pointer;
       font-size: 18px;
       transition: color 0.3s ease;
+      padding: 5px;
+      border-radius: 4px;
     }
 
     .delete-btn:hover {
-      color: #b91c1c;
+      background-color: #f8d7da;
     }
 
     .no-tasks {
@@ -175,7 +175,6 @@
       margin-top: 10px;
     }
 
-    /* ---------- Scrollbar ---------- */
     ::-webkit-scrollbar {
       width: 6px;
     }
@@ -183,31 +182,47 @@
       background: #ccc;
       border-radius: 3px;
     }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
   </style>
 </head>
 <body>
   <div class="todo-container">
-    <h2> To-Do List  🧠</h2>
+    <h2>To-Do List 🧠</h2>
 
-    <!-- Input Field -->
-    <div class="input-field">
-      <input id="taskInput" type="text" placeholder="Enter your task..." />
-      <button id="addTaskButton">Add</button>
-    </div>
+    <form id="taskForm" class="input-field">
+      <input 
+        id="taskInput" 
+        type="text" 
+        placeholder="Enter your task..." 
+        aria-label="Enter new task"
+        required
+      />
+      <button type="submit" id="addTaskButton">Add</button>
+    </form>
 
-    <!-- Control Buttons -->
     <div class="control-buttons">
-      <button id="selectAllBtn">Select All</button>
-      <button id="deleteSelected">Delete Selected</button>
+      <button id="selectAllBtn" type="button">Select All</button>
+      <button id="deleteSelected" type="button">Delete Selected</button>
     </div>
 
-    <!-- Task List -->
-    <ul id="taskList"></ul>
+    <ul id="taskList" aria-label="Task list"></ul>
     <p id="noTasks" class="no-tasks" style="display:none;">No tasks yet 🎯</p>
   </div>
 
   <script>
-    const addTaskButton = document.getElementById('addTaskButton');
+    // DOM Elements
+    const taskForm = document.getElementById('taskForm');
     const selectAllBtn = document.getElementById('selectAllBtn');
     const deleteSelectedBtn = document.getElementById('deleteSelected');
     const taskInput = document.getElementById('taskInput');
@@ -215,19 +230,44 @@
     const noTasksMsg = document.getElementById('noTasks');
 
     // Initialize app
-    window.addEventListener('DOMContentLoaded', renderTasks);
-    addTaskButton.addEventListener('click', addTask);
-    taskInput.addEventListener('keypress', e => { if (e.key === 'Enter') addTask(); });
+    window.addEventListener('DOMContentLoaded', () => {
+      renderTasks();
+      taskInput.focus();
+    });
+
+    // Event Listeners
+    taskForm.addEventListener('submit', handleAddTask);
     selectAllBtn.addEventListener('click', toggleSelectAll);
     deleteSelectedBtn.addEventListener('click', deleteSelectedTasks);
 
-    // Helpers
-    const getTasks = () => JSON.parse(localStorage.getItem('tasks')) || [];
-    const saveTasks = tasks => localStorage.setItem('tasks', JSON.stringify(tasks));
+    // Utility Functions
+    const getTasks = () => {
+      try {
+        return JSON.parse(localStorage.getItem('tasks')) || [];
+      } catch (error) {
+        console.error('Error reading from localStorage:', error);
+        return [];
+      }
+    };
 
-    function addTask() {
+    const saveTasks = (tasks) => {
+      try {
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+      } catch (error) {
+        console.error('Error saving to localStorage:', error);
+        alert('Error saving tasks. Please try again.');
+      }
+    };
+
+    function handleAddTask(event) {
+      event.preventDefault();
+      
       const text = taskInput.value.trim();
-      if (text === '') return alert('Please enter a task.');
+      if (text === '') {
+        alert('Please enter a task.');
+        taskInput.focus();
+        return;
+      }
 
       const newTask = {
         id: Date.now(),
@@ -250,16 +290,21 @@
       taskList.innerHTML = '';
       noTasksMsg.style.display = tasks.length ? 'none' : 'block';
 
-      tasks.forEach(task => {
+      tasks.forEach((task, index) => {
         const li = document.createElement('li');
         if (task.completed) li.classList.add('completed');
 
-        // Left part (checkbox + text)
+        // Task left section
         const taskLeft = document.createElement('div');
         taskLeft.classList.add('task-left');
 
+        // Checkbox with label for accessibility
+        const checkboxWrapper = document.createElement('div');
+        const checkboxId = `task-${task.id}`;
+        
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
+        checkbox.id = checkboxId;
         checkbox.checked = task.selected;
         checkbox.addEventListener('change', () => {
           task.selected = checkbox.checked;
@@ -268,8 +313,18 @@
           renderTasks();
         });
 
+        const label = document.createElement('label');
+        label.htmlFor = checkboxId;
+        label.classList.add('visually-hidden');
+        label.textContent = `Select task: ${task.text}`;
+
+        checkboxWrapper.appendChild(checkbox);
+        checkboxWrapper.appendChild(label);
+
+        // Task details
         const details = document.createElement('div');
         details.classList.add('task-details');
+        
         const text = document.createElement('span');
         text.classList.add('task-text');
         text.textContent = task.text;
@@ -281,16 +336,18 @@
         details.appendChild(text);
         details.appendChild(time);
 
-        taskLeft.appendChild(checkbox);
+        taskLeft.appendChild(checkboxWrapper);
         taskLeft.appendChild(details);
 
         // Delete button
         const deleteBtn = document.createElement('button');
+        deleteBtn.type = 'button';
         deleteBtn.classList.add('delete-btn');
         deleteBtn.innerHTML = '🗑️';
+        deleteBtn.setAttribute('aria-label', `Delete task: ${task.text}`);
         deleteBtn.addEventListener('click', () => {
-          const updated = tasks.filter(t => t.id !== task.id);
-          saveTasks(updated);
+          const updatedTasks = tasks.filter(t => t.id !== task.id);
+          saveTasks(updatedTasks);
           renderTasks();
         });
 
@@ -298,10 +355,15 @@
         li.appendChild(deleteBtn);
         taskList.appendChild(li);
       });
+
+      // Update select all button text
+      updateSelectAllButtonText();
     }
 
     function toggleSelectAll() {
       const tasks = getTasks();
+      if (tasks.length === 0) return;
+      
       const allSelected = tasks.every(t => t.selected);
       tasks.forEach(t => {
         t.selected = !allSelected;
@@ -309,20 +371,34 @@
       });
       saveTasks(tasks);
       renderTasks();
-      selectAllBtn.textContent = allSelected ? 'Select All' : 'Deselect All';
     }
 
     function deleteSelectedTasks() {
-      let tasks = getTasks();
-      const selected = tasks.filter(t => t.selected);
-      if (selected.length === 0) {
+      const tasks = getTasks();
+      const selectedTasks = tasks.filter(t => t.selected);
+      
+      if (selectedTasks.length === 0) {
         alert('No tasks selected for deletion.');
         return;
       }
-      tasks = tasks.filter(t => !t.selected);
-      saveTasks(tasks);
-      renderTasks();
+
+      if (confirm(`Are you sure you want to delete ${selectedTasks.length} task(s)?`)) {
+        const updatedTasks = tasks.filter(t => !t.selected);
+        saveTasks(updatedTasks);
+        renderTasks();
+      }
+    }
+
+    function updateSelectAllButtonText() {
+      const tasks = getTasks();
+      if (tasks.length === 0) {
+        selectAllBtn.textContent = 'Select All';
+        return;
+      }
+      
+      const allSelected = tasks.every(t => t.selected);
+      selectAllBtn.textContent = allSelected ? 'Deselect All' : 'Select All';
     }
   </script>
 </body>
-</html> 
+</html>
