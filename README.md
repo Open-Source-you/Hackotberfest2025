@@ -47,7 +47,7 @@ Star the repository by pressing the topmost-right button to start your wonderful
 
 ### 2. Fork it :fork_and_knife:
 
-You can get your own fork/copy of [HacktoberFest-2024](https://github.com/Open-Source-you/Hackotberfest2024 by using the <a href="https://github.com/Open-Source-you/HacktoberFest2024/new/master?readme=1#fork-destination-box"><kbd><b>Fork</b></kbd></a> button.
+You can get your own fork/copy of [HacktoberFest-2024](https://github.com/Open-Source-you/HacktoberFest2024) by using the <a href="https://github.com/Open-Source-you/HacktoberFest2024/new/master?readme=1#fork-destination-box"><kbd><b>Fork</b></kbd></a> button.
 
 
 ### 3. Clone it :busts_in_silhouette:

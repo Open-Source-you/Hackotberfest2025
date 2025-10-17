@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>To-Do List</title>
+
   <style>
-    /* Your existing CSS remains the same */
     body {
       font-family: 'Poppins', sans-serif;
       background: linear-gradient(135deg, #dfe9f3 0%, #ffffff 100%);
@@ -159,9 +159,9 @@
       border: none;
       cursor: pointer;
       font-size: 18px;
-      transition: color 0.3s ease;
       padding: 5px;
       border-radius: 4px;
+      transition: color 0.3s ease, background-color 0.3s ease;
     }
 
     .delete-btn:hover {
@@ -178,6 +178,7 @@
     ::-webkit-scrollbar {
       width: 6px;
     }
+
     ::-webkit-scrollbar-thumb {
       background: #ccc;
       border-radius: 3px;
@@ -196,6 +197,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="todo-container">
     <h2>To-Do List 🧠</h2>
@@ -229,39 +231,32 @@
     const taskList = document.getElementById('taskList');
     const noTasksMsg = document.getElementById('noTasks');
 
-    // Initialize app
+    // Initialize
     window.addEventListener('DOMContentLoaded', () => {
       renderTasks();
       taskInput.focus();
     });
 
-    // Event Listeners
     taskForm.addEventListener('submit', handleAddTask);
     selectAllBtn.addEventListener('click', toggleSelectAll);
     deleteSelectedBtn.addEventListener('click', deleteSelectedTasks);
 
-    // Utility Functions
+    // Local Storage Helpers
     const getTasks = () => {
       try {
         return JSON.parse(localStorage.getItem('tasks')) || [];
-      } catch (error) {
-        console.error('Error reading from localStorage:', error);
+      } catch {
         return [];
       }
     };
 
     const saveTasks = (tasks) => {
-      try {
-        localStorage.setItem('tasks', JSON.stringify(tasks));
-      } catch (error) {
-        console.error('Error saving to localStorage:', error);
-        alert('Error saving tasks. Please try again.');
-      }
+      localStorage.setItem('tasks', JSON.stringify(tasks));
     };
 
+    // Add Task
     function handleAddTask(event) {
       event.preventDefault();
-      
       const text = taskInput.value.trim();
       if (text === '') {
         alert('Please enter a task.');
@@ -285,27 +280,26 @@
       taskInput.focus();
     }
 
+    // Render Tasks
     function renderTasks() {
       const tasks = getTasks();
       taskList.innerHTML = '';
       noTasksMsg.style.display = tasks.length ? 'none' : 'block';
 
-      tasks.forEach((task, index) => {
+      tasks.forEach(task => {
         const li = document.createElement('li');
         if (task.completed) li.classList.add('completed');
 
-        // Task left section
         const taskLeft = document.createElement('div');
         taskLeft.classList.add('task-left');
 
-        // Checkbox with label for accessibility
         const checkboxWrapper = document.createElement('div');
         const checkboxId = `task-${task.id}`;
-        
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.id = checkboxId;
         checkbox.checked = task.selected;
+
         checkbox.addEventListener('change', () => {
           task.selected = checkbox.checked;
           task.completed = checkbox.checked;
@@ -321,10 +315,9 @@
         checkboxWrapper.appendChild(checkbox);
         checkboxWrapper.appendChild(label);
 
-        // Task details
         const details = document.createElement('div');
         details.classList.add('task-details');
-        
+
         const text = document.createElement('span');
         text.classList.add('task-text');
         text.textContent = task.text;
@@ -339,15 +332,14 @@
         taskLeft.appendChild(checkboxWrapper);
         taskLeft.appendChild(details);
 
-        // Delete button
         const deleteBtn = document.createElement('button');
         deleteBtn.type = 'button';
         deleteBtn.classList.add('delete-btn');
         deleteBtn.innerHTML = '🗑️';
         deleteBtn.setAttribute('aria-label', `Delete task: ${task.text}`);
         deleteBtn.addEventListener('click', () => {
-          const updatedTasks = tasks.filter(t => t.id !== task.id);
-          saveTasks(updatedTasks);
+          const updated = tasks.filter(t => t.id !== task.id);
+          saveTasks(updated);
           renderTasks();
         });
 
@@ -356,14 +348,14 @@
         taskList.appendChild(li);
       });
 
-      // Update select all button text
       updateSelectAllButtonText();
     }
 
+    // Select/Deselect All
     function toggleSelectAll() {
       const tasks = getTasks();
       if (tasks.length === 0) return;
-      
+
       const allSelected = tasks.every(t => t.selected);
       tasks.forEach(t => {
         t.selected = !allSelected;
@@ -373,10 +365,11 @@
       renderTasks();
     }
 
+    // Delete Selected
     function deleteSelectedTasks() {
       const tasks = getTasks();
       const selectedTasks = tasks.filter(t => t.selected);
-      
+
       if (selectedTasks.length === 0) {
         alert('No tasks selected for deletion.');
         return;
@@ -389,13 +382,13 @@
       }
     }
 
+    // Update Select All Button Text
     function updateSelectAllButtonText() {
       const tasks = getTasks();
       if (tasks.length === 0) {
         selectAllBtn.textContent = 'Select All';
         return;
       }
-      
       const allSelected = tasks.every(t => t.selected);
       selectAllBtn.textContent = allSelected ? 'Deselect All' : 'Select All';
     }
