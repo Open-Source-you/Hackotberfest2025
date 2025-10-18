@@ -22,11 +22,26 @@ nav {
   width: 90vw;
   max-width: 620px;
   margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .nav-center h4 {
   color: #333;
   font-size: 1.2rem;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #333;
+  margin-left: 1rem;
+  font-size: 1rem;
 }
 
 main {
