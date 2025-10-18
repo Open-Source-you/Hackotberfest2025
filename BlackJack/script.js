@@ -40,10 +40,15 @@ function dealCard(player) {
     player.push(card);
 }
 
-function renderHand(playerId, hand) {
+function renderHand(playerId, hand, hideSecondCard = false) {
     const cardsDiv = document.getElementById(playerId + '-cards');
-    cardsDiv.innerHTML = hand.map(card => `<div class="card">${card.value}${suitsSymbols[card.suit]}</div>`).join('');
-    document.getElementById(playerId + '-score').textContent = 'Score: ' + calculateScore(hand);
+    if (hideSecondCard) {
+        cardsDiv.innerHTML = `<div class="card">${hand[0].value}${suitsSymbols[hand[0].suit]}</div><div class="card card-back"></div>`;
+        document.getElementById(playerId + '-score').textContent = 'Score: ' + getCardValue(hand[0]);
+    } else {
+        cardsDiv.innerHTML = hand.map(card => `<div class="card">${card.value}${suitsSymbols[card.suit]}</div>`).join('');
+        document.getElementById(playerId + '-score').textContent = 'Score: ' + calculateScore(hand);
+    }
 }
 
 function startGame() {
@@ -56,28 +61,27 @@ function startGame() {
         dealCard(playerHand);
         dealCard(dealerHand);
     }
-    renderGame();
-    document.getElementById('result').textContent = '';
-}
-
-function renderGame() {
     renderHand('player', playerHand);
-    renderHand('dealer', dealerHand);
+    renderHand('dealer', dealerHand, true);
+    document.getElementById('result').textContent = '';
 
-    const playerScore = calculateScore(playerHand);
-    if (playerScore > 21) {
-        endGame('You busted! Dealer wins.');
+    if (calculateScore(playerHand) === 21) {
+        endGame('Blackjack! You win!');
     }
 }
 
 function hit() {
     if (isGameOver) return;
     dealCard(playerHand);
-    renderGame();
+    renderHand('player', playerHand);
+    if (calculateScore(playerHand) > 21) {
+        endGame('You busted! Dealer wins.');
+    }
 }
 
 function stand() {
     if (isGameOver) return;
+    renderHand('dealer', dealerHand);
     const dealerPlay = setInterval(() => {
         if (calculateScore(dealerHand) < 17) {
             dealCard(dealerHand);
@@ -104,6 +108,7 @@ function checkWinner() {
 
 function endGame(message) {
     isGameOver = true;
+    renderHand('dealer', dealerHand);
     document.getElementById('result').textContent = message;
 }
 

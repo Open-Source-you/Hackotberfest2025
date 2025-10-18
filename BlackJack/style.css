@@ -55,3 +55,8 @@ button:hover {
     text-align: center;
     user-select: none;
 }
+
+.card-back {
+    background-color: #5a0000;
+}
+
