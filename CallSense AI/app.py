@@ -6,6 +6,7 @@ from flask import Flask, request, jsonify, render_template_string
 from flask_cors import CORS
 import pandas as pd
 from dotenv import load_dotenv
+from datetime import datetime
 
 load_dotenv()
 
@@ -195,23 +196,13 @@ def get_sentiment(transcript):
         return 'neutral'
 
 def save_to_csv(transcript, summary, sentiment):
-    if not os.path.exists(CSV_FILE):
-        df = pd.DataFrame(columns=['Transcript', 'Summary', 'Sentiment'])
-        df.to_csv(CSV_FILE, index=False, encoding='utf-8')
-    
-    new_row = pd.DataFrame({
-        'Transcript': [transcript],
-        'Summary': [summary],
-        'Sentiment': [sentiment]
-    })
-    
-    try:
-        existing_df = pd.read_csv(CSV_FILE, encoding='utf-8')
-        updated_df = pd.concat([existing_df, new_row], ignore_index=True)
-    except (FileNotFoundError, pd.errors.EmptyDataError):
-        updated_df = new_row
-    
-    updated_df.to_csv(CSV_FILE, index=False, encoding='utf-8')
+    file_exists = os.path.exists(CSV_FILE)
+    with open(CSV_FILE, 'a', newline='', encoding='utf-8') as f:
+        writer = csv.writer(f)
+        if not file_exists:
+            writer.writerow(['Transcript', 'Summary', 'Sentiment', 'ProcessedAt'])
+        
+        writer.writerow([transcript, summary, sentiment, datetime.now().isoformat()])
 
 @app.route('/')
 def index():
