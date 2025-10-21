@@ -47,7 +47,7 @@ Star the repository by pressing the topmost-right button to start your wonderful
 
 ### 2. Fork it :fork_and_knife:
 
-You can get your own fork/copy of [HacktoberFest-2024](https://github.com/Open-Source-you/HacktoberFest2024) by using the <a href="https://github.com/Open-Source-you/HacktoberFest2024/new/master?readme=1#fork-destination-box"><kbd><b>Fork</b></kbd></a> button.
+You can get your own fork/copy of [Hacktoberfest2025](https://github.com/Open-Source-you/Hackotberfest2025/fork) by using the <a href="https://github.com/Open-Source-you/Hackotberfest2025/fork"><kbd><b>Fork</b></kbd></a> button.
 
 
 ### 3. Clone it :busts_in_silhouette:
@@ -80,7 +80,7 @@ origin  https://github.com/Your_Username/Hacktoberfest-2025.git (fetch)
 origin  https://github.com/Your_Username/Hacktoberfest-2025.git (push)
 ```
 
-Now, let's add a reference to the original [Hacktoberfest-2025]https://github.com/Open-Source-you/Hackotberfest2022) repository using
+Now, let's add a reference to the original [Hacktoberfest-2025](https://github.com/Open-Source-you/Hackotberfest2022) repository using
 
 ```sh
 $ git remote add upstream https://github.com/Open-Source-you/Hackotberfest2025.git
