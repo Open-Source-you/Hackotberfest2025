@@ -20,4 +20,6 @@ int main() {
         for (int j = 0; j <= i; j++) cout << "*";
         for (int k = 2 * (n - i - 1); k > 0; k--) cout << " ";
         for (int m = 0; m <= i; m++) cout << "*";
+    }
+}
 ```
