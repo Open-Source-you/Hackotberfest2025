@@ -8,12 +8,11 @@ import zipfile
 import zipimport
 from typing import Iterator, List, Optional, Sequence, Set, Tuple
 
-from pip._vendor.packaging.utils import NormalizedName, canonicalize_name
-
 from pip._internal.metadata.base import BaseDistribution, BaseEnvironment
 from pip._internal.models.wheel import Wheel
 from pip._internal.utils.deprecation import deprecated
 from pip._internal.utils.filetypes import WHEEL_EXTENSION
+from pip._vendor.packaging.utils import NormalizedName, canonicalize_name
 
 from ._compat import BadMetadata, BasePath, get_dist_name, get_info_location
 from ._dists import Distribution
@@ -108,9 +107,8 @@ class _DistributionFinder:
                 yield Distribution(dist, info_location, path)
 
     def _find_eggs_in_dir(self, location: str) -> Iterator[BaseDistribution]:
-        from pip._vendor.pkg_resources import find_distributions
-
         from pip._internal.metadata import pkg_resources as legacy
+        from pip._vendor.pkg_resources import find_distributions
 
         with os.scandir(location) as it:
             for entry in it:
@@ -120,9 +118,8 @@ class _DistributionFinder:
                     yield legacy.Distribution(dist)
 
     def _find_eggs_in_zip(self, location: str) -> Iterator[BaseDistribution]:
-        from pip._vendor.pkg_resources import find_eggs_in_zip
-
         from pip._internal.metadata import pkg_resources as legacy
+        from pip._vendor.pkg_resources import find_eggs_in_zip
 
         try:
             importer = zipimport.zipimporter(location)

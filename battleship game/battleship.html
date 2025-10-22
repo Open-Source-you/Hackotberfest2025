@@ -75,58 +75,72 @@
   <button class="reset">Reset Game</button>
 
   <script>
+    const boxes = document.querySelectorAll('.box');
+    const resetButton = document.querySelector('.reset');
+    const boardSize = 4;
+    const numShips = 5;
+    const maxClicks = 8;
+
     let clickNumber = 0;
-    let box1click = 0;
-    let shipCount = 5;
+    let shipsFound = 0;
+    let board = [];
 
-    function game(box) {
-      if (box.classList.contains('usedBox')) {
-        return;
-      }
-
-      if (clickNumber >= 8) {
-        alert("You lose the game");
-        resetGame();
-        return;
-      }
-
-      let randomNumber = Math.floor(Math.random() * 2);
-      clickNumber++;
-
-      if (randomNumber === 1) {
-        box.style.backgroundImage = 'url("https://cdnb.artstation.com/p/assets/images/images/022/948/541/large/shahrul-effendy-tank-tanduk-concept.jpg?1577421621")';
-        box1click++;
-      } else {
-        box.style.backgroundImage = 'url("data:image/jpeg;base64,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")';
-      }
-      box.classList.add('usedBox');
+    function setupGame() {
+      // Initialize board
+      board = Array(boardSize * boardSize).fill(0);
       
-      if (box1click === 5) {
-        alert("You win the game");
-      } else if (clickNumber === 8) {
-        alert("You lose the game");
+      // Place ships randomly
+      let shipsPlaced = 0;
+      while (shipsPlaced < numShips) {
+        let randomIndex = Math.floor(Math.random() * board.length);
+        if (board[randomIndex] === 0) {
+          board[randomIndex] = 1;
+          shipsPlaced++;
+        }
+      }
+    }
+
+    function game(box, index) {
+      if (box.classList.contains('usedBox') || clickNumber >= maxClicks) {
+        return;
+      }
+
+      clickNumber++;
+      box.classList.add('usedBox');
+
+      if (board[index] === 1) {
+        box.style.backgroundImage = 'url("https://cdnb.artstation.com/p/assets/images/images/022/948/541/large/shahrul-effendy-tank-tanduk-concept.jpg?1577421621")';
+        shipsFound++;
+      } else {
+        box.style.backgroundImage = 'url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMSDxUPEBISFRUPDw8PDw8XFhISDw8PFRUWFhUSFRYYHSggGBolGxUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKDg0OFxAQGisfHR0tLS0tLS0rKysrLS0tLS0tLS0rLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tN//AABEIAKgBLAMBIgACEQEDEQH/xAAbAAACAwEBAQAAAAAAAAAAAAAAAgEDBAUGB//EADoQAAIBAQMJBgQGAgIDAAAAAAABAhEDBBIFITFBUWFxkaETUoGxwdEUQuHwIjJigpKiFVOy8TNDcv/EABgBAQEBAQEAAAAAAAAAAAAAAAABAgME/8QAKhEAAgIBBAIBAgYDAAAAAAAAAAECEQMSIUFREzEEImEUQnGRocEjMoH/2gAMAwEAAhEDEQA/APokntSIcIgxTomcmgwLcRgQs5FeM0jDoujdq6xbW700MqU3tHg09LZdzOzKaAa1DYU9nnLZlxKgLuwb0IJ3dpC0NLKQJaIKZAAAAAAAAAAAAmO8gAUtk0/DWVkAQNk1IACkAAAAAAAAAAAAAJoCkEpjQsm9RarqyWVRbKUxmnsGdi1oTFlB7GLLTEIGzBm39CmTY4kSgMwOFnqpFEoFLizWyuUTomcpQM6RdCyW1iuJbG1K2ZS7Hjdv1Ml2UVrZRK2bBxr71JTNWuC9vNmZU5N6CrC08xusHmzj0FuYJxesQ6lokzLKEa6yqRmUKMoFs7NapLgVGjDVAAACAAAAAAAAABKBSYolxCoORC7BhIY0Y1InHeAIAAUyAANGNQUssqa0aUo62uBng461QW0mtRhqzonSNCtIrQN8StpixsipdJPIa5XnYyt3h6DOAomtjziKQBoybak0CgUOJ6SGhWhwYsUV0IcSxoVlslCTiilo2RmtDRE7KL0ZjSZhx6MRKY87KmtFZo5MmoJkAUAAACAAAAAAAAAAAAAAAAAABKYMgAUZNbCGQAAExlQgABnKukUAAAAAEAAAAAAADeBNCDgetghhQYLZNBXEmoOQGwjFSLahQtmaMtokVG5wEdibUjnLGZSDU7EXsy6kZ8bM4FlpErKjDVAAAUgAAAAAACgAACAAAAAAAAAAAAS4kDwq3TOCoWgYWdCFlmH7MxqOnjOYog0dPAtaK7emwag8ZzwJfAg2cwAAAMSypaaarhSJpsssL54+Ka9TjOXHn9AxLa+f0Pa8EHweGPyci5O3aZXglmjKuzMvUzSyzLVBczlO0fdrvr9CbOr0x8NYXx8a4K/lZJP2dWxyvKv4o6dla1GtMrVzQWfa89PAw2N0xOilh/a2zReMnRjGuN1zf9URl48SZPxOT1ZEcpWibTafFaORdc8qNJ9pWWxpLNu1Khyuzo9Nc+vTQm0rqfhQ28MHtRFnyR3s6d9yljWGFUn+ZvS92Yz3a/zs8yzx7r0eGwxWcZyzRhJ/tY87CS/Mkt2l9GVYoJaSP5E5S1XudX/My/1r+RRa5UtHoSjwzvqc1xGX/wA+ZFgxrgr+Rle1myF9tNcovin7GhX3bBvfHOjmN7mIrRaKuuqOdVK8UXwRZpLk6byiu6+aKp3+WpJbtPUyxltzbNSfFk4n+n+SIsUFwR5pPk0QyjLZHqWRvc5aIxzaqmLwXOJdC9SSpSNN+B+YeKPCCyy7L5W9r3UhrOdtrjXdhl7IyfESrVUXDCvIvjlG1Spi6L2I8fSQ8j7Zba3xxzSjR7K5/FFUr/N6IpeDZlnaVbbcavw9KFbtXu5s0sMeg80uzdC/y1qvNMu+PjrUuWY5atX9tjK0b1ffIjwRfBVnkuTqxvsHrfCjqNK8xSq68m30OXC1a0Yl98CHGv2zPgia/ETNzylDVXdoXqPdb25v8vVdE9Jgs4rXiza1n6UL8S7... [truncated])';
+      }
+
+      if (shipsFound === numShips) {
+        setTimeout(() => alert("You win the game!"), 100);
+      } else if (clickNumber === maxClicks) {
+        setTimeout(() => alert("You lose the game!"), 100);
       }
     }
 
     function resetGame() {
       clickNumber = 0;
-      box1click = 0;
-      let boxes = document.querySelectorAll('.box');
+      shipsFound = 0;
       boxes.forEach(box => {
         box.style.backgroundImage = '';
         box.classList.remove('usedBox');
       });
+      setupGame();
     }
 
-    let boxes = document.querySelectorAll('.box');
-    boxes.forEach(box => {
+    boxes.forEach((box, index) => {
       box.addEventListener('click', function () {
-        game(box);
+        game(box, index);
       });
     });
 
-    let resetButton = document.querySelector('.reset');
     resetButton.addEventListener('click', resetGame);
+
+    setupGame();
   </script>
 </body>
 </html>

@@ -27,14 +27,14 @@ public class ChessBoard {
 		initBoardStatus(); // Initializes the status of each square on the board.
 		initializeGui(); // Sets up the GUI layout and components.
 	}
-	
+
 	// Initializes the board status by placing empty pieces on each square.
 	public final void initBoardStatus() {
 		for(int i=0;i<8;i++) {
 			for(int j=0;j<8;j++) chessBoardStatus[j][i] = new Piece();
 		}
 	}
-	
+
 	// Initializes and scales the images for each type of chess piece.
 	public final void initPieceImages() {
 		// Black piece images
@@ -45,7 +45,7 @@ public class ChessBoard {
 		pieceImage_b[4] = new ImageIcon(new ImageIcon("./img/rook_b.png").getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH));
 		pieceImage_b[5] = new ImageIcon(new ImageIcon("./img/pawn_b.png").getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH));
 		pieceImage_b[6] = new ImageIcon(new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB));
-		
+
 		// White piece images
 		pieceImage_w[0] = new ImageIcon(new ImageIcon("./img/king_w.png").getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH));
 		pieceImage_w[1] = new ImageIcon(new ImageIcon("./img/queen_w.png").getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH));
@@ -55,7 +55,7 @@ public class ChessBoard {
 		pieceImage_w[5] = new ImageIcon(new ImageIcon("./img/pawn_w.png").getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH));
 		pieceImage_w[6] = new ImageIcon(new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB));
 	}
-	
+
 	// Retrieves the image icon for a given chess piece.
 	public ImageIcon getImageIcon(Piece piece) {
 		if(piece.color.equals(PlayerColor.black)) {
@@ -91,7 +91,7 @@ public class ChessBoard {
 				initiateBoard();
 			}
 		});
-	    
+
 	    tools.add(startButton);
 	    tools.addSeparator();
 	    tools.add(message);
@@ -126,7 +126,7 @@ public class ChessBoard {
 	public final JComponent getGui() {
 	    return gui;
 	}
-	
+
 	// Main method to run the chess game application.
 	public static void main(String[] args) {
 	    Runnable r = new Runnable() {
@@ -145,12 +145,12 @@ public class ChessBoard {
         };
         SwingUtilities.invokeLater(r);
 	}
-		
+
 	// Inner class representing a chess piece.
 	class Piece {
 		PlayerColor color;
 		PieceType type;
-		
+
 		// Default constructor sets piece to no color and type.
 		Piece() {
 			color = PlayerColor.none;
@@ -163,34 +163,34 @@ public class ChessBoard {
 			this.type = type;
 		}
 	}
-	
+
 	// Sets the icon for a specific square on the chess board.
 	public void setIcon(int x, int y, Piece piece) {
 		chessBoardSquares[y][x].setIcon(getImageIcon(piece));
 		chessBoardStatus[y][x] = piece;
 	}
-	
+
 	// Gets the icon (piece) of a specific square on the chess board.
 	public Piece getIcon(int x, int y) {
 		return chessBoardStatus[y][x];
 	}
-	
+
 	// Highlights a specific square on the chess board.
 	public void markPosition(int x, int y) {
 		chessBoardSquares[y][x].setBackground(Color.pink);
 	}
-	
+
 	// Removes the highlight from a specific square on the chess board.
 	public void unmarkPosition(int x, int y) {
 		if((y % 2 == 1 && x % 2 == 1)|| (y % 2 == 0 && x % 2 == 0)) chessBoardSquares[y][x].setBackground(Color.WHITE);
 		else chessBoardSquares[y][x].setBackground(Color.gray);
 	}
-	
+
 	// Sets the status message on the GUI.
 	public void setStatus(String inpt) {
 		message.setText(inpt);
 	}
-	
+
 	// Initializes the chess board with default piece positions.
 	public void initiateBoard() {
 		for(int i=0;i<8;i++) {
@@ -330,7 +330,7 @@ public class ChessBoard {
 			}
 		}
 	}
-	
+
 	// Method to be called upon initiating the board.
 	void onInitiateBoard() {
 		turn = PlayerColor.black;
@@ -566,7 +566,7 @@ public class ChessBoard {
 				return true;
 			}
 		}
-		
+
 		for(int y = kingPosition.y+1; y<8; ++y) {
 			if(isAlly(kingPosition.x, y, pc))
 				break;

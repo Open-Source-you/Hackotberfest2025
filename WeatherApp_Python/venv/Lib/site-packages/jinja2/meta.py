@@ -5,8 +5,7 @@ interesting for introspection.
 import typing as t
 
 from . import nodes
-from .compiler import CodeGenerator
-from .compiler import Frame
+from .compiler import CodeGenerator, Frame
 
 if t.TYPE_CHECKING:
     from .environment import Environment

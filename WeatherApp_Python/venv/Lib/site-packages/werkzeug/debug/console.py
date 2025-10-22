@@ -8,9 +8,7 @@ from types import CodeType
 
 from markupsafe import escape
 
-from .repr import debug_repr
-from .repr import dump
-from .repr import helper
+from .repr import debug_repr, dump, helper
 
 _stream: ContextVar[HTMLStringO] = ContextVar("werkzeug.debug.console.stream")
 _ipy: ContextVar[_InteractiveConsole] = ContextVar("werkzeug.debug.console.ipy")

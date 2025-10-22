@@ -12,17 +12,14 @@ from __future__ import annotations
 
 import typing as t
 from http import client
-from urllib.parse import quote
-from urllib.parse import urlsplit
+from urllib.parse import quote, urlsplit
 
 from ..datastructures import EnvironHeaders
 from ..http import is_hop_by_hop_header
 from ..wsgi import get_input_stream
 
 if t.TYPE_CHECKING:
-    from _typeshed.wsgi import StartResponse
-    from _typeshed.wsgi import WSGIApplication
-    from _typeshed.wsgi import WSGIEnvironment
+    from _typeshed.wsgi import StartResponse, WSGIApplication, WSGIEnvironment
 
 
 class ProxyMiddleware:

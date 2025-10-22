@@ -1,34 +1,21 @@
 
 
-<body>
-
-    <div class="how">
-        <span>How to Play?</span>
-        <p>Use your <i><u>arrow keys</u></i> to move the tiles. Tiles with the same number merge into one when they
-            touch. Add them up to reach <b>2048</b>!</p>
-        <div class="buttons">
-            <button type="button" name="up">&#8593;</button><br />
-            <button type="button" name="left">&#8592;</button>
-            <button type="button" name="down">&#8595;</button>
-            <button type="button" name="right">&#8594;</button>
-        </div>
-    </div>
-
-    <div class="game-container">
-        <h1 id="score"><font id="text-score">Score : </font><font id="num-score">0</font></h1>
-        <table border="1">
-            <tr>
-                <td id="00"></td>
-                <td id="01"></td>
-                <td id="02"></td>
-                <td id="03"></td>
-            </tr>
-            <tr>
-                <td id="10"></td>
-                <td id="11"></td>
-                <td id="12"></td>
-                <td id="13"></td>
-            </tr>
+```html
+<div class="game-container">
+  <h1 id="score">Score: <span id="num-score">0</span></h1>
+  <table>
+    <tr>
+    
+    </tr>
+    <tr>
+      <td id="10"></td>
+      <td id="11"></td>
+      <td id="12"></td>
+      <td id="13"></td>
+    </tr>
+  </table>
+</div>
+```
             <tr>
                 <td id="20"></td>
                 <td id="21"></td>

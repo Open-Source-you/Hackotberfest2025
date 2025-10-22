@@ -1,26 +1,25 @@
-<!-- 
-     _                  ____            _       _   
-    | | __ ___   ____ _/ ___|  ___ _ __(_)_ __ | |_ 
+<!--
+     _                  ____            _       _
+    | | __ ___   ____ _/ ___|  ___ _ __(_)_ __ | |_
  _  | |/ _` \ \ / / _` \___ \ / __| '__| | '_ \| __|
-| |_| | (_| |\ V / (_| |___) | (__| |  | | |_) | |_ 
+| |_| | (_| |\ V / (_| |___) | (__| |  | | |_) | |_
  \___/ \__,_| \_/ \__,_|____/ \___|_|  |_| .__/ \__|
-                                         |_|        
- ____  _                 _   _                ____                      
-/ ___|| |__   ___   ___ | |_(_)_ __   __ _   / ___| __ _ _ __ ___   ___ 
+                                         |_|
+ ____  _                 _   _                ____
+/ ___|| |__   ___   ___ | |_(_)_ __   __ _   / ___| __ _ _ __ ___   ___
 \___ \| '_ \ / _ \ / _ \| __| | '_ \ / _` | | |  _ / _` | '_ ` _ \ / _ \
  ___) | | | | (_) | (_) | |_| | | | | (_| | | |_| | (_| | | | | | |  __/
 |____/|_| |_|\___/ \___/ \__|_|_| |_|\__, |  \____|\__,_|_| |_| |_|\___|
-                                     |___/     
+                                     |___/
 -->
 <!DOCTYPE html>
 <html>
-<head>
     <title>JavaScript Shooting Game</title>
     <style>
-        body { 
-            margin: 0; 
-            overflow: hidden; 
-            position: absolute; 
+        body {
+            margin: 0;
+            overflow: hidden;
+            position: absolute;
             background-color: black;
         }
     </style>
@@ -128,10 +127,10 @@
             const mouseleave = "mouseleave"
             function changeColor(e, status) {
                 switch(status) {
-                    case mouseover: 
+                    case mouseover:
                         e.target.style.color = "lightgreen";
-                        break; 
-                    case mouseleave: 
+                        break;
+                    case mouseleave:
                         e.target.style.color = "white";
                         break;
                 }
@@ -198,10 +197,10 @@
                 return;
             }
             const top = parseInt(mySpaceCraft.style.top);
-            const left = parseInt(mySpaceCraft.style.left); 
+            const left = parseInt(mySpaceCraft.style.left);
             const offset = SCREEN_FRAME_LINE_WIDTH;
             switch(keyCode) {
-                case KEY_CODE.ARROW_UP: 
+                case KEY_CODE.ARROW_UP:
                     if(top > offset * 2) {
                         mySpaceCraft.style.top = (top - offset) + "px";
                     }
@@ -308,10 +307,10 @@
                 } else if(leftCluster.right.pressed) {
                     addMySpaceCraftMoveWay(KEY_CODE.ARROW_RIGHT);
                 } else if(
-                    rightCluster.bottom.pressed || 
-                    rightCluster.right.pressed || 
-                    rightCluster.left.pressed || 
-                    rightCluster.top.pressed) 
+                    rightCluster.bottom.pressed ||
+                    rightCluster.right.pressed ||
+                    rightCluster.left.pressed ||
+                    rightCluster.top.pressed)
                 {
                     addMySpaceCraftMissile();
                 }
@@ -542,7 +541,7 @@
                 if(lifeAfterDeleted.length == 0) {
                     gameOverAllClearObject();
                 }
-            } 
+            }
         }
 
         function drawScreenFrameRect(ctx, color) {
@@ -562,14 +561,14 @@
                 if(lifeBars.length == 0) {
                     cancelAnimationFrame(requestId);
                     return;
-                } 
+                }
 
                 if(screenFrame != null) {
                     switch(lifeBars.length) {
-                        case 3: 
+                        case 3:
                             drawScreenFrameRect(screenFrameCtx, "yellow");
                             break;
-                        case 1: 
+                        case 1:
                             drawScreenFrameRect(screenFrameCtx, "red");
                             break;
                         default:
@@ -629,7 +628,7 @@
             document.body.appendChild(p);
 
             const moveEnemy1PixelSize = 24;
-            const enemy1MoveIntervalMilliSeconds = Math.floor(Math.random() * 501) + 200; 
+            const enemy1MoveIntervalMilliSeconds = Math.floor(Math.random() * 501) + 200;
             const missileSpeed = 42;
             let requestId;
             let start;
@@ -663,20 +662,20 @@
                             case 1:
                                 top += moveEnemy1PixelSize;
                                 left -= moveEnemy1PixelSize;
-                                break; 
-                            case 2: 
+                                break;
+                            case 2:
                                 top += moveEnemy1PixelSize;
                                 left += moveEnemy1PixelSize;
-                                break; 
+                                break;
                             case 3:
                                 top -= moveEnemy1PixelSize;
                                 left += moveEnemy1PixelSize;
                                 break;
-                            case 4: 
+                            case 4:
                                 top -= moveEnemy1PixelSize;
                                 left -= moveEnemy1PixelSize;
-                                break; 
-                            default: 
+                                break;
+                            default:
                                 break;
                         }
                     }
@@ -692,7 +691,7 @@
                     const mySpaceCraftMissleTop = parseInt(mySpaceCraftMissile.style.top);
                     if(
                         mySpaceCraftMissleTop + mySpaceCraftMissile.height >= top - 64 &&
-                        mySpaceCraftMissleTop <= top + canvas.height + 48 && 
+                        mySpaceCraftMissleTop <= top + canvas.height + 48 &&
                         mySpaceCraftMissleLeft + mySpaceCraftMissile.width >= left - 64 &&
                         mySpaceCraftMissleLeft <= left + canvas.width + 128
                     ) {
@@ -772,7 +771,7 @@
                     if(
                         mySpaceCraftTop + mySpaceCraft.height >= enemyMissileTop &&
                         mySpaceCraftTop <= enemyMissileTop + enemyMissile.height &&
-                        mySpaceCraftLeft + mySpaceCraft.width >= enemyMissleLeft - 32 && 
+                        mySpaceCraftLeft + mySpaceCraft.width >= enemyMissleLeft - 32 &&
                         mySpaceCraftLeft <= enemyMissleLeft + enemyMissile.width
                     ) {
                         deleteLifeBar();
@@ -834,7 +833,7 @@
             p.style.textAlign = "center";
             p.style.left = (WINDOW_WIDTH / 2 - (width_css / 2)) + "px";
             p.style.top = (WINDOW_HEIGHT / 2 - 60) + "px";
-            document.body.appendChild(p);   
+            document.body.appendChild(p);
         }
 
         function gameOverAllClearObject() {
@@ -926,7 +925,7 @@
 
             function circle(x_center, y_center, radius) {
                 const ctx = canvas.getContext('2d');
-                ctx.strokeStyle = `rgb(${rgb.r},${rgb.g},${rgb.b})`; 
+                ctx.strokeStyle = `rgb(${rgb.r},${rgb.g},${rgb.b})`;
                 ctx.beginPath();
                 ctx.arc(x_center, y_center, radius, 0, Math.PI * 2, false);
                 ctx.closePath();
@@ -942,14 +941,14 @@
             circle(100, 151, 20);
             circle(49, 100, 20);
             circle(151, 100, 20);
-                
+
             let transform_t_clockwise = 0;
             let transform_t_counterclockwise = 360;
-            let speed = Math.floor(Math.random() * 6) + 2; 
+            let speed = Math.floor(Math.random() * 6) + 2;
             let magic_interval;
             if(count % 2 == 0) {
                 magic_interval = setInterval(() => {
-                    canvas.style.transform = `rotateZ(${transform_t_clockwise}deg)`;        
+                    canvas.style.transform = `rotateZ(${transform_t_clockwise}deg)`;
                     transform_t_clockwise += speed;
                     if(transform_t_clockwise >= 360) {
                         transform_t_clockwise = 0;
@@ -964,10 +963,10 @@
                     }
                 }, 1);
             }
-            setTimeout(() => {     
-                clearInterval(magic_interval); 
-                canvas.remove();              
-            }, 1000);  
+            setTimeout(() => {
+                clearInterval(magic_interval);
+                canvas.remove();
+            }, 1000);
         }
 
         function gameClearCongratulationsEffects() {
@@ -1013,7 +1012,7 @@
 
         function gameClearEndroll() {
             const endList = [
-                "- TITLE -", 
+                "- TITLE -",
                 "JavaScript Shooting Game",
                 "- LANGUAGE -",
                 "html / css / JavaScript",

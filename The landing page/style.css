@@ -1,0 +1,135 @@
+*{
+    font-family: sans-serif;
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+
+}
+body {
+  background-color: #0d1b2a;
+  color: white;
+}
+.logo{
+    margin:1px;
+    height:40px ;
+    width:60px;
+}
+.ref{
+    display: flex;
+    justify-content: space-evenly;
+}
+.navbar{
+  display: flex;
+  justify-content: space-between;
+  border:2px solid black;
+  color: white;
+  background-color: black;
+  margin:15px;
+}
+.head{
+    text-align: center;
+    flex:1;
+    margin: 10px;
+}
+.navbar a i{
+    margin: 2px;
+}
+.navbar a{
+    margin: 10px;
+    justify-content: space-evenly;
+    text-decoration:none;
+    color:white;
+    margin-right: 2px;
+
+}
+.Bghs{
+    background-image: url("Image Resources/Damn.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 450px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    width:100%;
+}
+.cen{
+align-items: center;
+justify-content: center;
+display: flex;
+background-color: rgba(34, 47, 61, 0.4);
+width: 700px;
+height: 325px;;
+
+}
+.Bgsm{
+    background-image: url("Image Resources/view.jpg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: right;
+    display: flex;
+    margin: 10px;
+    padding: 0px;
+    height:300px;
+    width:450px;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+.info{
+    text-align: center;
+
+}
+.boxes img{
+    width: 245px;
+    height: 250px;
+    margin-top: 1px;
+    border-radius: 10px;
+}
+.boxes{
+    display: flex;
+    justify-content: space-evenly;
+}
+.box{
+margin: 30px;
+text-align: center;
+background-color:#1b263b;
+color: white;
+height: 400px;
+width: 250px;
+flex-wrap: wrap;
+box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+border-radius: 10px;
+}
+.quote{
+    text-align: center;
+    background-color:  #073b4c;
+    height: auto;
+    display: flex;
+    justify-content: space-evenly;
+    font-style: italic;
+    color:black;
+}
+.about{
+    border: 3px solid black;
+    margin: 5px;
+    height: 170px;
+    text-align: center;
+    justify-content: space-evenly;
+    align-items:center;
+    color: azure;
+    background-color:#03071e;
+    list-style-type: disc;
+    padding-left: 40px;
+    margin: 30px auto;
+    max-width: 700px;
+}
+a{
+    text-decoration: none;
+    color:white;
+}
+.copyright{
+    text-align: center;
+    background-color:black;
+    padding: 10px 0;
+}

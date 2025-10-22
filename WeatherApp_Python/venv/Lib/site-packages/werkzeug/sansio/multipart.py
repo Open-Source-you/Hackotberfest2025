@@ -3,8 +3,7 @@ from __future__ import annotations
 import re
 import typing as t
 from dataclasses import dataclass
-from enum import auto
-from enum import Enum
+from enum import Enum, auto
 
 from ..datastructures import Headers
 from ..exceptions import RequestEntityTooLarge

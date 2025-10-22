@@ -83,8 +83,8 @@ $.definitions.audio = {
 /*==============================================================================
 Enemies
 ==============================================================================*/
-$.definitions.enemies = [	
-	{ // Enemy 0 - horizontal / vertical	
+$.definitions.enemies = [
+	{ // Enemy 0 - horizontal / vertical
 		value: 5,
 		speed: 1.5,
 		life: 1,
@@ -105,14 +105,14 @@ $.definitions.enemies = [
 		behavior: function() {
 			var speed = this.speed;
 			if( $.slow ) {
-				speed = this.speed / $.slowEnemyDivider; 
+				speed = this.speed / $.slowEnemyDivider;
 			}
 
 			this.vx = Math.cos( this.direction ) * speed;
 			this.vy = Math.sin( this.direction ) * speed;
 		}
-	},	
-	{ // Enemy 1 - diagonal	
+	},
+	{ // Enemy 1 - diagonal
 		value: 10,
 		speed: 1.5,
 		life: 2,
@@ -121,7 +121,7 @@ $.definitions.enemies = [
 		lockBounds: 1,
 		setup: function() {
 			var rand = Math.floor( $.util.rand( 0, 2 ) );
-			if( this.start == 'top' ){				
+			if( this.start == 'top' ){
 				this.direction = ( rand ) ? $.pi / 2 + $.pi / 4: $.pi / 2 - $.pi / 4;
 			} else if( this.start == 'right' ) {
 				this.direction = ( rand ) ? -$.pi + $.pi / 4 : -$.pi - $.pi / 4;
@@ -134,7 +134,7 @@ $.definitions.enemies = [
 		behavior: function() {
 			var speed = this.speed;
 			if( $.slow ) {
-				speed = this.speed / $.slowEnemyDivider; 
+				speed = this.speed / $.slowEnemyDivider;
 			}
 
 			this.vx = Math.cos( this.direction ) * speed;
@@ -150,7 +150,7 @@ $.definitions.enemies = [
 		behavior: function() {
 			var speed = this.speed;
 			if( $.slow ) {
-				speed = this.speed / $.slowEnemyDivider; 
+				speed = this.speed / $.slowEnemyDivider;
 			}
 
 			var dx = $.hero.x - this.x,
@@ -170,7 +170,7 @@ $.definitions.enemies = [
 		behavior: function() {
 			var speed = this.speed;
 			if( $.slow ) {
-				speed = this.speed / $.slowEnemyDivider; 
+				speed = this.speed / $.slowEnemyDivider;
 			}
 
 			var dx = $.hero.x - this.x,
@@ -225,9 +225,9 @@ $.definitions.enemies = [
 		behavior: function() {
 			var speed = this.speed * $.util.rand( 1, 2 );
 			if( $.slow ) {
-				speed = this.speed / $.slowEnemyDivider; 
+				speed = this.speed / $.slowEnemyDivider;
 			}
-			
+
 			this.direction +=  $.util.rand( -0.15, 0.15 );
 			this.vx = Math.cos( this.direction ) * speed;
 			this.vy = Math.sin( this.direction ) * speed;
@@ -244,7 +244,7 @@ $.definitions.enemies = [
 		behavior: function() {
 			var speed = this.speed;
 			if( $.slow ) {
-				speed = this.speed / $.slowEnemyDivider; 
+				speed = this.speed / $.slowEnemyDivider;
 			}
 
 			var dx = $.hero.x - this.x,
@@ -263,7 +263,7 @@ $.definitions.enemies = [
 		behavior: function() {
 			var speed = this.speed;
 			if( $.slow ) {
-				speed = this.speed / $.slowEnemyDivider; 
+				speed = this.speed / $.slowEnemyDivider;
 			}
 
 			var dx = $.hero.x - this.x,
@@ -282,7 +282,7 @@ $.definitions.enemies = [
 		behavior: function() {
 			var speed = this.speed;
 			if( $.slow ) {
-				speed = this.speed / $.slowEnemyDivider; 
+				speed = this.speed / $.slowEnemyDivider;
 			}
 
 			var dx = $.hero.x - this.x,
@@ -312,7 +312,7 @@ $.definitions.enemies = [
 
 			var dx = $.hero.x - this.x,
 				dy = $.hero.y - this.y,
-				direction = Math.atan2( dy, dx );			
+				direction = Math.atan2( dy, dx );
 
 			if( Math.sqrt(dx * dx + dy * dy ) > 200 ) {
 				this.vx = Math.cos( direction ) * speed;
@@ -341,7 +341,7 @@ $.definitions.enemies = [
 			var dx = this.x - $.hero.x,
 				dy = this.y - $.hero.y;
 			this.angle = Math.atan2( dy, dx );
-			this.distance = Math.sqrt( dx * dx + dy * dy );		
+			this.distance = Math.sqrt( dx * dx + dy * dy );
 			if( Math.random() > 0.5 ) {
 				this.angleSpeed = -this.angleSpeed;
 			}
@@ -350,7 +350,7 @@ $.definitions.enemies = [
 			var speed = this.speed,
 				angleSpeed = this.angleSpeed;
 			if( $.slow) {
-				speed = this.speed / $.slowEnemyDivider; 
+				speed = this.speed / $.slowEnemyDivider;
 				angleSpeed = this.angleSpeed / $.slowEnemyDivider;
 			}
 
@@ -373,7 +373,7 @@ $.definitions.enemies = [
 		behavior: function() {
 			var speed = this.speed;
 			if( $.slow ) {
-				speed = this.speed / $.slowEnemyDivider; 
+				speed = this.speed / $.slowEnemyDivider;
 			}
 
 			var dx = $.hero.x - this.x,
@@ -383,7 +383,7 @@ $.definitions.enemies = [
 			this.vx = Math.cos( direction ) * speed;
 			this.vy = Math.sin( direction ) * speed;
 
-			if( this.canSpawn ) {				
+			if( this.canSpawn ) {
 				if( this.spawnTick < this.spawnMax ) {
 					this.spawnTick += $.dt;
 				} else {
@@ -398,7 +398,7 @@ $.definitions.enemies = [
 					enemy.y = this.y;
 					$.enemies.push( enemy );
 				}
-			} 
+			}
 		}
 	},
 	{ // Enemy 11 - random location strong tower
@@ -406,7 +406,7 @@ $.definitions.enemies = [
 		speed: 1.5,
 		life: 10,
 		radius: 30,
-		hue: 90,		
+		hue: 90,
 		setup: function(){
 			this.xTarget = $.util.rand( 50, $.ww - 50 );
 			this.yTarget = $.util.rand( 50, $.wh - 50 );
@@ -414,7 +414,7 @@ $.definitions.enemies = [
 		behavior: function() {
 			var speed = this.speed;
 			if( $.slow ) {
-				speed = this.speed / $.slowEnemyDivider; 
+				speed = this.speed / $.slowEnemyDivider;
 			}
 			var dx = this.xTarget - this.x,
 				dy = this.yTarget - this.y,
@@ -450,7 +450,7 @@ $.definitions.enemies = [
 				}
 			} else {
 				var rand = Math.floor( $.util.rand( 0, 2 ) );
-				if( this.start == 'top' ){				
+				if( this.start == 'top' ){
 					this.direction = ( rand ) ? $.pi / 2 + $.pi / 4: $.pi / 2 - $.pi / 4;
 				} else if( this.start == 'right' ) {
 					this.direction = ( rand ) ? -$.pi + $.pi / 4 : -$.pi - $.pi / 4;
@@ -464,7 +464,7 @@ $.definitions.enemies = [
 		behavior: function() {
 			var speed = this.speed;
 			if( $.slow ) {
-				speed = this.speed / $.slowEnemyDivider; 
+				speed = this.speed / $.slowEnemyDivider;
 			}
 			this.vx = Math.cos( this.direction ) * speed;
 			this.vy = Math.sin( this.direction ) * speed;
@@ -485,7 +485,7 @@ for( var i = 0; i < $.definitions.enemies.length; i++ ){
 	var distribution = [];
 	for( var di = 0; di < i + 1; di++ ) {
 		var value = ( di == i ) ? Math.floor( ( ( i + 1) * base ) * 0.75 ) : ( i + 1) * base;
-		value = ( i == 0 ) ? base : value;		
+		value = ( i == 0 ) ? base : value;
 		distribution.push( value );
 	}
 	$.definitions.levels.push( {
@@ -527,7 +527,7 @@ $.definitions.powerups = [
 		hue: 0,
 		saturation: 100,
 		lightness: 60
-	}	
+	}
 ];
 
 /*==============================================================================
@@ -701,7 +701,7 @@ $.definitions.letters = {
 		 [ 1,  , 1,  , 1 ],
 		 [ 1,  ,  , 1, 1 ],
 		 [ 1,  ,  ,  , 1 ]
-		 ],  
+		 ],
 	'O': [
 		 [ 1, 1, 1, 1, 1 ],
 		 [ 1,  ,  ,  , 1 ],
@@ -785,7 +785,7 @@ $.definitions.letters = {
 		 [  ,  , 1,  , 0 ],
 		 [  , 1,  ,  , 0 ],
 		 [ 1, 1, 1, 1, 1 ]
-		 ],   
+		 ],
 	' ': [
 		 [  ,  ,  ,  , 0 ],
 		 [  ,  ,  ,  , 0 ],

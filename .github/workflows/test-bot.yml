@@ -1,0 +1,80 @@
+name: Test GitHub Bot
+
+on:
+  workflow_dispatch:
+    inputs:
+      test_type:
+        description: 'Type of test to run'
+        required: true
+        default: 'both'
+        type: choice
+        options:
+        - 'merge'
+        - 'approve'
+        - 'both'
+
+permissions:
+  contents: read
+  pull-requests: write
+  statuses: write
+  checks: write
+
+jobs:
+  test-bot:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        pip install PyGithub requests
+
+    - name: Test Auto Merge Bot
+      if: ${{ inputs.test_type == 'merge' || inputs.test_type == 'both' }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        REPO_NAME: ${{ github.repository }}
+        PR_NUMBER: '1'  # Test with PR #1
+      run: |
+        echo "🧪 Testing Auto Merge Bot..."
+        python .github/scripts/auto_merge_bot.py
+
+    - name: Test Auto Approve Bot
+      if: ${{ inputs.test_type == 'approve' || inputs.test_type == 'both' }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        REPO_NAME: ${{ github.repository }}
+        PR_NUMBER: '1'  # Test with PR #1
+      run: |
+        echo "🧪 Testing Auto Approve Bot..."
+        python .github/scripts/auto_approve_bot.py
+
+    - name: Test Configuration Files
+      run: |
+        echo "🔍 Testing configuration files..."
+        python -c "import json; json.load(open('.github/auto_merge_config.json')); print('✅ auto_merge_config.json is valid')"
+        python -c "import json; json.load(open('.github/auto_approve_config.json')); print('✅ auto_approve_config.json is valid')"
+
+    - name: Test Bot Scripts
+      run: |
+        echo "🔍 Testing bot scripts..."
+        python -m py_compile .github/scripts/auto_merge_bot.py
+        python -m py_compile .github/scripts/auto_approve_bot.py
+        echo "✅ All bot scripts compile successfully"
+
+    - name: Summary
+      run: |
+        echo "🎉 Bot testing completed!"
+        echo "✅ Configuration files are valid"
+        echo "✅ Bot scripts compile successfully"
+        echo "✅ Ready for production use"

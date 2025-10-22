@@ -23,6 +23,7 @@ control is returned to javascript. Call `await wait_for_streaming_ready()` to wa
 NB: in this code, there are a lot of javascript objects. They are named js_*
 to make it clear what type of object they are.
 """
+
 from __future__ import annotations
 
 import io

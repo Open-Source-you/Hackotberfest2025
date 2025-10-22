@@ -7,37 +7,25 @@ import typing as t
 from datetime import timedelta
 from itertools import chain
 
-from werkzeug.exceptions import Aborter
-from werkzeug.exceptions import BadRequest
-from werkzeug.exceptions import BadRequestKeyError
-from werkzeug.routing import BuildError
-from werkzeug.routing import Map
-from werkzeug.routing import Rule
+from werkzeug.exceptions import Aborter, BadRequest, BadRequestKeyError
+from werkzeug.routing import BuildError, Map, Rule
 from werkzeug.sansio.response import Response
 from werkzeug.utils import cached_property
 from werkzeug.utils import redirect as _wz_redirect
 
 from .. import typing as ft
-from ..config import Config
-from ..config import ConfigAttribute
+from ..config import Config, ConfigAttribute
 from ..ctx import _AppCtxGlobals
-from ..helpers import _split_blueprint_path
-from ..helpers import get_debug_flag
-from ..json.provider import DefaultJSONProvider
-from ..json.provider import JSONProvider
+from ..helpers import _split_blueprint_path, get_debug_flag
+from ..json.provider import DefaultJSONProvider, JSONProvider
 from ..logging import create_logger
-from ..templating import DispatchingJinjaLoader
-from ..templating import Environment
-from .scaffold import _endpoint_from_view_func
-from .scaffold import find_package
-from .scaffold import Scaffold
-from .scaffold import setupmethod
+from ..templating import DispatchingJinjaLoader, Environment
+from .scaffold import Scaffold, _endpoint_from_view_func, find_package, setupmethod
 
 if t.TYPE_CHECKING:  # pragma: no cover
     from werkzeug.wrappers import Response as BaseResponse
 
-    from ..testing import FlaskClient
-    from ..testing import FlaskCliRunner
+    from ..testing import FlaskClient, FlaskCliRunner
     from .blueprints import Blueprint
 
 T_shell_context_processor = t.TypeVar(

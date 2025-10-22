@@ -1,0 +1,45 @@
+{
+  "auto_merge_enabled": true,
+  "require_approvals": 1,
+  "require_status_checks": true,
+  "require_branch_up_to_date": true,
+  "allowed_merge_methods": ["squash", "merge", "rebase"],
+  "default_merge_method": "squash",
+  "auto_merge_labels": ["auto-merge", "bot-approved"],
+  "blocking_labels": ["do-not-merge", "needs-review", "wip", "draft"],
+  "required_checks": ["CI", "code-quality"],
+  "max_wait_time_minutes": 30,
+  "trusted_contributors": [],
+  "auto_merge_all": false,
+  "comment_templates": {
+    "auto_merge_success": "🤖 **Auto Merge Bot**\n\nThis PR has been automatically approved and merged!\n\n**Merge Details:**\n- Method: {merge_method}\n- Timestamp: {timestamp}\n- Bot Version: 1.0",
+    "auto_merge_pending": "🤖 **Auto Merge Bot**\n\nThis PR is queued for automatic merging. Please wait while the bot processes your request.",
+    "auto_merge_failed": "🤖 **Auto Merge Bot**\n\nThis PR cannot be automatically merged due to the following issues:\n\n{issues}\n\nPlease address these issues and the bot will try again.",
+    "auto_merge_conditions": "🤖 **Auto Merge Bot**\n\n**Current Status:** {status}\n\n**Conditions Check:**\n{conditions}"
+  },
+  "branch_protection": {
+    "enabled": true,
+    "required_status_checks": true,
+    "enforce_admins": false,
+    "required_pull_request_reviews": {
+      "required_approving_review_count": 1,
+      "dismiss_stale_reviews": true,
+      "require_code_owner_reviews": false
+    }
+  },
+  "merge_conditions": {
+    "min_commits": 1,
+    "max_files_changed": 50,
+    "max_additions": 1000,
+    "max_deletions": 1000,
+    "require_meaningful_commits": true,
+    "block_empty_prs": true
+  },
+  "notifications": {
+    "slack_webhook": "",
+    "discord_webhook": "",
+    "email_notifications": false,
+    "notify_on_success": true,
+    "notify_on_failure": true
+  }
+}

@@ -1,6 +1,7 @@
 import functools
 from typing import Callable, Generator, Iterable, Iterator, Optional, Tuple
 
+from pip._internal.utils.logging import get_indentation
 from pip._vendor.rich.progress import (
     BarColumn,
     DownloadColumn,
@@ -13,8 +14,6 @@ from pip._vendor.rich.progress import (
     TimeRemainingColumn,
     TransferSpeedColumn,
 )
-
-from pip._internal.utils.logging import get_indentation
 
 DownloadProgressRenderer = Callable[[Iterable[bytes]], Iterator[bytes]]
 

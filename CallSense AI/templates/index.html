@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Call Sense AI - AI-Powered Transcript Analysis</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+
+    <!-- Dark Mode Toggle -->
+    <div class="theme-toggle" id="themeToggle" title="Toggle Dark Mode">
+        <i class="fas fa-moon" id="themeIcon"></i>
+    </div>
+
+    <div id="app">
+        <!-- Navigation Header -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <i class="fas fa-brain brand-icon"></i>
+                    <span class="brand-text">Call Sense AI</span>
+                </div>
+                <div class="nav-menu">
+                    <a href="#analyzer" class="nav-link active">Analyzer</a>
+                    <a href="#dashboard" class="nav-link">Dashboard</a>
+                    <a href="#history" class="nav-link">History</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        AI-Powered Call Analysis
+                        <span class="gradient-text">Made Simple</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        Transform customer call transcripts into actionable insights with advanced AI sentiment analysis and intelligent summarization.
+                    </p>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item" style="--i: 0">
+                        <div class="stat-number" id="totalAnalyzed">0</div>
+                        <div class="stat-label">Calls Analyzed</div>
+                    </div>
+                    <div class="stat-item" style="--i: 1">
+                        <div class="stat-number" id="avgSentiment">--</div>
+                        <div class="stat-label">Avg Sentiment</div>
+                    </div>
+                    <div class="stat-item" style="--i: 2">
+                        <div class="stat-number" id="processingTime">< 5s</div>
+                        <div class="stat-label">Processing Time</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Analyzer Section -->
+            <section id="analyzer" class="section active">
+                <div class="container">
+                    <div class="analyzer-grid">
+                        <!-- Input Panel -->
+                        <div class="input-panel card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-microphone"></i>
+                                    Transcript Input
+                                </h3>
+                                <div class="input-options">
+                                    <button class="btn-option active" data-input="text">
+                                        <i class="fas fa-keyboard"></i>
+                                        Text
+                                    </button>
+                                    <button class="btn-option" data-input="file">
+                                        <i class="fas fa-file-upload"></i>
+                                        File
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="input-container">
+                                    <div class="text-input active">
+                                        <textarea 
+                                            id="transcript" 
+                                            placeholder="Paste your customer call transcript here... 
+
+Example:
+Customer: Hi, I'm having trouble with my recent order. The payment went through but I haven't received any confirmation.
+Agent: I'm sorry to hear about that. Let me look up your order details..."
+                                            rows="12"
+                                        ></textarea>
+                                        <div class="input-footer">
+                                            <span class="char-count">0 characters</span>
+                                            <button class="btn-clear" id="clearText">
+                                                <i class="fas fa-times"></i>
+                                                Clear
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="file-input">
+                                        <div class="file-drop-zone" id="fileDropZone">
+                                            <i class="fas fa-cloud-upload-alt"></i>
+                                            <h4>Drop your file here</h4>
+                                            <p>or <span class="file-browse">browse files</span></p>
+                                            <input type="file" id="fileInput" accept=".txt,.csv,.json" hidden>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="action-buttons">
+                                    <button class="btn-primary" id="analyzeBtn">
+                                        <i class="fas fa-cogs"></i>
+                                        <span>Analyze Transcript</span>
+                                        <div class="btn-loader"></div>
+                                    </button>
+                                    <button class="btn-secondary" id="sampleBtn">
+                                        <i class="fas fa-magic"></i>
+                                        Load Sample
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Results Panel -->
+                        <div class="results-panel card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-chart-line"></i>
+                                    Analysis Results
+                                </h3>
+                                <div class="results-actions" style="display: none;">
+                                    <button class="btn-icon" id="exportBtn" title="Export Results">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                    <button class="btn-icon" id="shareBtn" title="Share Results">
+                                        <i class="fas fa-share"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="results-container">
+                                    <div class="empty-state" id="emptyState">
+                                        <i class="fas fa-robot"></i>
+                                        <h4>Ready for Analysis</h4>
+                                        <p>Enter a transcript and click "Analyze" to see AI-powered insights</p>
+                                    </div>
+                                    
+                                    <div class="results-content" id="resultsContent" style="display: none;">
+                                        <!-- Sentiment Analysis -->
+                                        <div class="result-section">
+                                            <div class="section-header">
+                                                <h4>
+                                                    <i class="fas fa-heart"></i>
+                                                    Sentiment Analysis
+                                                </h4>
+                                                <div class="sentiment-badge" id="sentimentBadge"></div>
+                                            </div>
+                                            <div class="sentiment-visual">
+                                                <div class="sentiment-meter">
+                                                    <div class="meter-track">
+                                                        <div class="meter-fill" id="sentimentMeter"></div>
+                                                    </div>
+                                                    <div class="meter-labels">
+                                                        <span>Negative</span>
+                                                        <span>Neutral</span>
+                                                        <span>Positive</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Summary -->
+                                        <div class="result-section">
+                                            <div class="section-header">
+                                                <h4>
+                                                    <i class="fas fa-file-alt"></i>
+                                                    AI Summary
+                                                </h4>
+                                                <button class="btn-copy" id="copySummary" title="Copy Summary">
+                                                    <i class="fas fa-copy"></i>
+                                                </button>
+                                            </div>
+                                            <div class="summary-content" id="summaryContent">
+                                                <!-- Summary will be populated here -->
+                                            </div>
+                                        </div>
+
+                                        <!-- Key Insights -->
+                                        <div class="result-section">
+                                            <div class="section-header">
+                                                <h4>
+                                                    <i class="fas fa-lightbulb"></i>
+                                                    Key Insights
+                                                </h4>
+                                            </div>
+                                            <div class="insights-grid" id="insightsGrid">
+                                                <!-- Insights will be populated here -->
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="loading-state" id="loadingState" style="display: none;">
+                                        <div class="loading-animation">
+                                            <div class="loading-dots">
+                                                <div class="dot"></div>
+                                                <div class="dot"></div>
+                                                <div class="dot"></div>
+                                            </div>
+                                        </div>
+                                        <h4>Analyzing Transcript</h4>
+                                        <p id="loadingMessage">Processing with AI...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Dashboard Section -->
+                <section id="dashboard" class="section">
+                    <div class="container">
+                        <div class="section-header">
+                            <h2>Analytics Dashboard</h2>
+                            <p>Overview of your call analysis data</p>
+                        </div>
+                        <div class="dashboard-grid">
+                            <div class="dashboard-card">
+                                <div class="card-icon positive">
+                                    <i class="fas fa-smile"></i>
+                                </div>
+                                <div class="card-content">
+                                    <h3 id="positiveCount">0</h3>
+                                    <p>Positive Calls</p>
+                                </div>
+                            </div>
+                            <div class="dashboard-card">
+                                <div class="card-icon neutral">
+                                    <i class="fas fa-meh"></i>
+                                </div>
+                                <div class="card-content">
+                                    <h3 id="neutralCount">0</h3>
+                                    <p>Neutral Calls</p>
+                                </div>
+                            </div>
+                            <div class="dashboard-card">
+                                <div class="card-icon negative">
+                                    <i class="fas fa-frown"></i>
+                                </div>
+                                <div class="card-content">
+                                    <h3 id="negativeCount">0</h3>
+                                    <p>Negative Calls</p>
+                                </div>
+                            </div>
+                            <div class="dashboard-card">
+                                <div class="card-icon total">
+                                    <i class="fas fa-chart-bar"></i>
+                                </div>
+                                <div class="card-content">
+                                    <h3 id="totalCount">0</h3>
+                                    <p>Total Analyzed</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="sentimentChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- History Section -->
+                <section id="history" class="section">
+                    <div class="container">
+                        <div class="section-header">
+                            <h2>Analysis History</h2>
+                            <p>Review your previous transcript analyses</p>
+                        </div>
+                        <div class="history-container">
+                            <div class="history-filters">
+                                <select id="sentimentFilter">
+                                    <option value="all">All Sentiments</option>
+                                    <option value="positive">Positive</option>
+                                    <option value="neutral">Neutral</option>
+                                    <option value="negative">Negative</option>
+                                </select>
+                                <input type="search" id="searchHistory" placeholder="Search transcripts...">
+                            </div>
+                            <div class="history-list" id="historyList">
+                                <!-- History items will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Floating Action Button -->
+        <div class="fab" id="fab" title="Quick Actions">
+            <i class="fas fa-plus"></i>
+        </div>
+
+        <!-- Toast Notifications -->
+        <div class="toast-container" id="toastContainer"></div>
+
+        <!-- Modal for detailed view -->
+        <div class="modal" id="detailModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Detailed Analysis</h3>
+                    <button class="modal-close" id="modalClose">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <!-- Modal content will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

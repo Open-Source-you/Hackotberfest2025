@@ -1,0 +1,127 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+
+jobs:
+  test-and-lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30  # Prevent hanging jobs
+    
+    strategy:
+      fail-fast: false  # Continue other jobs if one fails
+      matrix:
+        python-version: ['3.9', '3.10', '3.11', '3.12']
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Full history for better analysis
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'  # Automatic pip caching
+    
+    - name: Display Python version
+      run: python -c "import sys; print(sys.version)"
+    
+    - name: Upgrade pip
+      run: |
+        python -m pip install --upgrade pip setuptools wheel
+    
+    - name: Install dependencies
+      run: |
+        # Install dev dependencies
+        if [ -f requirements-dev.txt ]; then 
+          pip install -r requirements-dev.txt
+        else
+          pip install black ruff isort pytest pytest-cov
+        fi
+        
+        # Install project dependencies
+        if [ -f requirements.txt ]; then 
+          pip install -r requirements.txt
+        fi
+        
+        # Show installed packages
+        pip list
+    
+    - name: Check file structure
+      run: |
+        echo "📁 Repository structure:"
+        ls -la
+        echo ""
+        echo "📄 Config files:"
+        ls -la *.toml *.yaml *.yml 2>/dev/null || echo "No config files found"
+    
+    - name: Run Black (code formatting check)
+      if: always()  # Run even if previous steps fail
+      run: |
+        echo "🎨 Checking code formatting with Black..."
+        black --check --diff . || echo "⚠️ Black found formatting issues"
+      continue-on-error: true  # Don't fail the job, just warn
+    
+    - name: Run isort (import sorting check)
+      if: always()
+      run: |
+        echo "📦 Checking import sorting with isort..."
+        isort --check-only --diff . || echo "⚠️ isort found sorting issues"
+      continue-on-error: true
+    
+    - name: Run Ruff (linting)
+      if: always()
+      run: |
+        echo "🔍 Linting code with Ruff..."
+        ruff check . || echo "⚠️ Ruff found linting issues"
+      continue-on-error: true
+    
+    - name: Run tests with pytest
+      if: always()
+      run: |
+        echo "🧪 Running tests..."
+        # Check if tests directory exists
+        if [ -d "tests" ] || [ -d "test" ]; then
+          pytest --cov=. --cov-report=xml --cov-report=term-missing -v
+        else
+          echo "⚠️ No tests directory found, skipping tests"
+          echo "Please create a 'tests' directory with test files"
+        fi
+      continue-on-error: true
+    
+    - name: Upload coverage report
+      if: matrix.python-version == '3.11' && always()
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        fail_ci_if_error: false
+      continue-on-error: true
+
+  # Separate job for quick syntax checks
+  quick-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Check for syntax errors
+      run: |
+        python -m py_compile $(find . -name "*.py" -not -path "./venv/*" -not -path "./.venv/*") || true
+    
+    - name: Validate workflow files
+      run: |
+        echo "Checking YAML syntax..."
+        python -m pip install yamllint
+        yamllint .github/workflows/ || true

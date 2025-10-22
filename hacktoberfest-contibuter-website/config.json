@@ -1,0 +1,82 @@
+{
+  "repository": {
+    "owner": "Aditya-Prakash14",
+    "name": "Hackotberfest2025",
+    "description": "Hacktoberfest 2025 Contributors Showcase"
+  },
+  "site": {
+    "title": "Hacktoberfest 2025 - Contributors",
+    "description": "Celebrate open source contributions and the amazing developers behind them.",
+    "url": "https://your-domain.com",
+    "keywords": ["hacktoberfest", "open source", "contributors", "github", "2025"]
+  },
+  "api": {
+    "baseUrl": "https://api.github.com",
+    "rateLimit": {
+      "requests": 60,
+      "window": 3600
+    },
+    "cache": {
+      "enabled": true,
+      "duration": 300
+    }
+  },
+  "features": {
+    "search": true,
+    "filters": true,
+    "pagination": true,
+    "leaderboard": true,
+    "addContributor": true,
+    "darkMode": false,
+    "animations": true
+  },
+  "ui": {
+    "itemsPerPage": 12,
+    "animationDuration": 0.6,
+    "colors": {
+      "primary": "#ff6b35",
+      "secondary": "#1a1a1a",
+      "accent": "#f0f8ff",
+      "success": "#2ed573",
+      "error": "#ff4757",
+      "warning": "#ffa502"
+    },
+    "breakpoints": {
+      "mobile": 480,
+      "tablet": 768,
+      "desktop": 1024,
+      "large": 1200
+    }
+  },
+  "social": {
+    "github": "https://github.com/Aditya-Prakash14",
+    "twitter": "",
+    "discord": "",
+    "website": ""
+  },
+  "analytics": {
+    "enabled": false,
+    "trackingId": "",
+    "events": {
+      "contributorView": true,
+      "searchUsage": true,
+      "filterUsage": true
+    }
+  },
+  "performance": {
+    "lazyLoading": true,
+    "imageOptimization": true,
+    "preloadCritical": true,
+    "compressionEnabled": true
+  },
+  "seo": {
+    "enabled": true,
+    "generateSitemap": true,
+    "robotsTxt": true,
+    "openGraph": {
+      "enabled": true,
+      "image": "/assets/og-image.png",
+      "type": "website"
+    }
+  }
+}

@@ -1,5 +1,6 @@
 import random
 
+
 def pick_dinner():
     # List of dinner options
     dinner_options = [
@@ -12,13 +13,14 @@ def pick_dinner():
         "Beef Stroganoff",
         "Quinoa Salad with Chickpeas",
         "Shrimp Curry",
-        "Stuffed Bell Peppers"
+        "Stuffed Bell Peppers",
     ]
-    
+
     # Randomly select a dinner option
     selected_dinner = random.choice(dinner_options)
-    
+
     return selected_dinner
+
 
 # Pick and print a dinner option
 if __name__ == "__main__":

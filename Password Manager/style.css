@@ -1,0 +1,135 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,700;1,300&family=Poppins:wght@300;400;600&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Noto Sans", sans-serif;
+  font-family: "Poppins", sans-serif;
+}
+
+nav {
+  background-color: black;
+  color: white;
+  padding: 12px 3px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.logo {
+  margin: 0 23px;
+  font-weight: 800;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+ul {
+  display: flex;
+  margin: 0 23px;
+  align-items: center;
+}
+
+ul > li {
+  list-style: none;
+  margin: 0 13px;
+  cursor: pointer;
+}
+
+ul > li:hover {
+  color: white;
+}
+
+table,
+td,
+tr {
+  border: 2px solid black;
+  border-collapse: collapse;
+  padding: 5px 13px;
+}
+
+.container {
+  max-width: 80vw;
+  margin: 23px auto;
+  /* provide space at the bottom so fixed footer doesn't cover content */
+  padding-bottom: 100px;
+}
+
+h1,
+h2,
+h3 {
+  margin: 23px 0;
+}
+
+.btn {
+  padding: 8px 17px;
+  background: black;
+  color: white;
+  font-weight: 900;
+  border: 2px solid gray;
+  border-radius: 8px;
+  margin: 25px 0;
+  cursor: pointer;
+}
+
+.btnsm {
+  padding: 8px 17px;
+  background: black;
+  color: white;
+  font-weight: 900;
+  border: 2px solid gray;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+img {
+  cursor: pointer;
+  position: relative;
+  bottom: 7px;
+  width: 15px;
+  height: 13px;
+}
+
+#alert {
+  display: none;
+}
+
+/* Footer styles - clean, modern, centered and separated */
+footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  background: linear-gradient(180deg, #ffffff, #f7f8fa);
+  border-top: 1px solid rgba(16, 24, 40, 0.06);
+  box-shadow: 0 -6px 18px rgba(16, 24, 40, 0.04);
+  padding: 14px 16px;
+  text-align: center;
+  color: #374151; /* slate-600 */
+  font-size: 14px;
+}
+
+footer p {
+  margin: 0;
+  line-height: 1;
+}
+
+footer a {
+  color: #111827; /* slate-900 */
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 6px;
+}
+
+footer a:hover,
+footer a:focus {
+  color: #0ea5e9; /* accent color on hover */
+  text-decoration: underline;
+}
+
+/* Small screen adjustments */
+@media (max-width: 480px) {
+  footer {
+    font-size: 13px;
+    padding: 12px 10px;
+  }
+}

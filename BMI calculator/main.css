@@ -1,4 +1,5 @@
-/* Basic reset */
+```css
+/* Reset */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -6,23 +7,26 @@
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
 
-/* Inputs */
+/* Input Styles */
 .inputs {
   display: flex;
-  gap: 12px;
   justify-content: center;
+  gap: 12px;
   margin-bottom: 14px;
 }
+
 .inputs label {
   flex: 1;
 }
+
 .values {
   width: 100%;
   padding: 10px 12px;
-  border-radius: 8px;
   border: 1px solid #d7dbe6;
+  border-radius: 8px;
   font-size: 16px;
 }
+```
 
 /* Actions */
 .actions {

@@ -36,7 +36,6 @@ from pip._vendor.pygments.token import (
     Whitespace,
 )
 from pip._vendor.pygments.util import ClassNotFound
-
 from pip._vendor.rich.containers import Lines
 from pip._vendor.rich.padding import Padding, PaddingDimensions
 

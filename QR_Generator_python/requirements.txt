@@ -1,0 +1,4 @@
+qrcode
+pyperclip
+rich
+Pillow

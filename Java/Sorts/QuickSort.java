@@ -4,16 +4,16 @@ class GfG {
 
     // partition function
     static int partition(int[] arr, int low, int high) {
-        
+
         // choose the pivot
         int pivot = arr[high];
-        
-        // index of smaller element and indicates 
+
+        // index of smaller element and indicates
         // the right position of pivot found so far
         int i = low - 1;
 
         // traverse arr[low..high] and move all smaller
-        // elements to the left side. Elements from low to 
+        // elements to the left side. Elements from low to
         // i are smaller after every iteration
         for (int j = low; j <= high - 1; j++) {
             if (arr[j] < pivot) {
@@ -21,10 +21,10 @@ class GfG {
                 swap(arr, i, j);
             }
         }
-        
+
         // Move pivot after smaller elements and
         // return its position
-        swap(arr, i + 1, high);  
+        swap(arr, i + 1, high);
         return i + 1;
     }
 
@@ -38,7 +38,7 @@ class GfG {
     // the QuickSort function implementation
     static void quickSort(int[] arr, int low, int high) {
         if (low < high) {
-            
+
             // pi is the partition return index of pivot
             int pi = partition(arr, low, high);
 
@@ -52,11 +52,11 @@ class GfG {
     public static void main(String[] args) {
         int[] arr = {10, 7, 8, 9, 1, 5};
         int n = arr.length;
-      
+
         quickSort(arr, 0, n - 1);
-        
+
         for (int val : arr) {
-            System.out.print(val + " ");  
+            System.out.print(val + " ");
         }
     }
 }

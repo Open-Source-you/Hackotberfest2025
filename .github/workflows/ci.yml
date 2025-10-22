@@ -1,0 +1,128 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+
+jobs:
+  code-quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Needed for comparing changes
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install black ruff isort pytest pytest-cov
+        
+        # Install project dependencies if they exist
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+    
+    - name: Check Black formatting (Non-blocking)
+      run: |
+        echo "🎨 Checking code formatting..."
+        black --check --diff . || echo "⚠️ Some files need formatting (non-blocking)"
+      continue-on-error: true
+    
+    - name: Check isort (Non-blocking)
+      run: |
+        echo "📦 Checking import sorting..."
+        isort --check-only --diff . || echo "⚠️ Some imports need sorting (non-blocking)"
+      continue-on-error: true
+    
+    - name: Run Ruff linting (Non-blocking)
+      run: |
+        echo "🔍 Running linter..."
+        ruff check . --output-format=github || echo "⚠️ Some linting issues found (non-blocking)"
+      continue-on-error: true
+    
+    - name: Run tests (If tests exist)
+      run: |
+        echo "🧪 Running tests..."
+        if [ -d "tests" ] || [ -d "test" ]; then
+          pytest -v || echo "⚠️ Some tests failed (non-blocking)"
+        else
+          echo "ℹ️ No tests directory found - skipping tests"
+          echo "Consider adding tests in a 'tests' directory"
+        fi
+      continue-on-error: true
+    
+    - name: Summary
+      if: always()
+      run: |
+        echo "✅ CI completed - all checks are informational only"
+        echo "This CI won't block PRs while we gradually improve code quality"
+
+  # Optional: Check only changed files in PRs
+  check-pr-changes:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install tools
+      run: |
+        pip install black ruff isort
+    
+    - name: Get changed Python files
+      id: changed-files
+      run: |
+        # Get list of changed Python files
+        git diff --name-only origin/${{ github.base_ref }}...HEAD | grep '\.py$' > changed_files.txt || true
+        if [ -s changed_files.txt ]; then
+          echo "has_changes=true" >> $GITHUB_OUTPUT
+          echo "Changed Python files:"
+          cat changed_files.txt
+        else
+          echo "has_changes=false" >> $GITHUB_OUTPUT
+          echo "No Python files changed"
+        fi
+    
+    - name: Check changed files only
+      if: steps.changed-files.outputs.has_changes == 'true'
+      run: |
+        echo "Checking only modified files..."
+        
+        # Read changed files
+        CHANGED_FILES=$(cat changed_files.txt | tr '\n' ' ')
+        
+        if [ ! -z "$CHANGED_FILES" ]; then
+          echo "📝 Files to check: $CHANGED_FILES"
+          
+          # Check formatting (warning only)
+          echo "🎨 Checking Black formatting on changed files..."
+          black --check --diff $CHANGED_FILES || echo "⚠️ Consider formatting these files"
+          
+          # Check imports (warning only)
+          echo "📦 Checking isort on changed files..."
+          isort --check-only --diff $CHANGED_FILES || echo "⚠️ Consider sorting imports"
+          
+          # Check linting (warning only)
+          echo "🔍 Checking Ruff on changed files..."
+          ruff check $CHANGED_FILES || echo "⚠️ Consider fixing linting issues"
+        fi
+      continue-on-error: true

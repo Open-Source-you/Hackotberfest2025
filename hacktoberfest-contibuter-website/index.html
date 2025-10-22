@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacktoberfest 2025 - Contributors</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-container">
+            <div class="hacktober-logo">
+                <i class="fab fa-github"></i>
+            </div>
+            <div class="loading-text">Loading Contributors...</div>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fab fa-github"></i>
+                <span>Hacktoberfest 2025</span>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#contributors" class="nav-link">Contributors</a>
+                <a href="#stats" class="nav-link">Stats</a>
+                <a href="#leaderboard" class="nav-link">Leaderboard</a>
+            </div>
+            <div class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="title-line">Celebrate</span>
+                    <span class="title-line highlight">Open Source</span>
+                    <span class="title-line">Contributors</span>
+                </h1>
+                <p class="hero-description">
+                    Join thousands of developers making their mark in the open source community.
+                    Discover amazing contributors and their journey in Hacktoberfest 2025.
+                </p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" id="exploreBtn">
+                        <i class="fas fa-rocket"></i>
+                        Explore Contributors
+                    </button>
+                    <button class="btn btn-secondary" id="addYourselfBtn">
+                        <i class="fab fa-github"></i>
+                        Add Yourself
+                    </button>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="floating-cards" id="floatingCards">
+                    <!-- Dynamic cards will be generated here -->
+                </div>
+            </div>
+        </div>
+        <div class="hero-bg">
+            <div class="bg-gradient"></div>
+            <div class="bg-pattern"></div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section" id="stats">
+        <div class="container">
+            <h2 class="section-title">Hacktoberfest 2025 Stats</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-number" data-target="0">0</div>
+                    <div class="stat-label">Total Contributors</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-code-branch"></i>
+                    </div>
+                    <div class="stat-number" data-target="0">0</div>
+                    <div class="stat-label">Pull Requests</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-number" data-target="0">0</div>
+                    <div class="stat-label">Total Stars</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <div class="stat-number" data-target="0">0</div>
+                    <div class="stat-label">Countries</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contributors Section -->
+    <section class="contributors-section" id="contributors">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Our Amazing Contributors</h2>
+                <p class="section-description">
+                    Meet the incredible developers who are making open source better, one commit at a time.
+                </p>
+            </div>
+
+            <!-- Search and Filter -->
+            <div class="search-filter">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search contributors..." id="searchInput">
+                </div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="top">Top Contributors</button>
+                    <button class="filter-btn" data-filter="recent">Recent</button>
+                </div>
+            </div>
+
+            <!-- Contributors Grid -->
+            <div class="contributors-grid" id="contributorsGrid">
+                <!-- Dynamic content will be loaded here -->
+            </div>
+
+            <div class="load-more">
+                <button class="btn btn-outline" id="loadMoreBtn">
+                    <i class="fas fa-plus"></i>
+                    Load More Contributors
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Leaderboard Section -->
+    <section class="leaderboard-section" id="leaderboard">
+        <div class="container">
+            <h2 class="section-title">Leaderboard</h2>
+            <div class="leaderboard-tabs">
+                <button class="tab-btn active" data-tab="commits">Most Commits</button>
+                <button class="tab-btn" data-tab="prs">Most PRs</button>
+                <button class="tab-btn" data-tab="stars">Most Stars</button>
+            </div>
+            <div class="leaderboard-content" id="leaderboardContent">
+                <!-- Dynamic leaderboard content -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Add Contributor Modal -->
+    <div class="modal" id="addContributorModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Yourself as a Contributor</h3>
+                <button class="modal-close" id="modalClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="contributorForm">
+                    <div class="form-group">
+                        <label for="githubUsername">GitHub Username</label>
+                        <input type="text" id="githubUsername" placeholder="Enter your GitHub username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contributorName">Full Name</label>
+                        <input type="text" id="contributorName" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contributorBio">Bio (Optional)</label>
+                        <textarea id="contributorBio" placeholder="Tell us about yourself..."></textarea>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plus"></i>
+                            Add Contributor
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Hacktoberfest 2025</h3>
+                    <p>Celebrating open source contributions and the amazing developers behind them.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#contributors">Contributors</a></li>
+                        <li><a href="#stats">Stats</a></li>
+                        <li><a href="#leaderboard">Leaderboard</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Hacktoberfest Contributors. Made with ❤️ for the open source community.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

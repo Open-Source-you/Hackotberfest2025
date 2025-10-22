@@ -4,11 +4,7 @@ import codecs
 import re
 import typing as t
 import urllib.parse
-from urllib.parse import quote
-from urllib.parse import unquote
-from urllib.parse import urlencode
-from urllib.parse import urlsplit
-from urllib.parse import urlunsplit
+from urllib.parse import quote, unquote, urlencode, urlsplit, urlunsplit
 
 from .datastructures import iter_multi_items
 

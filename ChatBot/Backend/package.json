@@ -1,0 +1,24 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "chatbot",
+  "license": "ISC",
+  "author": "aman",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "@types/multer": "^2.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "mongoos": "^0.0.1-security",
+    "mongoose": "^8.18.3",
+    "multer": "^2.0.2",
+    "nodemon": "^3.1.10"
+  },
+  "keywords": []
+}

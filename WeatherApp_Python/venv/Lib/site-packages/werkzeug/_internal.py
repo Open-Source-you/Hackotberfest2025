@@ -4,8 +4,7 @@ import logging
 import re
 import sys
 import typing as t
-from datetime import datetime
-from datetime import timezone
+from datetime import datetime, timezone
 
 if t.TYPE_CHECKING:
     from _typeshed.wsgi import WSGIEnvironment

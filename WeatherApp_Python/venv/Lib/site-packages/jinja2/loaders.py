@@ -18,8 +18,7 @@ from .exceptions import TemplateNotFound
 from .utils import internalcode
 
 if t.TYPE_CHECKING:
-    from .environment import Environment
-    from .environment import Template
+    from .environment import Environment, Template
 
 
 def split_template_path(template: str) -> t.List[str]:

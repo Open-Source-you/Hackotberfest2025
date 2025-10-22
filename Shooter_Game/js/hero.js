@@ -28,7 +28,7 @@ $.Hero = function() {
 			strokeStyle: '#fff'
 		},
 		fireFlag: 0
-	};	
+	};
 };
 
 /*==============================================================================
@@ -63,8 +63,8 @@ $.Hero.prototype.update = function() {
 		}
 
 		this.vy *= 0.9;
-		this.vx *= 0.9;	
-		
+		this.vx *= 0.9;
+
 		this.x += this.vx * $.dt;
 		this.y += this.vy * $.dt;
 
@@ -127,7 +127,7 @@ $.Hero.prototype.update = function() {
 						if( $.powerupTimers[ 4 ] > 0 ) { colors.push( 'hsl(' + $.definitions.powerups[ 4 ].hue + ', ' + $.definitions.powerups[ 4 ].saturation + '%, ' + $.definitions.powerups[ 4 ].lightness + '%)' ); }
 						color = colors[ Math.floor( $.util.rand( 0, colors.length ) ) ];
 					}
-					$.bullets.push( new $.Bullet( {					
+					$.bullets.push( new $.Bullet( {
 						x: gunX,
 						y: gunY,
 						speed: this.weapon.bullet.speed,
@@ -136,7 +136,7 @@ $.Hero.prototype.update = function() {
 						size: this.weapon.bullet.size,
 						lineWidth: this.weapon.bullet.lineWidth,
 						strokeStyle: color,
-						piercing: this.weapon.bullet.piercing					
+						piercing: this.weapon.bullet.piercing
 					} ) );
 				}
 			}
@@ -170,7 +170,7 @@ $.Hero.prototype.update = function() {
 					$.audio.play( 'takingDamage' );
 				}
 			}
-		}		
+		}
 	}
 };
 
@@ -198,19 +198,19 @@ $.Hero.prototype.render = function() {
 		$.ctxmg.restore();
 
 		$.ctxmg.save();
-		$.ctxmg.translate( this.x, this.y );	
+		$.ctxmg.translate( this.x, this.y );
 		$.ctxmg.rotate( this.direction - $.pi / 4 + $.twopi / 3 );
 		$.ctxmg.fillStyle = fillStyle;
 		$.ctxmg.fillRect( 0, 0, this.radius, this.radius );
 		$.ctxmg.restore();
 
 		$.ctxmg.save();
-		$.ctxmg.translate( this.x, this.y );	
+		$.ctxmg.translate( this.x, this.y );
 		$.ctxmg.rotate( this.direction - $.pi / 4 - $.twopi / 3 );
 		$.ctxmg.fillStyle = fillStyle;
 		$.ctxmg.fillRect( 0, 0, this.radius, this.radius );
 		$.ctxmg.restore();
 
 		$.util.fillCircle( $.ctxmg, this.x, this.y, this.radius - 3, fillStyle );
-	}	
+	}
 };

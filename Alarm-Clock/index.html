@@ -8,13 +8,11 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
-    
-        const now = new Date();
-        const alarmTime = new Date(alarmInput.value);
-        const timeDifference = alarmTime - now;
+
+
 
         if (timeDifference > 0) {
+    set Time 
             setTimeout(() => {
                 alarmStatus.textContent = 'Alarm ringing!';
                 alert("Wake up!"); // Replace with preferred alarm method.

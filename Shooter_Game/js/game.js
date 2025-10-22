@@ -10,7 +10,7 @@ $.init = function() {
 	$.cbg3 = document.getElementById( 'cbg3' );
 	$.cbg4 = document.getElementById( 'cbg4' );
 	$.cmg = document.getElementById( 'cmg' );
-	$.cfg = document.getElementById( 'cfg' );	
+	$.cfg = document.getElementById( 'cfg' );
 	$.ctxbg1 = $.cbg1.getContext( '2d' );
 	$.ctxbg2 = $.cbg2.getContext( '2d' );
 	$.ctxbg3 = $.cbg3.getContext( '2d' );
@@ -41,7 +41,7 @@ $.init = function() {
 
 	$.mute = $.storage['mute'];
 	$.autofire = $.storage['autofire'];
-	$.slowEnemyDivider = 3;	
+	$.slowEnemyDivider = 3;
 
 	$.keys = {
 		state: {
@@ -75,7 +75,7 @@ $.init = function() {
 	};
 	$.buttons = [];
 
-	$.minimap = {		
+	$.minimap = {
 		x: 20,
 		y: $.ch - Math.floor( $.ch * 0.1 ) - 20,
 		width: Math.floor( $.cw * 0.1 ),
@@ -83,19 +83,19 @@ $.init = function() {
 		scale: Math.floor( $.cw * 0.1 ) / $.ww,
 		color: 'hsla(0, 0%, 0%, 0.85)',
 		strokeColor: '#3a3a3a'
-	},	
-	$.cOffset = { 
-		left: 0, 
-		top: 0 
+	},
+	$.cOffset = {
+		left: 0,
+		top: 0
 	};
-	
+
 	$.levelCount = $.definitions.levels.length;
 	$.states = {};
 	$.state = '';
 	$.enemies = [];
 	$.bullets = [];
 	$.explosions = [];
-	$.powerups = [];	
+	$.powerups = [];
 	$.particleEmitters = [];
 	$.textPops = [];
 	$.levelPops = [];
@@ -103,7 +103,7 @@ $.init = function() {
 
 	$.resizecb();
 	$.bindEvents();
-	$.setupStates();	
+	$.setupStates();
 	$.renderBackground1();
 	$.renderBackground2();
 	$.renderBackground3();
@@ -144,7 +144,7 @@ $.reset = function() {
 		y: 0,
 		level: 0,
 		decay: 0.4
-	};	
+	};
 
 	$.mouse.down = 0;
 
@@ -365,7 +365,7 @@ $.renderInterface = function() {
 				var alpha = 0.5;
 			}
 			alpha = Math.min( 1, Math.max( 0, alpha ) );
-			
+
 			$.ctxmg.fillStyle = 'hsla(0, 0%, 100%, ' + alpha + ')';
 			$.ctxmg.fill();
 
@@ -391,7 +391,7 @@ $.renderInterface = function() {
 				var alpha = 1;
 			}
 			alpha = Math.min( 1, Math.max( 0, alpha ) );
-			
+
 			$.ctxmg.fillStyle = 'hsla(0, 0%, 100%, ' + alpha + ')';
 			$.ctxmg.fill();
 		}
@@ -437,7 +437,7 @@ $.renderInterface = function() {
 	$.ctxmg.fillRect( healthBar.x, healthBar.y, $.hero.life * healthBar.width, healthBar.height );
 	$.ctxmg.fillStyle = 'hsla(' + $.hero.life * 120 + ', 100%, 75%, 1)';
 	$.ctxmg.fillRect( healthBar.x, healthBar.y, $.hero.life * healthBar.width, healthBar.height / 2 );
-	
+
 	if( $.hero.takingDamage && $.hero.life > 0.01 ) {
 		$.particleEmitters.push( new $.ParticleEmitter( {
 			x: -$.screen.x + healthBar.x + $.hero.life * healthBar.width,
@@ -487,7 +487,7 @@ $.renderInterface = function() {
 	$.ctxmg.fillRect( progressBar.x, progressBar.y, ( $.level.kills / $.level.killsToLevel ) * progressBar.width, progressBar.height );
 	$.ctxmg.fillStyle = 'hsla(0, 0%, 100%, 1)';
 	$.ctxmg.fillRect( progressBar.x, progressBar.y, ( $.level.kills / $.level.killsToLevel ) * progressBar.width, progressBar.height / 2 );
-	
+
 	if( $.level.kills == $.level.killsToLevel ) {
 		$.particleEmitters.push( new $.ParticleEmitter( {
 			x: -$.screen.x + progressBar.x + progressBar.width,
@@ -582,10 +582,10 @@ $.renderMinimap = function() {
 	$.ctxmg.fillRect( $.minimap.x, $.minimap.y, $.minimap.width, $.minimap.height );
 
 	$.ctxmg.fillStyle = 'hsla(0, 0%, 100%, 0.1)';
-	$.ctxmg.fillRect( 
-		Math.floor( $.minimap.x + -$.screen.x * $.minimap.scale ), 
-		Math.floor( $.minimap.y + -$.screen.y * $.minimap.scale ), 
-		Math.floor( $.cw * $.minimap.scale ), 
+	$.ctxmg.fillRect(
+		Math.floor( $.minimap.x + -$.screen.x * $.minimap.scale ),
+		Math.floor( $.minimap.y + -$.screen.y * $.minimap.scale ),
+		Math.floor( $.cw * $.minimap.scale ),
 		Math.floor( $.ch * $.minimap.scale )
 	);
 
@@ -630,7 +630,7 @@ $.getSpawnCoordinates = function( radius ) {
 		x,
 		y,
 		start;
-	
+
 	if( quadrant === 0){
 		x = $.util.rand( 0, $.ww );
 		y = -radius;
@@ -665,7 +665,7 @@ $.spawnEnemy = function( type ) {
 $.spawnEnemies = function() {
 	var floorTick = Math.floor( $.tick );
 	for( var i = 0; i < $.level.distributionCount; i++ ) {
-		var timeCheck = $.level.distribution[ i ];		
+		var timeCheck = $.level.distribution[ i ];
 		if( $.levelDiffOffset > 0 ){
 			timeCheck = Math.max( 1, timeCheck - ( $.levelDiffOffset * 2) );
 		}
@@ -755,7 +755,7 @@ $.clearScreen = function() {
 	$.ctxmg.clearRect( 0, 0, $.cw, $.ch );
 };
 
-$.updateDelta = function() { 
+$.updateDelta = function() {
 	var now = Date.now();
 	$.dt = ( now - $.lt ) / ( 1000 / 60 );
 	$.dt = ( $.dt < 0 ) ? 0.001 : $.dt;
@@ -766,7 +766,7 @@ $.updateDelta = function() {
 
 $.updateScreen = function() {
 	var xSnap,
-		xModify, 
+		xModify,
 		ySnap,
 		yModify;
 
@@ -775,7 +775,7 @@ $.updateScreen = function() {
 	} else if( $.hero.x > $.ww - $.cw / 2 ) {
 		xModify = 1 - ( $.ww - $.hero.x ) / $.cw;
 	} else {
-		xModify = 0.5;		
+		xModify = 0.5;
 	}
 
 	if( $.hero.y < $.ch / 2 ) {
@@ -783,11 +783,11 @@ $.updateScreen = function() {
 	} else if( $.hero.y > $.wh - $.ch / 2 ) {
 		yModify = 1 - ( $.wh - $.hero.y ) / $.ch;
 	} else {
-		yModify = 0.5;		
+		yModify = 0.5;
 	}
 
 	xSnap = ( ( $.cw * xModify - $.hero.x ) - $.screen.x ) / 30;
-	ySnap = ( ( $.ch * yModify - $.hero.y ) - $.screen.y ) / 30;	
+	ySnap = ( ( $.ch * yModify - $.hero.y ) - $.screen.y ) / 30;
 
 	// ease to new coordinates
 	$.screen.x += xSnap * $.dt;
@@ -796,7 +796,7 @@ $.updateScreen = function() {
 	// update rumble levels, keep X and Y changes consistent, apply rumble
 	if( $.rumble.level > 0 ) {
 		$.rumble.level -= $.rumble.decay;
-		$.rumble.level = ( $.rumble.level < 0 ) ? 0 : $.rumble.level;			
+		$.rumble.level = ( $.rumble.level < 0 ) ? 0 : $.rumble.level;
 		$.rumble.x = $.util.rand( -$.rumble.level, $.rumble.level );
 		$.rumble.y = $.util.rand( -$.rumble.level, $.rumble.level );
 	} else {
@@ -808,45 +808,45 @@ $.updateScreen = function() {
 	//$.screen.y -= $.rumble.y;
 
 	// animate background canvas
-	$.cbg1.style.marginLeft = 
+	$.cbg1.style.marginLeft =
 		-( ( $.cbg1.width - $.cw ) / 2 ) // half the difference from bg to viewport
 		- ( ( $.cbg1.width - $.cw ) / 2 ) // half the diff again, modified by a percentage below
 		* ( ( -$.screen.x - ( $.ww - $.cw ) / 2 ) / ( ( $.ww - $.cw ) / 2) ) // viewport offset applied to bg
 		- $.rumble.x + 'px';
-	$.cbg1.style.marginTop = 
-		-( ( $.cbg1.height - $.ch ) / 2 ) 
+	$.cbg1.style.marginTop =
+		-( ( $.cbg1.height - $.ch ) / 2 )
 		- ( ( $.cbg1.height - $.ch ) / 2 )
-		* ( ( -$.screen.y - ( $.wh - $.ch ) / 2 ) / ( ( $.wh - $.ch ) / 2) ) 
+		* ( ( -$.screen.y - ( $.wh - $.ch ) / 2 ) / ( ( $.wh - $.ch ) / 2) )
 		- $.rumble.y + 'px';
-	$.cbg2.style.marginLeft = 
+	$.cbg2.style.marginLeft =
 		-( ( $.cbg2.width - $.cw ) / 2 ) // half the difference from bg to viewport
 		- ( ( $.cbg2.width - $.cw ) / 2 ) // half the diff again, modified by a percentage below
 		* ( ( -$.screen.x - ( $.ww - $.cw ) / 2 ) / ( ( $.ww - $.cw ) / 2) ) // viewport offset applied to bg
 		- $.rumble.x + 'px';
-	$.cbg2.style.marginTop = 
-		-( ( $.cbg2.height - $.ch ) / 2 ) 
+	$.cbg2.style.marginTop =
+		-( ( $.cbg2.height - $.ch ) / 2 )
 		- ( ( $.cbg2.height - $.ch ) / 2 )
-		* ( ( -$.screen.y - ( $.wh - $.ch ) / 2 ) / ( ( $.wh - $.ch ) / 2) ) 
+		* ( ( -$.screen.y - ( $.wh - $.ch ) / 2 ) / ( ( $.wh - $.ch ) / 2) )
 		- $.rumble.y + 'px';
-	$.cbg3.style.marginLeft = 
+	$.cbg3.style.marginLeft =
 		-( ( $.cbg3.width - $.cw ) / 2 ) // half the difference from bg to viewport
 		- ( ( $.cbg3.width - $.cw ) / 2 ) // half the diff again, modified by a percentage below
 		* ( ( -$.screen.x - ( $.ww - $.cw ) / 2 ) / ( ( $.ww - $.cw ) / 2) ) // viewport offset applied to bg
 		- $.rumble.x + 'px';
-	$.cbg3.style.marginTop = 
-		-( ( $.cbg3.height - $.ch ) / 2 ) 
+	$.cbg3.style.marginTop =
+		-( ( $.cbg3.height - $.ch ) / 2 )
 		- ( ( $.cbg3.height - $.ch ) / 2 )
-		* ( ( -$.screen.y - ( $.wh - $.ch ) / 2 ) / ( ( $.wh - $.ch ) / 2) ) 
+		* ( ( -$.screen.y - ( $.wh - $.ch ) / 2 ) / ( ( $.wh - $.ch ) / 2) )
 		- $.rumble.y + 'px';
-	$.cbg4.style.marginLeft = 
+	$.cbg4.style.marginLeft =
 		-( ( $.cbg4.width - $.cw ) / 2 ) // half the difference from bg to viewport
 		- ( ( $.cbg4.width - $.cw ) / 2 ) // half the diff again, modified by a percentage below
 		* ( ( -$.screen.x - ( $.ww - $.cw ) / 2 ) / ( ( $.ww - $.cw ) / 2) ) // viewport offset applied to bg
 		- $.rumble.x + 'px';
-	$.cbg4.style.marginTop = 
-		-( ( $.cbg4.height - $.ch ) / 2 ) 
+	$.cbg4.style.marginTop =
+		-( ( $.cbg4.height - $.ch ) / 2 )
 		- ( ( $.cbg4.height - $.ch ) / 2 )
-		* ( ( -$.screen.y - ( $.wh - $.ch ) / 2 ) / ( ( $.wh - $.ch ) / 2) ) 
+		* ( ( -$.screen.y - ( $.wh - $.ch ) / 2 ) / ( ( $.wh - $.ch ) / 2) )
 		- $.rumble.y + 'px';
 
 	$.mousescreen();
@@ -920,7 +920,7 @@ $.updatePowerupTimers = function() {
 	} else {
 		$.hero.weapon.bullet.piercing = 0;
 	}
-};	
+};
 
 $.spawnPowerup = function( x, y ) {
 	if( Math.random() < 0.1 ) {
@@ -942,7 +942,7 @@ $.setState = function( state ) {
 	$.buttons.length = 0;
 
 	if( state == 'menu' ) {
-		$.mouse.down = 0;		
+		$.mouse.down = 0;
 		$.mouse.ax = 0;
 		$.mouse.ay = 0;
 
@@ -992,7 +992,7 @@ $.setState = function( state ) {
 
 	if( state == 'stats' ) {
 		$.mouse.down = 0;
-	
+
 		var clearButton = new $.Button( {
 			x: $.cw / 2 + 1,
 			y: 426,
@@ -1001,7 +1001,7 @@ $.setState = function( state ) {
 			scale: 3,
 			title: 'CLEAR DATA',
 			action: function() {
-				$.mouse.down = 0;				
+				$.mouse.down = 0;
 				if( window.confirm( 'Are you sure you want to clear all locally stored game data? This cannot be undone.') ) {
 					$.clearStorage();
 					$.mouse.down = 0;
@@ -1021,7 +1021,7 @@ $.setState = function( state ) {
 				$.setState( 'menu' );
 			}
 		} );
-		$.buttons.push( menuButton );	
+		$.buttons.push( menuButton );
 	}
 
 	if( state == 'credits' ) {
@@ -1034,7 +1034,7 @@ $.setState = function( state ) {
 			lockedHeight: 49,
 			scale: 3,
 			title: 'JS13KGAMES',
-			action: function() {				
+			action: function() {
 				location.href = 'http://js13kgames.com';
 				$.mouse.down = 0;
 			}
@@ -1052,7 +1052,7 @@ $.setState = function( state ) {
 				$.setState( 'menu' );
 			}
 		} );
-		$.buttons.push( menuButton );	
+		$.buttons.push( menuButton );
 	}
 
 	if( state == 'pause' ) {
@@ -1084,7 +1084,7 @@ $.setState = function( state ) {
 				if( window.confirm( 'Are you sure you want to end this game and return to the menu?') ) {
 					$.mousescreen();
 					$.setState( 'menu' );
-				}			
+				}
 			}
 		} );
 		$.buttons.push( menuButton );
@@ -1092,7 +1092,7 @@ $.setState = function( state ) {
 
 	if( state == 'gameover' ) {
 		$.mouse.down = 0;
-	
+
 		$.screenshot = $.ctxmg.getImageData( 0, 0, $.cw, $.ch );
 		var resumeButton = new $.Button( {
 			x: $.cw / 2 + 1,
@@ -1123,11 +1123,11 @@ $.setState = function( state ) {
 		$.buttons.push( menuButton );
 
 		$.storage['score'] = Math.max( $.storage['score'], $.score );
-		$.storage['level'] = Math.max( $.storage['level'], $.level.current );		
+		$.storage['level'] = Math.max( $.storage['level'], $.level.current );
 		$.storage['rounds'] += 1;
 		$.storage['kills'] += $.kills;
 		$.storage['bullets'] += $.bulletsFired;
-		$.storage['powerups'] += $.powerupsCollected;		
+		$.storage['powerups'] += $.powerupsCollected;
 		$.storage['time'] += Math.floor( $.elapsed );
 		$.updateStorage();
 	}
@@ -1219,7 +1219,7 @@ $.setupStates = function() {
 			scale: 2,
 			snap: 1,
 			render: 1
-		} );		
+		} );
 		$.ctxmg.fillStyle = 'hsla(0, 0%, 100%, 0.5)';
 		$.ctxmg.fill();
 
@@ -1228,13 +1228,13 @@ $.setupStates = function() {
 			ctx: $.ctxmg,
 			x: $.cw / 2 + 10,
 			y: statsTitle.ey + 39,
-			text: 
-				$.util.commas( $.storage['score'] ) + '\n' + 
-				( $.storage['level'] + 1 ) + '\n' + 
-				$.util.commas( $.storage['rounds'] ) + '\n' + 
-				$.util.commas( $.storage['kills'] ) + '\n' + 
-				$.util.commas( $.storage['bullets'] ) + '\n' + 
-				$.util.commas( $.storage['powerups'] ) + '\n' + 
+			text:
+				$.util.commas( $.storage['score'] ) + '\n' +
+				( $.storage['level'] + 1 ) + '\n' +
+				$.util.commas( $.storage['rounds'] ) + '\n' +
+				$.util.commas( $.storage['kills'] ) + '\n' +
+				$.util.commas( $.storage['bullets'] ) + '\n' +
+				$.util.commas( $.storage['powerups'] ) + '\n' +
 				$.util.convertTime( ( $.storage['time'] * ( 1000 / 60 ) ) / 1000 )
 			,
 			hspacing: 1,
@@ -1244,7 +1244,7 @@ $.setupStates = function() {
 			scale: 2,
 			snap: 1,
 			render: 1
-		} );		
+		} );
 		$.ctxmg.fillStyle = '#fff';
 		$.ctxmg.fill();
 
@@ -1288,7 +1288,7 @@ $.setupStates = function() {
 			scale: 2,
 			snap: 1,
 			render: 1
-		} );		
+		} );
 		$.ctxmg.fillStyle = 'hsla(0, 0%, 100%, 0.5)';
 		$.ctxmg.fill();
 
@@ -1305,7 +1305,7 @@ $.setupStates = function() {
 			scale: 2,
 			snap: 1,
 			render: 1
-		} );		
+		} );
 		$.ctxmg.fillStyle = '#fff';
 		$.ctxmg.fill();
 
@@ -1320,8 +1320,8 @@ $.setupStates = function() {
 		$.updatePowerupTimers();
 		$.spawnEnemies();
 		$.enemyOffsetMod += ( $.slow ) ? $.dt / 3 : $.dt;
-		
-		// update entities	
+
+		// update entities
 		var i = $.enemies.length; while( i-- ){ $.enemies[ i ].update( i ) }
 			i = $.explosions.length; while( i-- ){ $.explosions[ i ].update( i ) }
 			i = $.powerups.length; while( i-- ){ $.powerups[ i ].update( i ) }
@@ -1339,10 +1339,10 @@ $.setupStates = function() {
 		i = $.explosions.length; while( i-- ){ $.explosions[ i ].render( i ) }
 		i = $.powerups.length; while( i-- ){ $.powerups[ i ].render( i ) }
 		i = $.particleEmitters.length; while( i-- ){ $.particleEmitters[ i ].render( i ) }
-		i = $.textPops.length; while( i-- ){ $.textPops[ i ].render( i ) }		
+		i = $.textPops.length; while( i-- ){ $.textPops[ i ].render( i ) }
 		i = $.bullets.length; while( i-- ){ $.bullets[ i ].render( i ) }
-		$.hero.render();		
-		$.ctxmg.restore();		
+		$.hero.render();
+		$.ctxmg.restore();
 		i = $.levelPops.length; while( i-- ){ $.levelPops[ i ].render( i ) }
 		$.renderInterface();
 		$.renderMinimap();
@@ -1353,8 +1353,8 @@ $.setupStates = function() {
 				alpha = Math.min( 1, Math.max( 0, alpha ) );
 			$.ctxmg.fillStyle = 'hsla(0, 100%, 0%, ' + alpha + ')';
 			$.ctxmg.fillRect( 0, 0, $.cw, $.ch );
-			if( $.gameoverTick < $.gameoverTickMax ){				
-				$.gameoverTick += $.dt;				
+			if( $.gameoverTick < $.gameoverTickMax ){
+				$.gameoverTick += $.dt;
 			} else {
 				$.setState( 'gameover' );
 			}
@@ -1386,11 +1386,11 @@ $.setupStates = function() {
 					$.powerupTimers[ i ] = 0;
 				}
 				$.gameoverExplosion = 1;
-			}		
+			}
 		}
 
-		// update tick	
-		$.tick += $.dt;	
+		// update tick
+		$.tick += $.dt;
 
 		// listen for pause
 		if( $.keys.pressed.p ){
@@ -1399,7 +1399,7 @@ $.setupStates = function() {
 
 		// always listen for autofire toggle
 		if( $.keys.pressed.f ){
-			$.autofire = ~~!$.autofire;			
+			$.autofire = ~~!$.autofire;
 			$.storage['autofire'] = $.autofire;
 			$.updateStorage();
 		}
@@ -1480,7 +1480,7 @@ $.setupStates = function() {
 			scale: 2,
 			snap: 1,
 			render: 1
-		} );		
+		} );
 		$.ctxmg.fillStyle = 'hsla(0, 0%, 100%, 0.5)';
 		$.ctxmg.fill();
 
@@ -1489,12 +1489,12 @@ $.setupStates = function() {
 			ctx: $.ctxmg,
 			x: $.cw / 2 + 10,
 			y: gameoverTitle.ey + 51,
-			text: 
-				$.util.commas( $.score ) + '\n' + 
-				( $.level.current + 1 ) + '\n' + 
-				$.util.commas( $.kills ) + '\n' + 
-				$.util.commas( $.bulletsFired ) + '\n' + 
-				$.util.commas( $.powerupsCollected ) + '\n' + 
+			text:
+				$.util.commas( $.score ) + '\n' +
+				( $.level.current + 1 ) + '\n' +
+				$.util.commas( $.kills ) + '\n' +
+				$.util.commas( $.bulletsFired ) + '\n' +
+				$.util.commas( $.powerupsCollected ) + '\n' +
 				$.util.convertTime( ( $.elapsed * ( 1000 / 60 ) ) / 1000 )
 			,
 			hspacing: 1,
@@ -1504,7 +1504,7 @@ $.setupStates = function() {
 			scale: 2,
 			snap: 1,
 			render: 1
-		} );		
+		} );
 		$.ctxmg.fillStyle = '#fff';
 		$.ctxmg.fill();
 	};

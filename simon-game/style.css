@@ -1,0 +1,44 @@
+body {
+    text-align: center;
+    background-color: #011F3F;
+    color: white;
+    font-family: "Arial", sans-serif;
+  }
+  
+  h1 {
+    margin-top: 40px;
+    font-size: 3rem;
+  }
+  
+  #level-title {
+    font-size: 1.5rem;
+    margin: 20px 0;
+  }
+  
+  .container {
+    width: 400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(2, 180px);
+    grid-gap: 20px;
+    justify-content: center;
+  }
+  
+  .btn {
+    width: 180px;
+    height: 180px;
+    border: 8px solid black;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+  
+  .green { background-color: #00a74a; }
+  .red { background-color: #ff4c4c; }
+  .yellow { background-color: #fed93f; }
+  .blue { background-color: #1c8cff; }
+  
+  .pressed {
+    opacity: 0.5;
+    box-shadow: 0 0 20px white;
+  }
+  

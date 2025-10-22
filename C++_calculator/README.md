@@ -22,4 +22,3 @@ g++ calculator.cpp
 ./calculator.cpp
 ```
 3) Happy learning!
-

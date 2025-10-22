@@ -1,19 +1,15 @@
-* {
-    margin: 0;
-    padding: 0;
-    /* added */
-    margin-left: 2.5px;
-    
+
+body {
+  margin: 0;
+  padding: 0;
+  margin-left: 2.5px;
 }
 
-/* Header Styles */
-
-.header_left img{
-    object-fit: contain;
-    height: 140px;
-    margin-left: 7px;
+.header_left img {
+  object-fit: contain;
+  height: 140px;
+  margin-left: 7px;
 }
-
 .header{
     display: flex;
     align-items: center;
@@ -132,12 +128,12 @@
 /* Main Body */
 .main-body{
  display: flex;
- height: 100vh;   
+ height: 100vh;
 }
 
 body {
  height: 100vh;
- overflow-y: hidden;   
+ overflow-y: hidden;
 }
 
 .emailList{

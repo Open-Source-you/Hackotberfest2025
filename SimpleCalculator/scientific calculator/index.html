@@ -10,7 +10,7 @@
 	 body{
 	 	background-color: #030535;
 	 }
-        
+
         table{
             margin-top: 50px;
             margin-bottom: 50px;
@@ -23,12 +23,12 @@
             text-decoration: none;
         }
 
-        
+
         td{
             text-align: center;
         }
 
-        
+
         input[type=text]{
             background-color: #D3E3E3;
             text-align: right;
@@ -40,7 +40,7 @@
             border-radius: 10px;
         }
 
-       
+
         button{
             text-align: center;
             border: 10px;
@@ -52,12 +52,12 @@
             cursor: pointer ;
         }
 
-       
+
         button:hover{
             background-color: #FFE793 !important;
         }
 
-        
+
 
         button:active,.scientific:active, #on:active{
         box-shadow: 0 2px 8px 0 white, 0 2px 10px 0 white;
@@ -100,12 +100,12 @@
             background-color: #FEB89A;
         }
 
-        
+
         #ce:hover,#on:hover{
             background-color: #FF6363 !important;
         }
 
-       
+
         .ce{
             background-color: #9EFFA7 !important;
         }
@@ -116,7 +116,7 @@
         }
 
         .solar{
-        	background-color:#4F332F; 
+        	background-color:#4F332F;
         	height: 30px;
         	width: 30px;
         	border-right: 2px solid black;
@@ -132,8 +132,8 @@
     var sval = "";
     var operatorPressed = "";
     var state = false;
-  
-      
+
+
     function  power() {
             if (on.value == "OFF"){
                 on.value = "ON";
@@ -195,7 +195,7 @@
                 screenvalue.value = parseFloat(fval) * parseFloat(sval);
             }
             }
-            
+
 
 
         }
@@ -210,7 +210,7 @@
                     screenvalue.value =  screenvalue.value.slice(0,-1);
             }
         }
-           
+
         }
 
         function scientific(operation){
@@ -220,7 +220,7 @@
             }
 
             else if(operation == "pi"){
-               screenvalue.value =Math.PI; 
+               screenvalue.value =Math.PI;
             }
 
             else if(operation == "in"){
@@ -248,7 +248,7 @@
             }
             else if(operation == "exp"){
                 screenvalue.value =Math.exp(screenvalue.value);
-            } 
+            }
 
             else if(operation == "sinh"){
                 screenvalue.value =Math.sinh(screenvalue.value);
@@ -286,7 +286,7 @@
                 }
                 }
             }
-        
+
 </script>
 </head>
 <body>
@@ -295,15 +295,15 @@
 		<tr>
 			<td colspan="5">
 				<div style="float: right;">
-					
+
 					<ul>
 						<li><div class="solar"></div></li>
 						<li><div class="solar"></div></li>
 						<li><div class="solar"></div></li>
 						<li><div class="solar"></div></li>
 					</ul>
-			
-					
+
+
 				</div></td>
 		</tr>
 		<tr>
@@ -350,7 +350,7 @@
 			<td><button onclick="button(0)">0</button></td>
 			<td><button onclick="dot()">.</button></td>
 			<td colspan="3"><button style="width: 100%;" id="equal" onclick="equals()">=</button></td>
-			
+
 		</tr>
 	</table>
 

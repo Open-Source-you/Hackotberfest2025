@@ -23,4 +23,3 @@ This is a simple Wikipedia surfing bot in Python made with the wikipedia library
 1) When trying to load the page of some articles, the program encounters a disambiguation error that suggests some other(totally unrelated) articles. I can't seem to fix it(found a workaround tho). Any help is appreciated!
 
 2) This app could definitely use a GUI
-

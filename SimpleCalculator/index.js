@@ -1,27 +1,26 @@
-let screen = document.getElementById('screen');
-buttons = document.querySelectorAll('button');
+```javascript
+const screen = document.getElementById('screen');
+const buttons = document.querySelectorAll('button');
 let screenValue = '';
-for (item of buttons) {
-    item.addEventListener('click', (e) => {
-        buttonText = e.target.innerText;
-        console.log('Button text is ', buttonText);
-        if (buttonText == 'X') {
-            buttonText = '*';
-            screenValue += buttonText;
-            screen.value = screenValue;
-        }
-        else if (buttonText == 'C') {
-            screenValue = "";
-            screen.value = screenValue;
-        }
-        else if (buttonText == '=') {
-            screen.value = eval(screenValue);
-        }
-        else {
-            screenValue += buttonText;
-            screen.value = screenValue;
-        }
 
-    })
-}
+buttons.forEach(item => {
+  item.addEventListener('click', (e) => {
+    let buttonText = e.target.innerText;
+    buttonText = (buttonText === 'X') ? '*' : buttonText;
 
+    if (buttonText === 'C') {
+      screenValue = "";
+    } else if (buttonText === '=') {
+      try {
+        screenValue = eval(screenValue);
+      } catch (error) {
+        screenValue = "Error";
+      }
+    } else {
+      screenValue += buttonText;
+    }
+
+    screen.value = screenValue;
+  });
+});
+```

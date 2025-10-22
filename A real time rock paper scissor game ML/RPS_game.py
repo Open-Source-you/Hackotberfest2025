@@ -1,5 +1,6 @@
 # DO NOT MODIFY THIS FILE
 
+```python
 import random
 
 
@@ -15,6 +16,7 @@ def play(player1, player2, num_games, verbose=False):
         if p1_play == p2_play:
             results["tie"] += 1
             winner = "Tie."
+```
         elif (p1_play == "P" and p2_play == "R") or (
                 p1_play == "R" and p2_play == "S") or (p1_play == "S"
                                                        and p2_play == "P"):

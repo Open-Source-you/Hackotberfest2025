@@ -1,25 +1,11 @@
 let compdes = ["rock","paper","scissor"];
 
-let you = document.querySelector('.you');
-let computer = document.querySelector('.computer');
-let score = document.querySelector('.score');
-let winner = document.querySelector('.winner');
-
-let cplay;
-const rock = document.querySelector('.rock');
-const paper = document.querySelector('.paper');
-const scissor = document.querySelector('.scissor');
-
-let input;
-let Compscore = score.lastElementChild.textContent;
-let Youscore =score.firstElementChild.textContent;
-
 function game(){
     if (input==cplay)
     {
         you.innerHTML =`<h1>you choosed ${input}!</h1>`;
         computer.innerHTML = `<h1>computer choosed ${cplay}!</h1>`
-        winner.innerHTML = '<h1>Draw!!!</h1>'; 
+        winner.innerHTML = '<h1>Draw!!!</h1>';
     }
     else if(input!=cplay)
     {
@@ -27,14 +13,14 @@ function game(){
         {
             you.innerHTML =`<h1>you choosed ${input}!</h1>`;
             computer.innerHTML = `<h1>computer choosed ${cplay}!</h1>`
-            winner.innerHTML = '<h1>computer win!!!</h1>';   
+            winner.innerHTML = '<h1>computer win!!!</h1>';
             score.lastElementChild.innerHTML =`<h1>${++Compscore}</h1>`;
         }
         else if(input=='paper'&& cplay=='rock')
         {
             you.innerHTML =`<h1>you choosed ${input}!</h1>`;
         computer.innerHTML = `<h1>computer choosed ${cplay}!</h1>`
-        winner.innerHTML = '<h1>you win!!!</h1>'; 
+        winner.innerHTML = '<h1>you win!!!</h1>';
         score.firstElementChild.innerHTML =`<h1>${++Youscore}</h1>`;
         }
         else if(input=='scissor' && cplay=='rock')
@@ -42,27 +28,27 @@ function game(){
             you.innerHTML =`<h1>you choosed ${input}!</h1>`;
             computer.innerHTML = `<h1>computer choosed ${cplay}!</h1>`
             winner.innerHTML = '<h1>computer win!!!</h1>';
-            score.lastElementChild.innerHTML =`<h1>${++Compscore}</h1>`;  
+            score.lastElementChild.innerHTML =`<h1>${++Compscore}</h1>`;
         }
         else if(input=='scissor'&& cplay=='paper')
         {
             you.innerHTML =`<h1>you choosed ${input}!</h1>`;
             computer.innerHTML = `<h1>computer choosed ${cplay}!</h1>`
-            winner.innerHTML = '<h1>You win!!!</h1>';  
+            winner.innerHTML = '<h1>You win!!!</h1>';
             score.firstElementChild.innerHTML =`<h1>${++Youscore}</h1>`;
         }
         else if(cplay=='paper'&& input=='rock')
         {
             you.innerHTML =`<h1>you choosed ${input}!</h1>`;
             computer.innerHTML = `<h1>computer choosed ${cplay}!</h1>`
-            winner.innerHTML = '<h1>computer wons!!!</h1>'; 
+            winner.innerHTML = '<h1>computer wons!!!</h1>';
             score.lastElementChild.innerHTML =`<h1>${++Compscore}</h1>`;
         }
         else if(cplay=='scissor' && input=='rock')
         {
             you.innerHTML =`<h1>you choosed ${input}!</h1>`;
             computer.innerHTML = `<h1>computer choosed ${cplay}!</h1>`
-            winner.innerHTML = '<h1>you wons!!!</h1>'; 
+            winner.innerHTML = '<h1>you wons!!!</h1>';
             score.firstElementChild.innerHTML =`<h1>${++Youscore}</h1>`;
         }
     }
@@ -81,4 +67,5 @@ rock.addEventListener('click',function(e){
     cplay = compdes[Math.floor(Math.random()*3)];
     input = 'rock';
     game();
+
 });

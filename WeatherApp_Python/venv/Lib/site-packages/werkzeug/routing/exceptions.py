@@ -3,10 +3,8 @@ from __future__ import annotations
 import difflib
 import typing as t
 
-from ..exceptions import BadRequest
-from ..exceptions import HTTPException
-from ..utils import cached_property
-from ..utils import redirect
+from ..exceptions import BadRequest, HTTPException
+from ..utils import cached_property, redirect
 
 if t.TYPE_CHECKING:
     from _typeshed.wsgi import WSGIEnvironment

@@ -1,0 +1,110 @@
+name: Auto Approve Pull Requests
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  pull_request_review:
+    types: [submitted]
+  check_suite:
+    types: [completed]
+
+permissions:
+  contents: read
+  pull-requests: write
+  statuses: write
+  checks: write
+
+jobs:
+  auto-approve:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        pip install PyGithub requests
+
+    - name: Auto Approve PR
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        REPO_NAME: ${{ github.repository }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+      run: |
+        python .github/scripts/auto_approve_bot.py
+
+    - name: Check if PR should be auto-approved
+      id: should-approve
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        # Check PR labels and conditions
+        PR_LABELS=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+          "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}" \
+          | jq -r '.labels[].name' | tr '\n' ' ')
+        
+        echo "PR Labels: $PR_LABELS"
+        
+        # Check if PR has auto-approve label
+        if echo "$PR_LABELS" | grep -q "auto-approve\|bot-approve"; then
+          echo "should_approve=true" >> $GITHUB_OUTPUT
+          echo "✅ PR has auto-approve label"
+        else
+          echo "should_approve=false" >> $GITHUB_OUTPUT
+          echo "❌ PR does not have auto-approve label"
+        fi
+
+    - name: Auto Approve (if conditions met)
+      if: steps.should-approve.outputs.should_approve == 'true'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        echo "👍 Auto-approving PR #${{ github.event.pull_request.number }}"
+        
+        # Submit approval review
+        curl -X POST \
+          -H "Authorization: token $GITHUB_TOKEN" \
+          -H "Accept: application/vnd.github.v3+json" \
+          "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews" \
+          -d '{
+            "event": "APPROVE",
+            "body": "🤖 **Auto-approval by GitHub Bot**\n\nThis PR has been automatically approved based on configured conditions."
+          }' || echo "❌ Auto-approval failed"
+
+    - name: Add Bot Labels
+      if: steps.should-approve.outputs.should_approve == 'true'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        curl -X POST \
+          -H "Authorization: token $GITHUB_TOKEN" \
+          -H "Accept: application/vnd.github.v3+json" \
+          "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/labels" \
+          -d '{"labels":["bot-approved", "auto-approved"]}' || echo "⚠️ Could not add labels"
+
+    - name: Comment on PR
+      if: always()
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        if [ "${{ steps.should-approve.outputs.should_approve }}" = "true" ]; then
+          COMMENT="🤖 **Auto-approval Bot**: This PR has been automatically approved!"
+        else
+          COMMENT="🤖 **Auto-approval Bot**: Add the 'auto-approve' label to enable automatic approval."
+        fi
+        
+        curl -X POST \
+          -H "Authorization: token $GITHUB_TOKEN" \
+          -H "Accept: application/vnd.github.v3+json" \
+          "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments" \
+          -d "{\"body\":\"$COMMENT\"}" || echo "⚠️ Could not add comment"

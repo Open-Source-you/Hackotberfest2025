@@ -47,7 +47,7 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "pytest>=6.2.5",
-    "black>=21.12b0"
+    "black>=21.12b0",
     "flake8>=4.0.1",
     # Add more development dependencies as needed
 ]

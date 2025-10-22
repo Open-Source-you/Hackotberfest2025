@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Digital Clock</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="clock" id="clock">00:00:00</div>
+        <div class="date" id="date"></div>
+
+        <div class="controls">
+            <label for="mood">How are you feeling?</label>
+            <select id="mood">
+                <option value="happy">Happy</option>
+                <option value="neutral">Neutral</option>
+                <option value="sad">Sad</option>
+            </select>
+            <button id="setMood">Set Mood</button>
+        </div>
+
+        <div class="alarm-controls">
+            <label for="alarmTime">Set Alarm (HH:MM):</label>
+            <input type="time" id="alarmTime">
+            <button id="setAlarm">Set Alarm</button>
+        </div>
+
+        <div class="timer-controls">
+            <div class="timer" id="timer">Timer: 00:00</div>
+            <label for="hours">Hours:</label>
+            <input type="number" id="hours" min="0" placeholder="HH">
+            <label for="minutes">Minutes:</label>
+            <input type="number" id="minutes" min="0" max="59" placeholder="MM">
+            <label for="seconds">Seconds:</label>
+            <input type="number" id="seconds" min="0" max="59" placeholder="SS">
+            <button id="startTimer">Start Timer</button>
+            <button id="stopTimer">Stop Timer</button>
+            <button id="resetTimer">Reset Timer</button>
+        </div>
+
+        <div class="stopwatch-controls">
+            <div class="stopwatch" id="stopwatch">Stopwatch: 00:00</div>
+            <button id="startStopwatch">Start Stopwatch</button>
+            <button id="stopStopwatch">Stop Stopwatch</button>
+            <button id="resetStopwatch">Reset Stopwatch</button>
+        </div>
+
+        <div id="multiplicationGame" style="display:none;">
+            <div id="question"></div>
+            <input type="number" id="answer">
+            <button id="submitAnswer">Submit Answer</button>
+            <div id="feedback"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

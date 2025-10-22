@@ -6,25 +6,25 @@ body {
     background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 
   }
-  
+
   div.elem-group {
     margin: 20px 0;
   }
-  
+
   div.elem-group.inlined {
     width: 49%;
     display: inline-block;
     float: left;
     margin-left: 1%;
   }
-  
+
   label {
     display: block;
     font-family: 'Nanum Gothic';
     padding-bottom: 10px;
     font-size: 1.25em;
   }
-  
+
   input, select, textarea {
     border-radius: 2px;
     border: 2px solid #777;
@@ -34,20 +34,20 @@ body {
     width: 100%;
     padding: 10px;
   }
-  
+
   div.elem-group.inlined input {
     width: 95%;
     display: inline-block;
   }
-  
+
   textarea {
     height: 250px;
   }
-  
+
   hr {
     border: 1px dotted #ccc;
   }
-  
+
     button {
         background-image: linear-gradient(to right, #16222A 0%, #3A6073  51%, #16222A  100%);
         margin: 10px;
@@ -56,7 +56,7 @@ body {
         text-transform: uppercase;
         transition: 0.5s;
         background-size: 200% auto;
-        color: white;            
+        color: white;
         box-shadow: 0 0 20px #eee;
         border-radius: 10px;
         display: block;
@@ -67,8 +67,8 @@ body {
         color: #fff;
         text-decoration: none;
       }
-     
-  
+
+
   button:hover {
     border: 2px solid black;
   }

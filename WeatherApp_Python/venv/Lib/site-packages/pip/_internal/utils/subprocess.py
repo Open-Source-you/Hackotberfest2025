@@ -13,12 +13,11 @@ from typing import (
     Union,
 )
 
-from pip._vendor.rich.markup import escape
-
 from pip._internal.cli.spinners import SpinnerInterface, open_spinner
 from pip._internal.exceptions import InstallationSubprocessError
 from pip._internal.utils.logging import VERBOSE, subprocess_logger
 from pip._internal.utils.misc import HiddenText
+from pip._vendor.rich.markup import escape
 
 if TYPE_CHECKING:
     # Literal was introduced in Python 3.8.

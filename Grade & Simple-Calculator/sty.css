@@ -1,26 +1,11 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    text-decoration: none;
-    font-family: monospace;
-}
-body{
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    /* display: flex; */
-    background: linear-gradient(217deg, rgba(255,0,0,.8), rgba(255,0,0,0) 70.71%),
-    linear-gradient(127deg, rgba(0,255,0,.8), rgba(0,255,0,0) 70.71%),
-    linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%);
-}
+
 
 .container .grade{
     text-align:center;
     font-size: 60px;
     color: #3434ce;
     text-shadow: 2px 2px 4px rgba(255, 255 , 0.05);
-    
+
     margin: auto;
     margin-top: -100px;
     margin-left: 500px;
@@ -32,7 +17,7 @@ body{
     font-size: 60px;
     color: #3434ce;
     text-shadow: 2px 2px 4px rgba(255, 255 , 0.05);
-    
+
     margin: auto;
     margin-top: -60px;
     margin-left: 500px;
@@ -44,23 +29,23 @@ body{
     background: radial-gradient(
         rgba(255, 255, 255, 0.09),
         rgba(255, 255, 255, 0.9)
-      );    
+      );
     width: fit-content;
     height: fit-content;
     border-radius: 20px;
     padding: 2%;
     margin:  9rem  auto 7rem;
-    
+
 }
 .result{
 
     border-bottom-left-radius: 20px;
     border-top-left-radius: 20px;
-    
+
     background: radial-gradient(
         rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.5)
     );
-    
+
 }
 .result h1{
     font-size: 55px;
@@ -79,8 +64,8 @@ h2{
     text-align: center;
     justify-content: center;
     align-items: center;
-    
-    
+
+
 }
 
 input{
@@ -158,7 +143,7 @@ button{
     margin: 6px;
 }
 
-.calculator{ 
+.calculator{
     border: 4px solid #13695d;
     background-color: #5ba0a7;
     padding: 23px;
@@ -166,5 +151,5 @@ button{
     display: inline-block;
     margin-bottom: 2rem;
     margin-top: 3rem;
-    
+
 }

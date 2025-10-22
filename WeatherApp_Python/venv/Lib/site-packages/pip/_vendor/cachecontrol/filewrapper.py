@@ -2,8 +2,8 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from tempfile import NamedTemporaryFile
 import mmap
+from tempfile import NamedTemporaryFile
 
 
 class CallbackFileWrapper(object):

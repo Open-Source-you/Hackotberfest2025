@@ -32,15 +32,15 @@ def listen_fds(unset_environment=True):
         `<https://www.freedesktop.org/software/systemd/man/sd_listen_fds.html>`_
 
     """
-    fds = int(os.environ.get('LISTEN_FDS', 0))
-    listen_pid = int(os.environ.get('LISTEN_PID', 0))
+    fds = int(os.environ.get("LISTEN_FDS", 0))
+    listen_pid = int(os.environ.get("LISTEN_PID", 0))
 
     if listen_pid != os.getpid():
         return 0
 
     if unset_environment:
-        os.environ.pop('LISTEN_PID', None)
-        os.environ.pop('LISTEN_FDS', None)
+        os.environ.pop("LISTEN_PID", None)
+        os.environ.pop("LISTEN_FDS", None)
 
     return fds
 
@@ -57,19 +57,19 @@ def sd_notify(state, logger, unset_environment=False):
     child processes.
     """
 
-    addr = os.environ.get('NOTIFY_SOCKET')
+    addr = os.environ.get("NOTIFY_SOCKET")
     if addr is None:
         # not run in a service, just a noop
         return
     try:
         sock = socket.socket(socket.AF_UNIX, socket.SOCK_DGRAM | socket.SOCK_CLOEXEC)
-        if addr[0] == '@':
-            addr = '\0' + addr[1:]
+        if addr[0] == "@":
+            addr = "\0" + addr[1:]
         sock.connect(addr)
-        sock.sendall(state.encode('utf-8'))
+        sock.sendall(state.encode("utf-8"))
     except Exception:
         logger.debug("Exception while invoking sd_notify()", exc_info=True)
     finally:
         if unset_environment:
-            os.environ.pop('NOTIFY_SOCKET')
+            os.environ.pop("NOTIFY_SOCKET")
         sock.close()

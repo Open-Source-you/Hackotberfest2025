@@ -1,6 +1,6 @@
 Here’s a clear and concise explanation in English of the given text:
 
-- **Original text**: 
+- **Original text**:
   - `# html-tips-tricks`
   - `Guys, feel free to add here more cool html demos and tricks to help newbies..`
 - **What it communicates**:

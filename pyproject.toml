@@ -1,0 +1,33 @@
+[tool.ruff]
+line-length = 120  # More lenient than 88
+target-version = "py39"
+
+# Exclude directories
+exclude = [
+    ".git",
+    ".venv",
+    "venv",
+    "__pycache__",
+    "build",
+    "dist",
+]
+
+[tool.ruff.lint]
+# Start with minimal rules
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+]
+
+# Ignore many rules to start
+ignore = [
+    "E501",  # line too long
+    "E402",  # module level import not at top
+    "E722",  # bare except
+    "F401",  # imported but unused
+    "F841",  # local variable assigned but never used
+]
+
+[tool.black]
+line-length = 120  # More lenient
+skip-string-normalization = true  # Don't change quote styles

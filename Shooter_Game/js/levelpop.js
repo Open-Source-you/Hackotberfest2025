@@ -52,7 +52,7 @@ $.LevelPop.prototype.render = function( i ) {
 		var alpha = this.baseAlpha;
 	}
 	alpha = Math.min( 1, Math.max( 0, alpha ) );
-	
+
 	$.ctxmg.fillStyle = 'hsla(0, 0%, 100%, ' + alpha + ')';
 	$.ctxmg.fill();
 }

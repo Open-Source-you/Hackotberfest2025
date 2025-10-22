@@ -6,10 +6,7 @@ from collections import defaultdict
 from functools import update_wrapper
 
 from .. import typing as ft
-from .scaffold import _endpoint_from_view_func
-from .scaffold import _sentinel
-from .scaffold import Scaffold
-from .scaffold import setupmethod
+from .scaffold import Scaffold, _endpoint_from_view_func, _sentinel, setupmethod
 
 if t.TYPE_CHECKING:  # pragma: no cover
     from .app import App

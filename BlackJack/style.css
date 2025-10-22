@@ -1,0 +1,62 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #0b3d02;
+    color: white;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.game-container {
+    margin-top: 50px;
+}
+
+.hand {
+    margin: 20px;
+    border: 1px solid #fff;
+    border-radius: 8px;
+    padding: 10px;
+    display: inline-block;
+    width: 250px;
+    background-color: #145214;
+}
+
+.cards {
+    min-height: 80px;
+    display: flex;
+    justify-content: center;
+}
+
+button {
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: #228b22;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #2e8b57;
+}
+
+.card {
+    display: inline-block;
+    border: 1px solid white;
+    border-radius: 8px;
+    width: 50px;
+    height: 70px;
+    line-height: 70px;
+    margin: 5px;
+    font-size: 24px;
+    background-color: #ffffff33;
+    color: white;
+    text-align: center;
+    user-select: none;
+}
+
+.card-back {
+    background-color: #5a0000;
+}
+

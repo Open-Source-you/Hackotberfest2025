@@ -1,0 +1,58 @@
+{
+  "name": "hacktoberfest-contributors-website",
+  "version": "1.0.0",
+  "description": "A modern website showcasing Hacktoberfest 2025 contributors with GitHub API integration and GSAP animations",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx serve . -p 3000",
+    "build": "echo 'Static site - no build process needed'",
+    "start": "npx serve . -p 8080",
+    "deploy": "echo 'Deploy to your preferred hosting platform'",
+    "lint": "npx eslint script.js",
+    "format": "npx prettier --write *.html *.css *.js *.json *.md",
+    "optimize": "npx imagemin assets/**/*.{jpg,png,svg} --out-dir=assets/optimized/",
+    "validate": "npx html-validate index.html"
+  },
+  "keywords": [
+    "hacktoberfest",
+    "contributors",
+    "github-api",
+    "gsap",
+    "open-source",
+    "javascript",
+    "html",
+    "css",
+    "responsive-design",
+    "animations"
+  ],
+  "author": "Hacktoberfest Contributors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Aditya-Prakash14/Hackotberfest2025.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Aditya-Prakash14/Hackotberfest2025/issues"
+  },
+  "homepage": "https://github.com/Aditya-Prakash14/Hackotberfest2025#readme",
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "html-validate": "^7.0.0",
+    "imagemin": "^8.0.0",
+    "imagemin-cli": "^7.0.0",
+    "prettier": "^2.8.0",
+    "serve": "^14.0.0"
+  },
+  "dependencies": {},
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  }
+}

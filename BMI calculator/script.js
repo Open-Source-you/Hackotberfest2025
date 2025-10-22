@@ -1,5 +1,3 @@
-// script.js
-
 // Main calculate function (Caln)
 // Calculates BMI and updates #bmi-output and #bmi-status
 function Caln() {
@@ -19,21 +17,13 @@ function Caln() {
     tip.textContent = 'Please enter valid height (cm) and weight (kg).';
     return;
   }
-  // Reset everything (inputs + outputs)
-function resetAll() {
-  document.getElementById('h-input').value = '';
-  document.getElementById('w-input').value = '';
-  document.getElementById('bmi-output').textContent = '';
-  document.getElementById('bmi-status').textContent = '';
-  document.getElementById('tip').textContent = '';
-}
 
-// Clear outputs only
-function clearOutputs() {
-  document.getElementById('bmi-output').textContent = '';
-  document.getElementById('bmi-status').textContent = '';
-  document.getElementById('tip').textContent = '';
-}
+  // Convert height to meters
+  const hM = hCm / 100;
+  const bmi = wKg / (hM * hM);
+
+  // Round to one decimal place
+  const bmiRounded = Math.round(bmi * 10) / 10;
 
   // Determine status
   let status = '';
@@ -53,14 +43,21 @@ function clearOutputs() {
   tip.textContent = `Calculated for ${hCm} cm and ${wKg} kg. BMI = ${bmiRounded}.`;
 }
 
-  // Convert height to meters
-  const hM = hCm / 100;
-  const bmi = wKg / (hM * hM);
+// Reset everything (inputs + outputs)
+function resetAll() {
+  document.getElementById('h-input').value = '';
+  document.getElementById('w-input').value = '';
+  document.getElementById('bmi-output').textContent = '';
+  document.getElementById('bmi-status').textContent = '';
+  document.getElementById('tip').textContent = '';
+}
 
-  // Round to one decimal place
-  const bmiRounded = Math.round(bmi * 10) / 10;
-
-  
+// Clear outputs only
+function clearOutputs() {
+  document.getElementById('bmi-output').textContent = '';
+  document.getElementById('bmi-status').textContent = '';
+  document.getElementById('tip').textContent = '';
+}
 
 // Copy BMI value to clipboard
 function copyBMI() {
@@ -76,8 +73,7 @@ function copyBMI() {
       .then(() => {
         alert('BMI copied to clipboard: ' + bmiValue);
       })
-      .catch((err) => {
-        // fallback to older method on failure
+      .catch(() => {
         fallbackCopyTextToClipboard(bmiValue);
       });
   } else {
@@ -138,10 +134,10 @@ function loadLastEntry() {
     const entry = JSON.parse(raw);
     document.getElementById('h-input').value = entry.height_cm ?? '';
     document.getElementById('w-input').value = entry.weight_kg ?? '';
-    // Set previously saved outputs (if available)
     document.getElementById('bmi-output').textContent = entry.bmi ?? '';
     document.getElementById('bmi-status').textContent = entry.status ?? '';
-    document.getElementById('tip').textContent = 'Loaded saved entry from ' + (entry.timestamp ?? 'unknown time') + '.';
+    document.getElementById('tip').textContent =
+      'Loaded saved entry from ' + (entry.timestamp ?? 'unknown time') + '.';
   } catch (err) {
     alert('Failed to load saved entry.');
   }
@@ -151,12 +147,11 @@ function loadLastEntry() {
 function showHelp() {
   const tips = [
     'Enter height in centimeters and weight in kilograms.',
-    'BMI formula: \\( \\text{BMI} = \\dfrac{weight(kg)}{(height(m))^{2}} \\).',
-    'Normal BMI is usually between 18.5 and 24.9.',
+    'BMI formula: (weight(kg)) / (height(m))².',
+    'Normal BMI is between 18.5 and 24.9.',
     'Use Save Entry to keep the last result. Load Last Entry will restore it.'
   ];
-  // Display as alert and also in tip area
-  alert(tips.join('\\n'));
+  alert(tips.join('\n'));
   document.getElementById('tip').textContent = tips.join(' • ');
 }
 
@@ -171,3 +166,4 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 });
+

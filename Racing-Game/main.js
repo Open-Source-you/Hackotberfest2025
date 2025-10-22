@@ -36,10 +36,10 @@ document.querySelector('.btn-hold').addEventListener('click', function(){
 		scores[activePlayer] += roundScore;
 		// Update UI
 		document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
-		
+
 		let input = document.querySelector('.final-score').value;
 		let winningScore;
-		
+
 		if(input){
 			winningScore = input;
 		} else {
@@ -55,9 +55,9 @@ document.querySelector('.btn-hold').addEventListener('click', function(){
 			gamePlaying = false;
 		} else {
 			nextPlayer();
-		}	
+		}
 	}
-	
+
 });
 
 function nextPlayer(){
@@ -69,7 +69,7 @@ function nextPlayer(){
 
 	document.querySelector('.player-0-panel').classList.toggle('active');
 	document.querySelector('.player-1-panel').classList.toggle('active');
-	
+
 	document.querySelector('.dice').style.display = 'none';
 };
 

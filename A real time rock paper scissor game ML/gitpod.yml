@@ -6,3 +6,27 @@ tasks:
 vscode:
   extensions:
     - https://github.com/freeCodeCamp/freecodecamp-dark-vscode-theme/releases/download/v1.0.0/freecodecamp-dark-vscode-theme-1.0.0.vsix
+image: gitpod/workspace-python-3.12
+
+tasks:
+  - command: python main.py
+
+vscode:
+  extensions:
+    - https://github.com/freeCodeCamp/freecodecamp-dark-vscode-theme/releases/download/v1.0.0/freecodecamp-dark-vscode-theme-1.0.0.vsix
+image: gitpod/workspace-python-3.12
+
+tasks:
+  - command: python main.py
+
+vscode:
+  extensions:
+    - https://github.com/freeCodeCamp/freecodecamp-dark-vscode-theme/releases/download/v1.0.0/freecodecamp-dark-vscode-theme-1.0.0.vsix
+image: gitpod/workspace-python-3.12
+
+tasks:
+  - command: python main.py
+
+vscode:
+  extensions:
+    - https://github.com/freeCodeCamp/freecodecamp-dark-vscode-theme/releases/download/v1.0.0/freecodecamp-dark-vscode-theme-1.0.0.vsix

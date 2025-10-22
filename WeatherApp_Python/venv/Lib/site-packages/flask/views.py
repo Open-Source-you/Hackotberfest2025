@@ -3,8 +3,7 @@ from __future__ import annotations
 import typing as t
 
 from . import typing as ft
-from .globals import current_app
-from .globals import request
+from .globals import current_app, request
 
 F = t.TypeVar("F", bound=t.Callable[..., t.Any])
 

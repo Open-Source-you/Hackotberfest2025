@@ -2,8 +2,6 @@ import logging
 from optparse import Values
 from typing import List
 
-from pip._vendor.packaging.utils import canonicalize_name
-
 from pip._internal.cli import cmdoptions
 from pip._internal.cli.base_command import Command
 from pip._internal.cli.req_command import SessionCommandMixin, warn_if_run_as_root
@@ -18,6 +16,7 @@ from pip._internal.utils.misc import (
     check_externally_managed,
     protect_pip_from_modification_on_windows,
 )
+from pip._vendor.packaging.utils import canonicalize_name
 
 logger = logging.getLogger(__name__)
 

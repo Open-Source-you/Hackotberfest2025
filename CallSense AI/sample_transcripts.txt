@@ -1,0 +1,10 @@
+Sample Customer Call Transcripts for Testing
+
+=== TRANSCRIPT 1 (Negative Sentiment) ===
+Hi, I was trying to book a slot yesterday but the payment failed and I keep getting an error. I tried again and it charged me twice. I'm frustrated and want a refund.
+
+=== TRANSCRIPT 2 (Positive Sentiment) ===
+Hello! I just wanted to call and say thank you so much for the excellent service yesterday. The technician was very professional and fixed my issue quickly. I'm really happy with the support and would definitely recommend your company to others. Great job!
+
+=== TRANSCRIPT 3 (Neutral Sentiment) ===
+Hi, I'm calling to inquire about my account status. I need to update my billing address and also want to know when my next service appointment is scheduled. Can you help me with that information? I also have a question about the warranty coverage on my recent purchase.

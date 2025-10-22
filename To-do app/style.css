@@ -1,0 +1,76 @@
+body{
+    background-color:#e2e2e2;
+}
+.logo{
+    margin:3px;
+    height:40px;
+    width:45px;
+    border-radius: 90%;
+}
+.navbar{
+  display: flex;
+  justify-content: space-between;
+  border:2px solid black;
+  color: white;
+  background-color: black;
+  margin:12px;
+}
+.navbar a i{
+    margin: 2px;
+}
+.navbar a{
+    margin: 12px;
+    justify-content: space-evenly;
+    text-decoration:none;
+    color:#fff;
+    margin-right: 7px;
+
+}
+.ref{
+    display: flex;
+    justify-content: space-evenly;
+}
+.head{
+    text-align: center;
+    flex:1;
+    margin-top: 11px;
+    margin-left: 133px;
+}
+.typee input{
+border:2px solid white;
+border-radius: 23px;
+width:700px;
+max-width: 900px;
+height:35px;
+background-color: beige;
+text-align: center;
+}
+.typee{
+width:100%;
+height:auto;
+display: flex;
+align-items: center;
+justify-content: center;
+text-align: center;
+margin:25px;
+}
+.storage{
+    display: flex;
+    align-items: center;
+    margin: 5px;
+    justify-content: center;
+    row-gap: 2px;
+}
+.box{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height:350px;
+    max-height: 100%;
+    overflow: auto;
+    background-color:khaki;
+    border: 5px solid white;
+}

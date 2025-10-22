@@ -4,11 +4,9 @@ import typing as t
 import zlib
 
 from ._json import _CompactJSON
-from .encoding import base64_decode
-from .encoding import base64_encode
+from .encoding import base64_decode, base64_encode
 from .exc import BadPayload
-from .serializer import _PDataSerializer
-from .serializer import Serializer
+from .serializer import Serializer, _PDataSerializer
 from .timed import TimedSerializer
 
 

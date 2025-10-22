@@ -44,17 +44,14 @@ be processed before ``dict``.
 from __future__ import annotations
 
 import typing as t
-from base64 import b64decode
-from base64 import b64encode
+from base64 import b64decode, b64encode
 from datetime import datetime
 from uuid import UUID
 
 from markupsafe import Markup
-from werkzeug.http import http_date
-from werkzeug.http import parse_date
+from werkzeug.http import http_date, parse_date
 
-from ..json import dumps
-from ..json import loads
+from ..json import dumps, loads
 
 
 class JSONTag:

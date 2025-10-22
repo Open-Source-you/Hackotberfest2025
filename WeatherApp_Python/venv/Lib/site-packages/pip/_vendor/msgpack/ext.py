@@ -1,9 +1,8 @@
 # coding: utf-8
-from collections import namedtuple
 import datetime
-import sys
 import struct
-
+import sys
+from collections import namedtuple
 
 PY2 = sys.version_info[0] == 2
 

@@ -8,10 +8,8 @@ import typing as t
 from collections import defaultdict
 from functools import update_wrapper
 
-from jinja2 import BaseLoader
-from jinja2 import FileSystemLoader
-from werkzeug.exceptions import default_exceptions
-from werkzeug.exceptions import HTTPException
+from jinja2 import BaseLoader, FileSystemLoader
+from werkzeug.exceptions import HTTPException, default_exceptions
 from werkzeug.utils import cached_property
 
 from .. import typing as ft

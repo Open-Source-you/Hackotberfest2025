@@ -2,6 +2,7 @@
 def calculate_volume(length, width, height):
     return length * width * height
 
+
 # Get user input for dimensions
 length = float(input("Enter the length of the rectangular prism: "))
 width = float(input("Enter the width of the rectangular prism: "))

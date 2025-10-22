@@ -24,9 +24,6 @@
         </a>
         <h1>All about Inputs</h1>
 
-        <h2>Color picker</h2>
-        <input type="color" onchange="showColor(event)">
-        <p id="colorMe">Color Me!</p>
 
         <div class="box">
             <h2>Required</h2>
@@ -68,14 +65,14 @@
             <h2>Regex validations</h2>
             <form>
                 <label for="password">Strong password($Password1234):</label>
-                <input type="password" 
-                        name="password" 
-                        id="password" 
-                        placeholder="6-20 chars, at least 1 digit, 1 uppercase and one lowercase letter" 
+                <input type="password"
+                        name="password"
+                        id="password"
+                        placeholder="6-20 chars, at least 1 digit, 1 uppercase and one lowercase letter"
                         pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$" autofocus required>
                 <button type="submit"> Test </button>
             </form>
-        </div>        
+        </div>
     </div>
 </body>
 

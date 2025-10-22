@@ -20,31 +20,23 @@ function dial() {
     });
 }
 
-const url = `https://api.weatherbit.io/v2.0/current?city=Belgrade&key=fe7369b6e9d24781a30923dca5f093f1`;
 
-function allImages() {
-    const imgWrap = document.querySelector('.imgWrap');
-    for (let index = 1; index < 14; index++) {
-        imgWrap.innerHTML += `<img src="./img/nature${index}.jpg">`;
-    }
-}
 
+```javascript
 function getWeather() {
-    fetch(url)
-        .then(response => response.json())
-        .then(response => {
-            response.data.forEach(item => {
-                const weatherIcon = document.querySelector('.weatherIcon');
-                const weatherCity = document.querySelector('.weatherCity');
-                const weatherTemp = document.querySelector('.weatherTemp');
-                const icon = `https://www.weatherbit.io/static/img/icons/${item.weather.icon}.png`;
-                weatherIcon.innerHTML = `<img src="${icon}"></img>`;
-                weatherCity.innerHTML = item.city_name;
-                weatherTemp.innerHTML = item.temp + ' &deg; C';
-            });
-        })
-        .catch(err => console.log(err));
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      data.data.forEach(item => {
+        const iconUrl = `https://www.weatherbit.io/static/img/icons/${item.weather.icon}.png`;
+        document.querySelector('.weatherIcon').innerHTML = `<img src="${iconUrl}"></img>`;
+        document.querySelector('.weatherCity').innerHTML = item.city_name;
+        document.querySelector('.weatherTemp').innerHTML = item.temp + ' &deg; C';
+      });
+    })
+    .catch(err => console.log(err));
 }
+```
 
 function homePage() {
     loginPageContainer.innerHTML = `
@@ -578,4 +570,5 @@ function battery() {
 }
 
 battery();
+
 setInterval(battery, 4000);

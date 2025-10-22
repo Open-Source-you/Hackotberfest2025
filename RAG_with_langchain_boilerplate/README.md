@@ -27,6 +27,3 @@ Refer to the commented code at the end of the ```RAG_boilerplate.py``` file and 
 Download a PDF to implement RAG on (also, specify it in the code) and execute it using ```python3 RAG_boilerplate.py```
 
 4) Happy learning!
-
-
-

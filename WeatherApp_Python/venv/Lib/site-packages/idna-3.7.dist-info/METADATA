@@ -240,4 +240,3 @@ Additional Notes
   may wish to consider trying the encode/decode operation in this library
   first, and then falling back to using `encodings.idna`. See `the Github
   project <https://github.com/kjd/idna/issues/18>`_ for more discussion.
-

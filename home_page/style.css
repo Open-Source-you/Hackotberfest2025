@@ -3,7 +3,7 @@
     padding: 0;
     box-sizing: border-box;
   }
-  
+
   .section-one {
     background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.2)), url(https://images.unsplash.com/photo-1515612148533-6247582c12c7?crop=entropy&cs=tinysrgb&fm=jpg&ixid=MnwzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NjE4MzU4NzQ&ixlib=rb-1.2.1&q=80);
     background-size: cover;
@@ -14,40 +14,40 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center; 
+    align-items: center;
   }
-  
+
   .container {
     text-align: center;
     color: white;
   }
-  
+
   h1 {
     text-transform: uppercase;
     letter-spacing: 5px;
     font-size: 4rem;
     font-weight: 400;
   }
-  
+
   p {
     font-size: 1.15rem;
     letter-spacing: 3px;
     margin: 20px 0 40px;
   }
-  
+
   .home-button {
     color: white;
     text-decoration: none;
     border: 2px white solid;
     padding: 10px 15px;
   }
-  
+
   .home-button:hover,
   .home-button:focus {
     background: hsl(0, 100%, 100%, .2);
     outline: none;
   }
-  
+
   .section-two {
     height: 100vh;
     width: 100vw;
@@ -56,36 +56,36 @@
     align-items: center;
     margin: 0 auto;
   }
-  
+
   .container-two {
     display: flex;
     padding: 50px;
     gap: 20px;
     width: 100%;
   }
-  
+
   .content h1 {
     font-size: 2.75rem;
   }
-  
+
   .content h1::after {
     content: '';
     display: block;
     width: 100%;
     height: 5px;
-    background: #D1A370; 
+    background: #D1A370;
   }
-  
+
   .content p {
     font-size: 1.1rem;
     letter-spacing: 2px;
   }
-  
+
   .content-image img {
     width: 300px;
     object-fit: scale-down;
   }
-  
+
   @media (max-width: 700px) {
     .section-two {
       height: 100%;
@@ -95,7 +95,7 @@
       height: 100%;
     }
   }
-  
+
   footer {
     width: 100%;
     background: #212121;
@@ -103,21 +103,21 @@
     padding: 25px;
     text-align: center;
   }
-  
+
   .footer-container {
     display: flex;
     justify-content: center;
   }
-  
+
   .footer-content {
     margin: 0 50px 0;
   }
-  
+
   .footer-content svg {
     width: 50px;
     fill: white;
   }
-  
+
   .footer-content h6 {
     font-size: 1.2rem;
     font-weight: lighter;
@@ -126,25 +126,25 @@
     text-transform: uppercase;
     letter-spacing: 2px;
   }
-  
+
   .footer-content ul {
     list-style: none;
   }
-  
+
   .footer-content ul li {
     margin: 25px 0;
   }
-  
+
   .footer-content ul li a {
     text-decoration: none;
     color: white;
   }
-  
+
   .footer-content ul li a:hover,
   .footer-content ul li a:focus {
     color: hsl(32, 51%, 63%, 0.7);
   }
-  
+
   @media (max-width: 600px) {
     .footer-container {
       flex-direction: column;

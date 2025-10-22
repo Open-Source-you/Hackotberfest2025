@@ -25,7 +25,7 @@ const renderCalendar = () =>{
 
     for (let i = lastDayofMonth; i < 6 ;i++) { // next month first days
         liTag += `<li class="inactive" ${i - lastDayofMonth + 1}</li>`
-        
+
     }
 
     currentDate.innerText = `${months[currMonth]} ${currYear}`;
@@ -49,4 +49,4 @@ prevNextIcon.forEach(icon =>{
 
        renderCalendar();
     });
-})    
+})

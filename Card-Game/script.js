@@ -92,7 +92,7 @@ let timer = () => {
     let mil = 0;
     let sec = 0;
     let timeRemaining = 0;
-    
+
     let interval = setInterval(() => {
         mil+=10;
         if(mil==1000){
@@ -163,7 +163,7 @@ let unflipCards = () => {
     setTimeout(() => {
         firstCard.classList.remove('flip');
         secondCard.classList.remove('flip');
-        
+
         resetBaord();
     },700)
 }
@@ -202,12 +202,12 @@ cardsList.forEach(cardsList => cardsList.addEventListener('click',flipCard));
 
 function show_all_cards(){
     for(let i=0;i<cardsList.length;i++){
-        cardsList[i].classList.add('flip'); 
+        cardsList[i].classList.add('flip');
     }
 }
 function hide_all_cards(){
     for(let i=0;i<cardsList.length;i++){
-        cardsList[i].classList.remove('flip'); 
+        cardsList[i].classList.remove('flip');
     }
 }
 

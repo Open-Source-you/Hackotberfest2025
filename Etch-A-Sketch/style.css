@@ -1,0 +1,133 @@
+body{
+    background-color:#142133;
+    color: whitesmoke;
+}
+.logo{
+    margin:3px;
+    height:40px;
+    width:45px;
+    border-radius: 90%;
+}
+.navbar{
+  display: flex;
+  justify-content: space-between;
+  border:2px solid black;
+  color: white;
+  background-color: black;
+  margin:12px;
+}
+.navbar a i{
+    margin: 2px;
+}
+.navbar a{
+    margin: 12px;
+    justify-content: space-evenly;
+    text-decoration:none;
+    color:#fff;
+    margin-right: 7px;
+
+}
+.ref{
+    display: flex;
+    justify-content: space-evenly;
+}
+.head{
+    text-align: center;
+    flex:1;
+    margin-top: 11px;
+    margin-left: 283px;
+}
+
+.title{
+    text-align: center;
+    margin-top: 5%;
+    font-size: 80px;
+    font-weight: bold;
+    margin: 2px;
+    color:chocolate;
+    margin-left: 140px;
+}
+
+#sidepanal{
+    width:100px;
+    height:auto;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin: 5%;
+    justify-content: space-evenly;
+    margin-top: 9%;
+}
+
+#sidepanal div{
+    margin-bottom: 15px;
+}
+
+#sidepanal button{
+    margin: 11px;
+    border: 2px solid black;
+    border-radius: 50%;
+    width:95px;
+    display: flex;
+    flex-direction: column;
+    font-size: medium;
+    color: #fff;
+    text-align: center;
+    align-items: center;
+    height: 90px;
+    background-color:#11001c;
+}
+
+#grid{
+    border:2px solid black;
+    min-height:400px;
+    min-width: 400px;
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+}
+
+#main{
+    display:flex;
+    height:auto;
+    padding: 2%;
+    justify-content: center;
+    align-items: center;
+
+}
+
+#popup{
+    display:none ;
+    flex-direction: column;
+    position:fixed;
+    top:50%;
+    left:50%;
+    background-color: #11001c;
+    transform: translate(-50%,-50%);
+    height:110px;
+    width:300px;
+    border:2px solid black;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
+#popup input{
+    width: 200px;
+    text-align: center;
+    margin: 15px;
+    color: white;
+    background-color: #0a0a0a;
+}
+
+#popup button{
+    width:100px;
+    color:white;
+    background-color:#0a0a0a;
+}
+
+#picker{
+    background-color: black;;
+}

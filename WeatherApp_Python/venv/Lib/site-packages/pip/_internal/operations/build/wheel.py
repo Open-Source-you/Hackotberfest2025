@@ -2,9 +2,8 @@ import logging
 import os
 from typing import Optional
 
-from pip._vendor.pyproject_hooks import BuildBackendHookCaller
-
 from pip._internal.utils.subprocess import runner_with_spinner_message
+from pip._vendor.pyproject_hooks import BuildBackendHookCaller
 
 logger = logging.getLogger(__name__)
 

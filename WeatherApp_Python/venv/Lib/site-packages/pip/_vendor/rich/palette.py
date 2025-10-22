@@ -1,6 +1,6 @@
-from math import sqrt
 from functools import lru_cache
-from typing import Sequence, Tuple, TYPE_CHECKING
+from math import sqrt
+from typing import TYPE_CHECKING, Sequence, Tuple
 
 from .color_triplet import ColorTriplet
 
@@ -20,8 +20,8 @@ class Palette:
     def __rich__(self) -> "Table":
         from pip._vendor.rich.color import Color
         from pip._vendor.rich.style import Style
-        from pip._vendor.rich.text import Text
         from pip._vendor.rich.table import Table
+        from pip._vendor.rich.text import Text
 
         table = Table(
             "index",
@@ -75,6 +75,7 @@ class Palette:
 if __name__ == "__main__":  # pragma: no cover
     import colorsys
     from typing import Iterable
+
     from pip._vendor.rich.color import Color
     from pip._vendor.rich.console import Console, ConsoleOptions
     from pip._vendor.rich.segment import Segment

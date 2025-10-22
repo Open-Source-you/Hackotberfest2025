@@ -1,0 +1,6 @@
+Flask==3.0.3
+Flask-Cors==4.0.0
+Flask-SQLAlchemy==3.0.3
+oauthlib==3.2.2
+PyJWT==2.7.0
+requests==2.31.0

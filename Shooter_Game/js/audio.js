@@ -9,7 +9,7 @@ $.audio = {
 			} else {
 				audio = $.audio.sounds[ sound ][ 0 ];
 			}
-			audio.pool[ audio.tick ].play();		
+			audio.pool[ audio.tick ].play();
 			if( audio.tick < audio.count - 1 ) {
 				audio.tick++;
 			} else {
@@ -31,7 +31,7 @@ for( var k in $.definitions.audio ) {
 
 		for( var i = 0; i < $.definitions.audio[ k ].count; i++ ) {
 			var audio = new Audio();
-			audio.src = jsfxr( elem );			
+			audio.src = jsfxr( elem );
 			$.audio.references.push( audio );
 			$.audio.sounds[ k ][ index ].pool.push( audio );
 		}

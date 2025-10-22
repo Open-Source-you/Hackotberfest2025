@@ -3,34 +3,35 @@
 #include <string>
 
 using namespace std;
-```
 
-int main(){
-	char input = 'a';
-	float num1;
-	float num2;
-	cout << "What is the operation(+, -, / or *):\n";
-	cin >> input;
-	cout << "You chose " << input << "\n";
-	cout << "Enter number 1: \n";
-	cin >> num1;
-	cout << "Enter number 2: \n";
-	cin >> num2;
-	switch(input){
-		case '+':
-			cout << "Sum is: " << num1 + num2 << "\n";
-			break;
-		case '-':
-			cout << "Difference is: " << num1 - num2 << "\n";
-			break;
-		case '*':
-			cout << "Product is: " << num1 * num2 << "\n";
-			break;
-		case '/':
-			cout << "Quotient is: " << num1 / num2 << "\n";
-			break;
-		default:
-			cout << "Operation not found\n";
-			break;
-	}
+int main() {
+  char operation;
+  float num1, num2;
+
+  cout << "Enter an operation (+, -, /, *): ";
+  cin >> operation;
+
+  cout << "Enter two numbers: ";
+  cin >> num1 >> num2:num
+
+  switch (operation) {
+    case '+':
+      cout << "Sum: " << num1 + num2 << endl;
+      break;
+    case '-':
+      cout << "Difference: " << num1 - num2 << endl;
+      break;
+    case '*':
+      cout << "Product: " << num1 * num2 << endl;
+      break;
+    case '/':
+      cout << "Quotient: " << num1 / num2 << endl;
+      break;
+    default:
+      cout << "Invalid operation" << endl;
+      break;
+  }
+
+  return 0;
 }
+```

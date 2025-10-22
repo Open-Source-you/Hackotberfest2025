@@ -3,9 +3,9 @@ def pop_quiz():
     questions = {
         "What is the capital of France?": "Paris",
         "What is 5 + 7?": "12",
-        "Who wrote 'Romeo and Juliet'?": "Shakespeare"
+        "Who wrote 'Romeo and Juliet'?": "Shakespeare",
     }
-    
+
     score = 0  # Initialize the score
 
     # Loop through the questions
@@ -22,6 +22,7 @@ def pop_quiz():
 
     # Display the final score
     print(f"\nYour final score is: {score}/{len(questions)}")
+
 
 # Run the pop quiz
 if __name__ == "__main__":

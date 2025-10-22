@@ -3,8 +3,6 @@ import logging
 from optparse import Values
 from typing import TYPE_CHECKING, Generator, List, Optional, Sequence, Tuple, cast
 
-from pip._vendor.packaging.utils import canonicalize_name
-
 from pip._internal.cli import cmdoptions
 from pip._internal.cli.req_command import IndexGroupCommand
 from pip._internal.cli.status_codes import SUCCESS
@@ -16,6 +14,7 @@ from pip._internal.models.selection_prefs import SelectionPreferences
 from pip._internal.network.session import PipSession
 from pip._internal.utils.compat import stdlib_pkgs
 from pip._internal.utils.misc import tabulate, write_output
+from pip._vendor.packaging.utils import canonicalize_name
 
 if TYPE_CHECKING:
     from pip._internal.metadata.base import DistributionVersion

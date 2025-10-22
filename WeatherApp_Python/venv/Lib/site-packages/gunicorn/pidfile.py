@@ -33,7 +33,7 @@ class Pidfile:
         if fdir and not os.path.isdir(fdir):
             raise RuntimeError("%s doesn't exist. Can't create pidfile." % fdir)
         fd, fname = tempfile.mkstemp(dir=fdir)
-        os.write(fd, ("%s\n" % self.pid).encode('utf-8'))
+        os.write(fd, ("%s\n" % self.pid).encode("utf-8"))
         if self.fname:
             os.rename(fname, self.fname)
         else:
@@ -49,7 +49,7 @@ class Pidfile:
         self.create(self.pid)
 
     def unlink(self):
-        """ delete pidfile"""
+        """delete pidfile"""
         try:
             with open(self.fname) as f:
                 pid1 = int(f.read() or 0)
@@ -60,7 +60,7 @@ class Pidfile:
             pass
 
     def validate(self):
-        """ Validate pidfile and make it stale if needed"""
+        """Validate pidfile and make it stale if needed"""
         if not self.fname:
             return
         try:

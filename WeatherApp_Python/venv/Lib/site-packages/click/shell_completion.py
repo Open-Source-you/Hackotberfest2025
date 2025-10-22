@@ -3,13 +3,15 @@ import re
 import typing as t
 from gettext import gettext as _
 
-from .core import Argument
-from .core import BaseCommand
-from .core import Context
-from .core import MultiCommand
-from .core import Option
-from .core import Parameter
-from .core import ParameterSource
+from .core import (
+    Argument,
+    BaseCommand,
+    Context,
+    MultiCommand,
+    Option,
+    Parameter,
+    ParameterSource,
+)
 from .parser import split_arg_string
 from .utils import echo
 

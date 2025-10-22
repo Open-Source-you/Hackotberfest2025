@@ -16,7 +16,7 @@ selectBtnX.onclick = ()=>{
     selectBox.classList.add("hide");
     playBoard.classList.add("show");
 }
-selectBtnO.onclick = ()=>{ 
+selectBtnO.onclick = ()=>{
     selectBox.classList.add("hide");
     playBoard.classList.add("show");
     players.setAttribute("class", "players active player");
@@ -55,7 +55,7 @@ function bot(){
         }
         let randomBox = array[Math.floor(Math.random() * array.length)];
         if(array.length > 0){
-            if(players.classList.contains("player")){ 
+            if(players.classList.contains("player")){
                 playerSign = "X";
                 allBox[randomBox].innerHTML = `<i class="${playerXIcon}"></i>`;
                 allBox[randomBox].setAttribute("id", playerSign);
@@ -75,7 +75,7 @@ function bot(){
 function getIdVal(classname){
     return document.querySelector(".box" + classname).id;
 }
-function checkIdSign(val1, val2, val3, sign){ 
+function checkIdSign(val1, val2, val3, sign){
     if(getIdVal(val1) == sign && getIdVal(val2) == sign && getIdVal(val3) == sign){
         return true;
     }

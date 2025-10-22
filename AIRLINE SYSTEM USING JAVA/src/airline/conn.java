@@ -20,10 +20,10 @@ import java.util.logging.Logger;
  * @author adrianadewunmi
  */
 public class conn {
-    
+
     Connection c;
     Statement s;
-    
+
     public conn(){
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -35,6 +35,6 @@ public class conn {
             Logger.getLogger(conn.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
+
+
 }

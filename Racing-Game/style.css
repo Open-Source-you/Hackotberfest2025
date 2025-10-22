@@ -6,7 +6,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  
+
 }
 
 .clearfix::after {
@@ -96,7 +96,7 @@ outline: none;
   color: #EB4D4D;
   top: -7px;
   right: 10px;
-  
+
 }
 
 .player-current-box {
@@ -224,7 +224,7 @@ button {
 
 /* 2 */
 .btn-2 {
-  
+
 }
 .btn-2:after {
   position: absolute;
@@ -539,7 +539,7 @@ button {
   -webkit-transform: rotateX(-180deg);
   transform: rotateX(-180deg);
 }
-  
+
 
 /* 9 */
 .btn-9 {
@@ -559,7 +559,7 @@ button {
 }
 .btn-9:hover {
   box-shadow:  4px 4px 6px 0 rgba(255,255,255,.5),
-              -4px -4px 6px 0 rgba(116, 125, 136, .2), 
+              -4px -4px 6px 0 rgba(116, 125, 136, .2),
     inset -4px -4px 6px 0 rgba(255,255,255,.5),
     inset 4px 4px 6px 0 rgba(116, 125, 136, .3);
   color: #fff;
@@ -569,7 +569,7 @@ button {
   transform: scale(2) rotate(180deg);
   background: #000;
   box-shadow:  4px 4px 6px 0 rgba(255,255,255,.5),
-              -4px -4px 6px 0 rgba(116, 125, 136, .2), 
+              -4px -4px 6px 0 rgba(116, 125, 136, .2),
     inset -4px -4px 6px 0 rgba(255,255,255,.5),
     inset 4px 4px 6px 0 rgba(116, 125, 136, .3);
 }
@@ -622,7 +622,7 @@ button {
 }
 .btn-11:active{
   box-shadow:  4px 4px 6px 0 rgba(255,255,255,.3),
-              -4px -4px 6px 0 rgba(116, 125, 136, .2), 
+              -4px -4px 6px 0 rgba(116, 125, 136, .2),
     inset -4px -4px 6px 0 rgba(255,255,255,.2),
     inset 4px 4px 6px 0 rgba(0, 0, 0, .2);
 }
@@ -813,4 +813,3 @@ button {
 .btn-16:active {
   top: 2px;
 }
-

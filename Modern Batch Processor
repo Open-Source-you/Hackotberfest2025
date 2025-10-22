@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Batch Processor</title>
+    <style>
+        /* Modern Design Principles */
+        :root {
+            --bg-color: #f6f8fa;
+            --container-bg: #ffffff;
+            --border-color: #e1e4e8;
+            --text-color: #24292e;
+            --primary-color: #0366d6;
+            --success-color: #28a745;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 650px;
+            width: 100%;
+            background: var(--container-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: var(--text-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+        }
+
+        .description {
+            font-size: 16px;
+            color: #586069;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 180px;
+            padding: 12px;
+            box-sizing: border-box;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 14px;
+            resize: vertical;
+            transition: border-color 0.2s;
+        }
+
+        textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .button-primary {
+            display: inline-block;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1;
+            color: #fff;
+            background-color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            border-radius: 6px;
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.2s, box-shadow 0.2s;
+        }
+
+        .button-primary:hover {
+            background-color: #005cc5;
+        }
+
+        h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 30px;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .log-output {
+            background-color: #f6f8fa;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 15px;
+            max-height: 250px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 12px;
+            color: #586069;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 700px) {
+            body {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Batch Processor</h1>
+    <p class="description">Enter a list of items to process, one per line.</p>
+
+    <div class="form-group">
+        <textarea id="batch-input" placeholder="e.g.,
+item-A
+item-B
+item-C"></textarea>
+    </div>
+
+    <button id="process-btn" class="button-primary">Process Batch</button>
+
+    <h2>Processing Log</h2>
+    <pre id="output" class="log-output"></pre>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const batchInput = document.getElementById('batch-input');
+        const processButton = document.getElementById('process-btn');
+        const outputDisplay = document.getElementById('output');
+
+        processButton.addEventListener('click', () => {
+            const batchText = batchInput.value;
+            const items = batchText.split('\n').filter(item => item.trim() !== '');
+
+            if (items.length === 0) {
+                outputDisplay.textContent = "No items to process.";
+                return;
+            }
+
+            let logContent = "Starting batch process...\n";
+            outputDisplay.textContent = logContent;
+
+            const processItem = (index) => {
+                if (index < items.length) {
+                    const trimmedItem = items[index].trim();
+                    logContent += `Processing item ${index + 1} of ${items.length}: "${trimmedItem}"... Done.\n`;
+                    outputDisplay.textContent = logContent;
+                    outputDisplay.scrollTop = outputDisplay.scrollHeight;
+                    setTimeout(() => processItem(index + 1), 200); // Shorter delay for a faster feel
+                } else {
+                    logContent += `\nBatch process complete. Processed ${items.length} items.`;
+                    outputDisplay.textContent = logContent;
+                    outputDisplay.scrollTop = outputDisplay.scrollHeight;
+                }
+            };
+
+            processItem(0);
+        });
+    });
+</script>
+
+</body>
+</html>

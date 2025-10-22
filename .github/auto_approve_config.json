@@ -1,0 +1,35 @@
+{
+  "auto_approve_enabled": true,
+  "auto_approve_labels": ["auto-approve", "bot-approve"],
+  "blocking_labels": ["do-not-approve", "needs-review", "wip", "draft"],
+  "require_checks_passing": true,
+  "max_file_changes": 50,
+  "max_additions": 1000,
+  "max_deletions": 1000,
+  "trusted_contributors": [],
+  "auto_approve_all": false,
+  "min_commits": 1,
+  "require_meaningful_commits": true,
+  "comment_templates": {
+    "auto_approve_success": "🤖 **Auto Approve Bot**\n\nThis PR has been automatically approved!\n\n**Approval Details:**\n- Timestamp: {timestamp}\n- Bot Version: 1.0\n- Files Changed: {files_changed}\n- Additions: +{additions}\n- Deletions: -{deletions}",
+    "auto_approve_failed": "🤖 **Auto Approve Bot**\n\nThis PR cannot be automatically approved due to the following issues:\n\n{issues}\n\n**To enable auto-approval:**\n- Add one of these labels: {auto_approve_labels}\n- Remove any blocking labels: {blocking_labels}\n- Ensure all required checks pass\n- Keep file changes within limits",
+    "auto_approve_conditions": "🤖 **Auto Approve Bot**\n\n**Current Status:** {status}\n\n**Conditions Check:**\n{conditions}"
+  },
+  "file_type_restrictions": {
+    "allowed_extensions": [".py", ".js", ".ts", ".html", ".css", ".md", ".json", ".yml", ".yaml"],
+    "blocked_extensions": [".exe", ".dll", ".so", ".bin"],
+    "max_file_size_mb": 10
+  },
+  "commit_requirements": {
+    "min_commit_message_length": 10,
+    "require_conventional_commits": false,
+    "blocked_commit_patterns": ["^Merge", "^WIP", "^TEMP"]
+  },
+  "notifications": {
+    "slack_webhook": "",
+    "discord_webhook": "",
+    "email_notifications": false,
+    "notify_on_approval": true,
+    "notify_on_rejection": true
+  }
+}

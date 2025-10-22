@@ -1,24 +1,15 @@
+.formbtn:hover {
+  font-style: italic;
+}
 
+.font {
+  font-family: 'Sacramento', cursive;
+  font-size: 50px;
+  font-weight: bold;
+}
 
-.formbtn{
-    padding: 7px 16px;
-    border: 1px dotted #e51065 ;
-    border-radius: 50px;
-    color: #e51065;
-    font-weight: 600;
-    cursor: pointer;
-    background-color: #FFA6C9 ;
-    
-}
-.formbtn:hover{
-    font-style: italic;
-}
-.font{
-    font-family: 'Sacramento', cursive;
-    font-weight: bold;
-    font-size:50px;
-}
-.sale{
-    font-weight: lighter;
-    font-weight: italic;
+.sale {
+  font-style: italic;
+  font-weight: 500; 
+  color: #222;      
 }

@@ -7,8 +7,6 @@ import site
 from optparse import SUPPRESS_HELP, Values
 from typing import List, Optional
 
-from pip._vendor.rich import print_json
-
 from pip._internal.cache import WheelCache
 from pip._internal.cli import cmdoptions
 from pip._internal.cli.cmdoptions import make_target_python
@@ -45,6 +43,7 @@ from pip._internal.utils.virtualenv import (
     virtualenv_no_global,
 )
 from pip._internal.wheel_builder import build, should_build_for_install_command
+from pip._vendor.rich import print_json
 
 logger = getLogger(__name__)
 

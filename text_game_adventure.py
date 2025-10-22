@@ -1,6 +1,7 @@
+import random
 import tkinter as tk
 from tkinter import messagebox
-import random
+
 
 class AdventureGame:
     def __init__(self, master):
@@ -53,6 +54,29 @@ class AdventureGame:
         self.label.config(text="You venture deeper into the forest.\nSuddenly, you encounter a wild bear!")
         self.create_button("Fight the bear", self.fight_bear)
         self.create_button("Run away", self.run_away)
+         self.label = tk.Label(master, text="Welcome to the Adventure Game!\nYou find yourself in a dark forest.", wraplength=300)
+        self.label.pack(pady=20)
+
+        self.health_label = tk.Label(master, text="Health: 100")
+        self.health_label.pack(pady=10)
+
+        self.inventory_label = tk.Label(master, text="Inventory: []")
+        self.inventory_label.pack(pady=10)
+
+        self.button_frame = tk.Frame(master)
+        self.button_frame.pack()
+ self.label = tk.Label(master, text="Welcome to the Adventure Game!\nYou find yourself in a dark forest.", wraplength=300)
+        self.label.pack(pady=20)
+
+        self.health_label = tk.Label(master, text="Health: 100")
+        self.health_label.pack(pady=10)
+
+        self.inventory_label = tk.Label(master, text="Inventory: []")
+        self.inventory_label.pack(pady=10)
+
+        self.button_frame = tk.Frame(master)
+        self.button_frame.pack()
+
 
     def climb_tree(self):
         self.clear_buttons()

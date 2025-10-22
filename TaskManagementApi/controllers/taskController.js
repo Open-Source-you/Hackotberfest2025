@@ -2,7 +2,7 @@ const Task = require('../models/task');
 
 const createTask = (req, res) => {
   const { title, description, userId } = req.body;
-  
+
   Task.create(title, description, userId, (err, result) => {
     if (err) return res.status(500).json(err);
     res.status(201).json({ message: 'Task created successfully!' });
@@ -11,7 +11,7 @@ const createTask = (req, res) => {
 
 const getTasks = (req, res) => {
   const userId = req.user.id; // Assume user ID is added to req by auth middleware
-  
+
   Task.findAll(userId, (err, tasks) => {
     if (err) return res.status(500).json(err);
     res.json(tasks);
@@ -31,18 +31,18 @@ const updateTask = (req, res) => {
 
     Task.update(taskId, title, description, (err, result) => {
         if (err) return res.status(500).json(err);
-        
+
         if (result.affectedRows === 0) {
             return res.status(404).json({ message: "Task not found." });
         }
-        
+
         res.json({ message: "Task updated successfully!" });
     });
 };
 
 const deleteTasks = (req,res)=>{
     const taskId = req.user.id;
-    
+
     Task.delete(taskId, (err, tasks) => {
         if(err) return res.status(500).json(err);
         res.json(tasks);

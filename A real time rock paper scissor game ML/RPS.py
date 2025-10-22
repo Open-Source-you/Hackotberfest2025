@@ -5,17 +5,17 @@
 # The main player function that combines all these elements
 
 import random
-import tensorflow as tf
+
 import keras
-from keras import layers
-from keras import optimizers
 import numpy as np
+import tensorflow as tf
+from keras import layers, optimizers
 
 tf.keras.utils.disable_interactive_logging()
 
 model = None
 UPDATE_FREQUENCY = 30  # Frequency of Updating the model with new data
-SEQUENCE_LENGTH = 20    # Number of moves to consider for prediction
+SEQUENCE_LENGTH = 20  # Number of moves to consider for prediction
 TRAINING_ITERATIONS = 0
 
 is_quincy = False
@@ -25,7 +25,9 @@ is_abbey = False
 
 my_moves = []
 
-assert UPDATE_FREQUENCY > SEQUENCE_LENGTH, f"UPDATE_FREQUENCY ({UPDATE_FREQUENCY}) must be greater than SEQUENCE_LENGTH ({SEQUENCE_LENGTH})"
+assert (
+    UPDATE_FREQUENCY > SEQUENCE_LENGTH
+), f"UPDATE_FREQUENCY ({UPDATE_FREQUENCY}) must be greater than SEQUENCE_LENGTH ({SEQUENCE_LENGTH})"
 
 
 def calculate_move_frequency(history, window_size=50):
@@ -35,9 +37,9 @@ def calculate_move_frequency(history, window_size=50):
     recent_history = history[-window_size:]
     total_moves = len(recent_history)
     frequency = {
-        'R': recent_history.count('R') / total_moves,
-        'P': recent_history.count('P') / total_moves,
-        'S': recent_history.count('S') / total_moves
+        "R": recent_history.count("R") / total_moves,
+        "P": recent_history.count("P") / total_moves,
+        "S": recent_history.count("S") / total_moves,
     }
     return frequency
 
@@ -48,13 +50,15 @@ def get_previous_results(history, window_size=10):
     """
     results = []
     for i in range(1, min(window_size, len(history))):
-        prev_move = history[-i-1]
+        prev_move = history[-i - 1]
         current_move = history[-i]
         if prev_move == current_move:
             results.append(0)  # Tie
-        elif (prev_move == 'R' and current_move == 'P') or \
-             (prev_move == 'P' and current_move == 'S') or \
-             (prev_move == 'S' and current_move == 'R'):
+        elif (
+            (prev_move == "R" and current_move == "P")
+            or (prev_move == "P" and current_move == "S")
+            or (prev_move == "S" and current_move == "R")
+        ):
             results.append(1)  # Win
         else:
             results.append(-1)  # Loss
@@ -75,24 +79,23 @@ def prepare_data(history, sequence_length=SEQUENCE_LENGTH):
     X, y = [], []
     if len(history) > sequence_length:
         for i in range(len(history) - sequence_length):
-            sequence = [move_to_int(m)
-                        for m in history[i:i+sequence_length] if m]
+            sequence = [move_to_int(m) for m in history[i : i + sequence_length] if m]
             if len(sequence) == sequence_length:
                 # Add move frequency
-                freq = calculate_move_frequency(history[:i+sequence_length])
-                sequence.extend([freq['R'], freq['P'], freq['S']])
+                freq = calculate_move_frequency(history[: i + sequence_length])
+                sequence.extend([freq["R"], freq["P"], freq["S"]])
 
                 # Add previous results
-                results = get_previous_results(history[:i+sequence_length])
+                results = get_previous_results(history[: i + sequence_length])
                 sequence.extend(results)
 
                 X.append(sequence)
-                y.append(move_to_int(history[i+sequence_length]))
+                y.append(move_to_int(history[i + sequence_length]))
     return np.array(X), np.array(y)
 
 
 def move_to_int(move):
-    valid_moves = {'R': 0, 'P': 1, 'S': 2}
+    valid_moves = {"R": 0, "P": 1, "S": 2}
     if move in valid_moves:
         return valid_moves[move]
     else:
@@ -101,9 +104,10 @@ def move_to_int(move):
 
 def int_to_move(int_move):
     if 0 <= int_move <= 2:
-        return {0: 'R', 1: 'P', 2: 'S'}[int_move]
+        return {0: "R", 1: "P", 2: "S"}[int_move]
     else:
         raise ValueError(f"Invalid int_to_move {int_move}")
+
 
 # This approach uses a Sequential model with an LSTM layer to learn patterns in the opponent's moves.
 # It trains on the entire history each time, which might be computationally expensive for long games.
@@ -121,16 +125,22 @@ def build_model(learning_rate=0.001):
     Returns:
         keras.models.Sequential: The compiled model.
     """
-    input_shape = SEQUENCE_LENGTH + 3 + \
-        10  # Sequence + 3 frequencies + 10 previous results
-    model = keras.Sequential([
-        layers.Input(shape=(input_shape, 1)),
-        layers.LSTM(32),
-        layers.Dense(16, activation='relu'),
-        layers.Dense(3, activation='softmax')
-    ])
-    model.compile(optimizer=optimizers.Adam(learning_rate=0.001),
-                  loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+    input_shape = (
+        SEQUENCE_LENGTH + 3 + 10
+    )  # Sequence + 3 frequencies + 10 previous results
+    model = keras.Sequential(
+        [
+            layers.Input(shape=(input_shape, 1)),
+            layers.LSTM(32),
+            layers.Dense(16, activation="relu"),
+            layers.Dense(3, activation="softmax"),
+        ]
+    )
+    model.compile(
+        optimizer=optimizers.Adam(learning_rate=0.001),
+        loss="sparse_categorical_crossentropy",
+        metrics=["accuracy"],
+    )
     return model
 
 
@@ -142,14 +152,17 @@ def get_dynamic_learning_rate(initial_rate=0, decay_factor=0, min_rate=0):
     This can help the model converge more effectively as training progresses.
     """
     global TRAINING_ITERATIONS
-    learning_rate = max(initial_rate * (decay_factor **
-                        TRAINING_ITERATIONS), min_rate)
+    learning_rate = max(initial_rate * (decay_factor**TRAINING_ITERATIONS), min_rate)
     TRAINING_ITERATIONS += 1
     return learning_rate
 
 
-@tf.function(input_signature=[tf.TensorSpec(shape=(1, SEQUENCE_LENGTH, 1), dtype=tf.float32),
-                              tf.TensorSpec(shape=(1,), dtype=tf.int32)])
+@tf.function(
+    input_signature=[
+        tf.TensorSpec(shape=(1, SEQUENCE_LENGTH, 1), dtype=tf.float32),
+        tf.TensorSpec(shape=(1,), dtype=tf.int32),
+    ]
+)
 def train_step(x, y):
     with tf.GradientTape() as tape:
         logits = model(x, training=True)
@@ -191,8 +204,7 @@ def check_if_quincy(opponent_history):
     if len(opponent_history) >= 5:
         quincy_pattern = ["R", "R", "P", "P", "S"]
         start_index = (len(opponent_history) + 1) % 5
-        expected_pattern = quincy_pattern[start_index:] + \
-            quincy_pattern[:start_index]
+        expected_pattern = quincy_pattern[start_index:] + quincy_pattern[:start_index]
         last_five = opponent_history[-5:]
 
         # print(
@@ -204,15 +216,14 @@ def check_if_quincy(opponent_history):
             print(f"Playing Against Quincy")
             return True
         else:
-            print(
-                f"Expected pattern {expected_pattern} not equal to {last_five}")
+            print(f"Expected pattern {expected_pattern} not equal to {last_five}")
             print(f"Not playing against Quincy")
             return False
     return True
 
 
 def quincy_counter(round_number):
-    quincy_sequence = ['R', 'R', 'P', 'P', 'S']
+    quincy_sequence = ["R", "R", "P", "P", "S"]
     predicted_move = quincy_sequence[(round_number + 1) % 5]
     print(f"Quincy prediction {predicted_move}")
     my_counter = counter_move(predicted_move)
@@ -225,17 +236,16 @@ def check_if_mrugesh(opponent_history, my_moves):
         # last_ten = my_moves[-10:]
         last_ten = my_moves[-11:-1]
         most_frequent = max(set(last_ten), key=last_ten.count)
-        if most_frequent == '':
+        if most_frequent == "":
             most_frequent = "S"
-        ideal_response = {'P': 'S', 'R': 'P', 'S': 'R'}
+        ideal_response = {"P": "S", "R": "P", "S": "R"}
         expected_move = ideal_response[most_frequent]
         if opponent_history[-1] == expected_move:
             print("Playing Against Mrugesh")
             return True
         else:
             print("Not playing against Mrugesh")
-            print(
-                f"Expected move {expected_move} but got {opponent_history[-1]}")
+            print(f"Expected move {expected_move} but got {opponent_history[-1]}")
             return False
     return True
 
@@ -278,13 +288,19 @@ def check_if_abbey(opponent_history, my_moves, confidence_threshold=0.6):
         return True
 
     play_order = {
-        "RR": 0, "RP": 0, "RS": 0,
-        "PR": 0, "PP": 0, "PS": 0,
-        "SR": 0, "SP": 0, "SS": 0,
+        "RR": 0,
+        "RP": 0,
+        "RS": 0,
+        "PR": 0,
+        "PP": 0,
+        "PS": 0,
+        "SR": 0,
+        "SP": 0,
+        "SS": 0,
     }
 
     for i in range(len(my_moves) - 2):
-        key = my_moves[i] + my_moves[i+1]
+        key = my_moves[i] + my_moves[i + 1]
         if key in play_order:
             play_order[key] += 1
 
@@ -292,11 +308,9 @@ def check_if_abbey(opponent_history, my_moves, confidence_threshold=0.6):
     total_predictions = 0
 
     for i in range(2, len(my_moves)):
-        last_two = "".join(my_moves[i-2:i])
-        potential_plays = [last_two[1] + "R",
-                           last_two[1] + "P", last_two[1] + "S"]
-        sub_order = {k: play_order[k]
-                     for k in potential_plays if k in play_order}
+        last_two = "".join(my_moves[i - 2 : i])
+        potential_plays = [last_two[1] + "R", last_two[1] + "P", last_two[1] + "S"]
+        sub_order = {k: play_order[k] for k in potential_plays if k in play_order}
 
         if sub_order:
             prediction = max(sub_order, key=sub_order.get)[-1:]
@@ -319,13 +333,19 @@ def check_if_abbey(opponent_history, my_moves, confidence_threshold=0.6):
 
 def abbey_counter(my_moves):
     play_order = {
-        "RR": 0, "RP": 0, "RS": 0,
-        "PR": 0, "PP": 0, "PS": 0,
-        "SR": 0, "SP": 0, "SS": 0,
+        "RR": 0,
+        "RP": 0,
+        "RS": 0,
+        "PR": 0,
+        "PP": 0,
+        "PS": 0,
+        "SR": 0,
+        "SP": 0,
+        "SS": 0,
     }
 
     for i in range(len(my_moves) - 2):
-        key = my_moves[i] + my_moves[i+1]
+        key = my_moves[i] + my_moves[i + 1]
         if key in play_order:
             play_order[key] += 1
 
@@ -334,7 +354,7 @@ def abbey_counter(my_moves):
 
     sub_order = {k: play_order[k] for k in potential_plays if k in play_order}
     if not sub_order:
-        return random.choice(['R', 'P', 'S'])
+        return random.choice(["R", "P", "S"])
 
     prediction = max(sub_order, key=sub_order.get)[-1:]
     abbey_move = counter_move(prediction)
@@ -343,7 +363,7 @@ def abbey_counter(my_moves):
     if random.random() < 0.8:  # 80% of the time, use the counter strategy
         my_counter = counter_move(abbey_move)
     else:  # 20% of the time, play randomly to avoid being too predictable
-        my_counter = random.choice(['R', 'P', 'S'])
+        my_counter = random.choice(["R", "P", "S"])
 
     print(f"Abbey prediction {abbey_move}")
     print(f"I played {my_counter}")
@@ -351,12 +371,13 @@ def abbey_counter(my_moves):
 
 
 def counter_move(move):
-    return {'R': 'P', 'P': 'S', 'S': 'R'}[move]
+    return {"R": "P", "P": "S", "S": "R"}[move]
 
 
 def track_my_moves(move, my_moves=[]) -> list:
     my_moves.append(move)
     return my_moves
+
 
 # Initialize the model at the start of the game and update it periodically
 
@@ -404,7 +425,7 @@ def player(prev_play, opponent_history=[]):
 
     if len(opponent_history) <= 2:
         # Random outputs until we have enough history
-        my_next_move = random.choice(['R', 'P', 'S'])
+        my_next_move = random.choice(["R", "P", "S"])
         my_moves = track_my_moves(my_next_move)
         return my_next_move
 
@@ -448,10 +469,9 @@ def player(prev_play, opponent_history=[]):
                 print(f"Error during model training: {e}")
 
         try:
-            sequence = [move_to_int(m)
-                        for m in opponent_history[-SEQUENCE_LENGTH:]]
+            sequence = [move_to_int(m) for m in opponent_history[-SEQUENCE_LENGTH:]]
             freq = calculate_move_frequency(opponent_history)
-            sequence.extend([freq['R'], freq['P'], freq['S']])
+            sequence.extend([freq["R"], freq["P"], freq["S"]])
             results = get_previous_results(opponent_history)
             sequence.extend(results)
 
@@ -461,6 +481,6 @@ def player(prev_play, opponent_history=[]):
             my_next_move = counter_move(predicted_move)
         except Exception as e:
             print(f"Error during prediction: {e}")
-            my_next_move = random.choice(['R', 'P', 'S'])
+            my_next_move = random.choice(["R", "P", "S"])
     my_moves = track_my_moves(my_next_move)
     return my_next_move

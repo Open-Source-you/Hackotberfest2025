@@ -60,7 +60,7 @@ $.Bullet.prototype.update = function( i ) {
 
 				if( this.enemiesHit.length > 3 ) {
 					$.bullets.splice( i, 1 );
-				}						
+				}
 			}
 			if( !this.piercing ) {
 				$.bullets.splice( i, 1 );
@@ -93,7 +93,7 @@ $.Bullet.prototype.render = function( i ) {
 		$.ctxmg.beginPath();
 		$.ctxmg.moveTo( this.x, this.y );
 		$.ctxmg.lineTo( this.ex, this.ey );
-		$.ctxmg.lineWidth = this.lineWidth;		
+		$.ctxmg.lineWidth = this.lineWidth;
 		$.ctxmg.strokeStyle = this.strokeStyle;
 		$.ctxmg.stroke();
 	}

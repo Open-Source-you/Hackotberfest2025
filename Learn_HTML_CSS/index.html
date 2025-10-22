@@ -10,11 +10,7 @@
 <body>
 
 <aside class="inner-shadow container sticky">
-    <ul class="low-lineheight">
-      <li><a href="#headings">Headings</a></li>
-      <li><a href="#Lists">Lists</a></li>
-      <li><a href="#Links">Links</a></li>
-      <li><a href="#non-standard links">non-standard links</a></li>
+
       <li><a href="#Tables">Tables</a></li>
       <li><a href="#Table with a caption">Table with a caption</a></li>
       <li><a href="#Complex data tables">Complex data tables</a></li>
@@ -27,27 +23,22 @@
       <li><a href="#Date Fields">Date Fields</a></li>
        <li><a href="#Tooltip">Tooltip</a></li>
        <li><a href="#A collection of handly links">A collection of handly links</a></li>
-  
-      
-      
+
+
+
     </ul>
   </aside>
-  
+
   <main>
     <h1>We like purple, Codepen Styles</h1>
-    
+
     <h2 id="headings">Headings</h2>
     <div class="container inner-shadow">
       <p>Headings should be used in order, starting with h1. If anything looks like a heading, it should be marked up as a heading. Note: Correct use of headings are important for screen-reader use. Screen-readers come with shortcut keys to navigate via headings
         and is commonly used by sighted users. </p>
-      <h1>Heading 1</h1>
-      <h2>Heading 2</h2>
-      <h3>Heading 3</h3>
-      <h4>Heading 4</h4>
-      <h5>Heading 5</h5>
-      <h6>Heading 6</h6>
+
     </div>
-  
+
     <h2 id="Lists">Lists</h2>
     <div class="container inner-shadow">
       <p>
@@ -59,7 +50,7 @@
         <li><a href="#">Action 3</a></li>
       </ul>
     </div>
-  
+
     <h2 id="Links">Links</h2>
     <div class="container inner-shadow">
       <p>
@@ -67,16 +58,16 @@
       </p>
       <a href="h#">A link</a>
     </div>
-  
+
     <h2 id="non-standard links">non-standard links</h2>
     <div class="container inner-shadow">
       <p>If the link does not link anywhere but rather fires a click event, then set href to javascript:void(0) otherwise it will not receive keyboard focus and CSS styles associated with <a> tags are not applied.
-  Compare these two links. The second one can only be activated with a mouse. 
+  Compare these two links. The second one can only be activated with a mouse.
     </p>
   <a href="javascript:void(0)" onclick="alert('Standard link action')">Standard link</a>
         <a onclick="alert('Non-standard link action')">Non-standard link</a>
     </div>
-  
+
     <h2 id="Tables">Tables</h2>
     <div class="container inner-shadow">
       <p>
@@ -96,7 +87,7 @@
         </tr>
       </table>
     </div>
-  
+
     <h2 id="Table with a caption">Table with a caption</h2>
     <div class="container inner-shadow">
       <p>
@@ -119,7 +110,7 @@
         </tr>
       </table>
     </div>
-  
+
     <h2 id="Complex data tables">Complex data tables</h2>
     <div class="container inner-shadow">
       <p>
@@ -153,13 +144,13 @@
         </tr>
       </table>
     </div>
-  
+
     <h2 id="Complex data tables with multiple rows of headers">Complex data tables with multiple rows of headers</h2>
     <div class="container inner-shadow">
       <p>
         Complex tables with multiple row of headers should use headers, rowspan and colspan attributes.
       </p>
-  
+
       <table>
         <tr>
           <th rowspan="2" id="h">Homework</th>
@@ -185,7 +176,7 @@
         </tr>
       </table>
     </div>
-  
+
     <h2 id="Layout table">Layout table</h2>
     <div class="container inner-shadow">
       <p>
@@ -194,7 +185,7 @@
           and
           <th> tags or scope and header attributes.
       </p>
-  
+
       <table role="presentation">
         <tr>
           <td>
@@ -219,7 +210,7 @@
         </tr>
       </table>
     </div>
-  
+
     <h2 id="Labels">Labels</h2>
     <div class="container inner-shadow">
       <p>
@@ -227,12 +218,12 @@
       </p>
       <label for="input1">First name</label>
       <input id="input1" type="text"></input>
-  
+
       <!-- Where a label is not possible use the placeholder attribute and title attribute -->
       <input type="text" placeholder="Search My Site" title="Search My Site"></input>
     </div>
-  
-  
+
+
     <h2 id="Required fields">Required fields</h2>
     <div class="container inner-shadow">
       <p>
@@ -242,7 +233,7 @@
       <label for="reqInput">A label for the required input *</label>
       <input id="reqInput" type="text" required></input>
     </div>
-  
+
     <h2 id="Textarea">Textarea</h2>
     <div class="container inner-shadow">
       <p>
@@ -257,7 +248,7 @@
         </div>
       </div>
     </div>
-  
+
     <h2 id="Radio buttons">Radio buttons</h2>
     <div class="container inner-shadow">
       <p>
@@ -273,7 +264,7 @@
         <label for="ground">Ground</label>
       </fieldset>
     </div>
-  
+
     </h2 id="Radio buttons with aria-descibed by">Radio buttons with aria-descibed by</h2>
     <div class="container inner-shadow">
       <p>
@@ -287,7 +278,7 @@
       <input id="ground" type="radio" name="shipping" value="ground" aria-describedby="shipping-method">
       <label for="ground">Ground</label>
     </div>
-  
+
     <h2 id="Blockquote">Blockquote</h2>
     <div class="container inner-shadow">
       <blockquote>
@@ -295,7 +286,7 @@
         <br> - Buckaroo Banzai
       </blockquote>
     </div>
-  
+
     <h2 id="Date Fields">Date Fields</h2>
     <div class="container inner-shadow">
       <p>
@@ -304,7 +295,7 @@
       <label for="doa">Date of arrival (dd/mmm/yyyy):</label>
       <input id="doa" type="date"></input>
     </div>
-  
+
     <h2 id="Tooltip">Tooltip</h2>
     <div class="container inner-shadow">
       <p>
@@ -314,19 +305,19 @@
           <li>have the aria-describedby attribute on the element which points to the tooltip container </li>
         </ul>
       </p>
-  
+
       <label for="dob-t">Date of Birth</label>
       <input id="dob-t" type="text" aria-describedby="tooltip-for-dob" onfocus="showTooltip()" onblur="hideTooltip()" />
       <span id="tooltip-for-dob" class="tooltip-for-dob-hide">
-     Should be in the format dd/mm/yyyy 
+     Should be in the format dd/mm/yyyy
   </span>
     </div>
-  
+
     <div id="toolsetc" class="section">
       <h2 id="A collection of handly links">A collection of handly links</h2>
         <div class="container inner-shadow">
       <p>All links open in a new window</p>
-  
+
       <h3>Just general awesome people</h3>
       <ul>
         <li><a target="_blank" href="https://codepen.io/chris-hore/">Follow this guy on Codepen</a>, he's pretty awsome, see the <a target="_blank" href="https://codepen.io/collection/AdbpPx/">Accessibility Sandpit</a> for some awesome samples, did I mention he's awesome? <a href="https://twitter.com/scratch2k">@scratch2k</a></li>
@@ -336,7 +327,7 @@
           <A target="_blank" href="https://www.codepen.io">codepen</A> guy<a target="_blank" href="https://twitter.com/chriscoyier">@chriscoyier</a></li>
         <li><a target="_blank" href="https://codepen.io/quezo/">Alex Vasquez - the guy behind the guy who is behind Codepen</a></li>
       </ul>
-  
+
       <h3>Developer tools, code samples, and scripts</h3>
       <ul>
         <li><a target="_blank" href="https://github.com/patrickfox/a11y_kit"> Accessibility scripts for extending jQuery to allow any element to receive focus, announce any text to a screen reader etc..</a></li>
@@ -349,7 +340,7 @@
         <li><a target="_blank" href="http://files.paciellogroup.com/training/commonsamples/validation_feedback/index.html?useFloats=false&colNumbers=3&useFieldInstructions=true"> Excellent examples of accesssible forms and form errors</a></li>
         <li><a target="_blank" href="https://dojotoolkit.org/">Dojo Toolkit and Dijit, a highly accessible JavaScript toolkit</a></li>
       </ul>
-  
+
       <h3>Accessibility Testing tools</h3>
       <ul>
         <li><a target="_blank" href="https://github.com/squizlabs/HTML_CodeSniffer"> HTML Codesniffer</a></li>
@@ -364,7 +355,7 @@
         <li><a target="_blank" href="http://www.karlgroves.com/2013/09/07/diagnostic-css-super-quick-web-accessibility-testing/">Diagnostic.css, a quick way to expose accessibility issues on any page</a></li>
         <li><a target="_blank" href="http://heydonworks.com/revenge_css_bookmarklet/">Revenge.css - similar to Diagnostic.css</a></li>
       </ul>
-  
+
       <h3>General Accessibility</h3>
       <ul>
         <li><a target="_blank" href="https://www.wuhcag.com/">Wuhcag.com, highly recommend</a> (<a href="https://www.wuhcag.com/wcag/">Luke's book on WCAG 2.0</a>)</li>
@@ -372,7 +363,7 @@
         <li><a target="_blank" href="http://karlgroves-sandbox.com/CheatSheets/ARIA-Cheatsheet.html"> WAI-ARIA cheat sheet</a></li>
         <li><a target="_blank" href="http://www.seamlesscms.com/Insights/Content-Accessibility#textalternative"> 10 Things every dev can do to make their sites more accessible</a></li>
       </ul>
-  
+
       <h3>Style Guides and design methodologies</h3>
       <ul>
         <li><a target="_blank" href="https://smacss.com/">SMACSS</a></li>
@@ -381,7 +372,7 @@
         <li><a target="_blank" href="https://code.facebook.com/accessibility"> Facebook's Accessibility toolkit</a></li>
         <li><a target="_blank" href="http://www.sitepoint.com/bem-smacss-advice-from-developers/">BEM and SMACSS: Advice From Developers Who’ve Been There</a></li>
       </ul>
-  
+
       <h3>Sample design patterns</h3>
       <ul>
         <li><a target="_blank" href="https://maxdesign.com.au/jobs/sample-accessibility/">Accessibility Tests Pattern Library by <a href="https://twitter.com/russmaxdesign">Russ Weakley</a></li>
@@ -391,7 +382,7 @@
         <li><a target="_blank" href="https://www.google.com/design/spec/material-design/introduction.html"> Google material design</a></li>
       </ul>
       </div>
-      
+
     </main>
     <script src="./index.js"></script>
 </body>

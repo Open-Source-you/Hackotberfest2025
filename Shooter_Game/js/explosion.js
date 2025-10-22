@@ -39,7 +39,7 @@ $.Explosion.prototype.render = function( i ) {
 			var angle = $.util.rand( 0, $.twopi ),
 				x = this.x + Math.cos( angle ) * radius,
 				y = this.y + Math.sin( angle ) * radius;
-				
+
 			$.ctxmg.rect( x - size / 2, y - size / 2, size, size );
 		}
 		$.ctxmg.fillStyle = 'hsla(' + this.hue + ', ' + this.saturation + '%, ' + $.util.rand( 50, 100 ) + '%, 1)';

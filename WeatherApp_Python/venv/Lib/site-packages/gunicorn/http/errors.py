@@ -69,7 +69,7 @@ class ObsoleteFolding(ParseException):
         self.hdr = hdr
 
     def __str__(self):
-        return "Obsolete line folding is unacceptable: %r" % (self.hdr, )
+        return "Obsolete line folding is unacceptable: %r" % (self.hdr,)
 
 
 class InvalidHeaderName(ParseException):

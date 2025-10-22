@@ -2,10 +2,7 @@ import typing as t
 
 from .filters import FILTERS as DEFAULT_FILTERS  # noqa: F401
 from .tests import TESTS as DEFAULT_TESTS  # noqa: F401
-from .utils import Cycler
-from .utils import generate_lorem_ipsum
-from .utils import Joiner
-from .utils import Namespace
+from .utils import Cycler, Joiner, Namespace, generate_lorem_ipsum
 
 if t.TYPE_CHECKING:
     import typing_extensions as te

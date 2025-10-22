@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astro-Bot's Leap</title>
+    <!-- Load Tailwind CSS CDN for utility classes -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Tone.js for sound effects -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script>
+    <!-- Load Orbitron font for arcade look -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+    </style>
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Orbitron', 'sans-serif'],
+                    },
+                    colors: {
+                        'space-dark': '#0f172a', /* slate-900 */
+                        'jumper-glow': '#38bdf8', /* sky-400 */
+                        'star-light': '#fef3c7', /* amber-100 */
+                        'platform-base': '#10b981', /* emerald-500 */
+                        'player-color': '#fcd34d', /* amber-300 */
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Custom Game CSS -->
+    <style>
+        /* Base styles for the "Astro-Bot" theme */
+        body {
+            background-color: #0f172a;
+            color: #fef3c7;
+            font-family: 'Orbitron', sans-serif;
+            user-select: none;
+            touch-action: manipulation;
+        }
+
+        /* Canvas for the game drawing */
+        #game-canvas {
+            display: block;
+            background-color: #1e293b; /* Darker slate */
+            border: 3px solid #38bdf8;
+            box-shadow: 0 0 30px rgba(56, 189, 248, 0.5); /* Glowing border */
+            width: 95%;
+            max-width: 500px;
+            height: 60vh;
+            min-height: 400px;
+            margin: 1rem auto;
+            cursor: pointer; /* Indicates interaction */
+        }
+
+        /* Button styling */
+        .game-button {
+            font-size: 1.25rem;
+            padding: 0.75rem 2rem;
+            cursor: pointer;
+            border: 2px solid #38bdf8;
+            background: #1f2937;
+            color: #38bdf8;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4);
+            transition: all 0.15s ease-in-out;
+        }
+
+        .game-button:hover:not(:disabled) {
+            background: #38bdf8;
+            color: #0f172a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.6);
+        }
+
+        .game-button:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .game-button:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body class="p-4 flex flex-col items-center justify-center min-h-screen">
+
+    <div class="w-full max-w-4xl flex flex-col items-center">
+        <h1 class="text-4xl sm:text-5xl font-bold mb-4 text-jumper-glow tracking-wider text-shadow-xl">
+            🤖 ASTRO-BOT'S LEAP 🌌
+        </h1>
+
+        <!-- Score Display -->
+        <div class="w-full max-w-[500px] flex justify-around text-xl sm:text-2xl font-mono p-4 rounded-lg bg-gray-800 border-2 border-gray-700 shadow-lg mb-4">
+            <span>HIGH SCORE: <span id="high-score-display" class="text-yellow-400">0</span></span>
+            <span>SCORE: <span id="score-display" class="text-jumper-glow">0</span></span>
+        </div>
+
+        <!-- Game Canvas Area -->
+        <canvas id="game-canvas"></canvas>
+
+        <!-- Controls -->
+        <div class="flex space-x-4 mt-6">
+            <button id="start-button" class="game-button rounded-full">
+                Start Jump
+            </button>
+            <button id="stop-button" class="game-button rounded-full hidden bg-red-800 border-red-500 text-red-300 hover:bg-red-500 hover:text-white" disabled>
+                Stop Game
+            </button>
+        </div>
+
+          <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astro-Bot's Leap</title>
+    <!-- Load Tailwind CSS CDN for utility classes -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Tone.js for sound effects -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script>
+    <!-- Load Orbitron font for arcade look -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+    </style>
+
+        <!-- Game Over / Start Message Modal -->
+        <div id="message-modal" class="hidden fixed inset-0 bg-space-dark bg-opacity-90 z-20 items-center justify-center" onclick="hideMessage()">
+            <div class="bg-gray-800 p-8 rounded-xl shadow-2xl border-4 border-jumper-glow max-w-md w-full mx-4" onclick="event.stopPropagation()">
+                <h2 id="modal-title" class="text-3xl font-bold mb-4 text-jumper-glow">Welcome, Astro-Bot!</h2>
+                <p id="modal-message" class="text-star-light mb-6 text-lg">Click or tap the screen to jump onto the moving platforms. Don't fall to the bottom! Use the mouse/touch to control your jump.</p>
+
+                <button class="game-button rounded-lg w-full" onclick="hideMessage()">Understood</button>
+            </div>
+        </div>
+
+        <!-- Signature/Credit -->
+        <p class="text-xs text-gray-500 mt-6 tracking-widest uppercase">
+            Code Signature: abhijat sarari
+        </p>
+    </div>
+
+    <!-- JavaScript Game Logic -->
+    <script>
+        // Global Game Variables
+        const canvas = document.getElementById('game-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let highscore = 0;
+        let score = 0;
+        let isGameRunning = false;
+        let animationFrameId;
+
+        // Game Constants
+        const GRAVITY = 0.5;
+        const JUMP_FORCE = -10;
+        const PLATFORM_HEIGHT = 10;
+        const PLATFORM_WIDTH_MIN = 70;
+        const PLATFORM_WIDTH_MAX = 100;
+        const PLATFORM_SPAWN_GAP = 70;
+        const PLATFORM_COUNT = 10;
+        const CAM_SPEED_MULTIPLIER = 0.8; // How quickly the screen scrolls when bot is high
+
+        // Player (Astro-Bot) object
+        const player = {
+            x: 0,
+            y: 0,
+            width: 20,
+            height: 20,
+            vy: 0, // Vertical velocity
+            color: '#fcd34d',
+            isJumping: false,
+        };
+
+        // Platform array
+        let platforms = [];
+        let cameraY = 0; // Vertical scroll offset
+
+        // --- Tone.js Setup for simple arcade sounds ---
+        let jumpSynth, gameOverSynth;
+
+        function initAudio() {
+            try {
+                if (!jumpSynth) {
+                    Tone.start();
+                    // Synth for the jump sound
+                    jumpSynth = new Tone.PolySynth(Tone.Synth).toDestination();
+                    jumpSynth.set({
+                        oscillator: { type: "triangle" },
+                        envelope: { attack: 0.005, decay: 0.1, sustain: 0, release: 0.1 }
+                    });
+
+                    // Synth for game over
+                    gameOverSynth = new Tone.NoiseSynth({
+                        noise: { type: 'brown' },
+                        envelope: { attack: 0.01, decay: 0.4, sustain: 0, release: 0.2 }
+                    }).toDestination();
+                }
+            } catch (e) {
+                console.error("Tone.js failed to initialize:", e);
+            }
+        }
+
+        // Sound functions
+        function playJumpSound() {
+            if (jumpSynth) {
+                jumpSynth.triggerAttackRelease(["C5", "E5"], "16n");
+            }
+        }
+
+        function playGameOverSound() {
+            if (gameOverSynth) {
+                gameOverSynth.triggerAttackRelease("4n");
+            }
+        }
+
+        // --- Game Setup and Drawing ---
+
+        function resizeCanvas() {
+            const container = canvas.parentElement;
+            canvas.width = container.clientWidth > 500 ? 500 : container.clientWidth * 0.95;
+            canvas.height = 0.6 * window.innerHeight;
+            if (canvas.height < 400) canvas.height = 400; // Minimum height
+        }
+
+        /** Draws the player (Astro-Bot) as a square */
+        function drawPlayer() {
+            ctx.fillStyle = player.color;
+            ctx.fillRect(player.x, player.y - cameraY, player.width, player.height);
+
+            // Draw a little antenna on top
+            ctx.fillStyle = '#60a5fa'; // Blue
+            ctx.fillRect(player.x + player.width / 2 - 2, player.y - 10 - cameraY, 4, 10);
+        }
+
+        /** Draws all platforms */
+        function drawPlatforms() {
+            ctx.fillStyle = '#10b981'; // Emerald Green
+            platforms.forEach(p => {
+                ctx.fillRect(p.x, p.y - cameraY, p.width, p.height);
+            });
+        }
+
+        /** Draws the background stars */
+        function drawStars() {
+            ctx.fillStyle = '#fef3c7'; // Star Light
+            // Simple static stars
+            for(let i = 0; i < 50; i++) {
+                const x = Math.random() * canvas.width;
+                // Use cameraY to make stars scroll slowly, giving depth
+                const y = (Math.random() * canvas.height * 2 - cameraY * 0.1) % canvas.height;
+                ctx.fillRect(x, y, 1, 1);
+            }
+        }
+
+        /** Renders all game elements */
+        function drawGame() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#1e293b';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            drawStars();
+            drawPlatforms();
+            drawPlayer();
+        }
+
+        // --- Game Logic ---
+
+        /** Creates a new platform object */
+        function createPlatform(y, speed) {
+            return {
+                x: Math.random() * (canvas.width - PLATFORM_WIDTH_MAX),
+                y: y,
+                width: Math.random() * (PLATFORM_WIDTH_MAX - PLATFORM_WIDTH_MIN) + PLATFORM_WIDTH_MIN,
+                height: PLATFORM_HEIGHT,
+                vx: speed * (Math.random() < 0.5 ? 1 : -1) // Random horizontal movement
+            };
+        }
+
+        /** Initializes the platforms for the start of the game */
+        function initPlatforms() {
+            platforms = [];
+            // Create the starting platform at the bottom
+            platforms.push({ x: canvas.width / 2 - 50, y: canvas.height - 30, width: 100, height: PLATFORM_HEIGHT, vx: 0 });
+
+            // Generate initial platforms above the start platform
+            for (let i = 1; i < PLATFORM_COUNT; i++) {
+                const y = canvas.height - 30 - (i * PLATFORM_SPAWN_GAP) - (Math.random() * PLATFORM_SPAWN_GAP / 2);
+                platforms.push(createPlatform(y, 0.5)); // Start with slow movement
+            }
+        }
+
+        /** Updates all platforms' positions and handles recycling */
+        function updatePlatforms() {
+            // Check if player is above the halfway point of the screen
+            if (player.y - cameraY < canvas.height / 2) {
+                // If the player is high, the camera moves down (simulating world moving up)
+                const cameraShift = (-player.vy) * CAM_SPEED_MULTIPLIER;
+                cameraY -= cameraShift;
+                score += cameraShift; // Score increases with height
+            }
+
+            // Move platforms horizontally and check for recycling
+            platforms.forEach(p => {
+                // Horizontal movement
+                p.x += p.vx;
+                if (p.x < 0 || p.x + p.width > canvas.width) {
+                    p.vx *= -1; // Reverse direction on hitting screen edge
+                }
+
+                // Recycle platforms that are off-screen below the camera
+                if (p.y - cameraY > canvas.height + 50) {
+                    // Find the highest platform currently on screen
+                    const highestY = platforms.reduce((maxY, plat) => Math.min(maxY, plat.y), canvas.height);
+
+                    // Reposition platform far above the highest one
+                    p.y = highestY - PLATFORM_SPAWN_GAP - (Math.random() * PLATFORM_SPAWN_GAP / 2);
+
+                    // Increase speed slightly with score
+                    let newSpeed = Math.min(3, 0.5 + score / 3000);
+
+                    // Randomize width and direction
+                    p.width = Math.random() * (PLATFORM_WIDTH_MAX - PLATFORM_WIDTH_MIN) + PLATFORM_WIDTH_MIN;
+                    p.x = Math.random() * (canvas.width - p.width);
+                    p.vx = newSpeed * (Math.random() < 0.5 ? 1 : -1);
+                }
+            });
+        }
+
+        /** Updates the player's position, velocity, and handles platform collision */
+        function updatePlayer() {
+            // Apply gravity
+            player.vy += GRAVITY;
+            player.y += player.vy;
+
+            // Check horizontal bounds (wrap around the screen)
+            if (player.x + player.width < 0) {
+                player.x = canvas.width - 1;
+            } else if (player.x > canvas.width) {
+                player.x = 1 - player.width;
+            }
+
+            // Check for game over (falling below the bottom of the screen)
+            if (player.y - cameraY > canvas.height) {
+                playGameOverSound();
+                endGame("MISSION FAILED!", `Astro-Bot fell! You reached a height of ${Math.floor(score)}. Try again!`);
+                return;
+            }
+
+            // Platform collision detection
+            platforms.forEach(p => {
+                // Check if player is falling and is in the vertical range of the platform
+                if (player.vy > 0 &&
+                    player.x < p.x + p.width &&
+                    player.x + player.width > p.x &&
+                    player.y + player.height > p.y &&
+                    player.y + player.height < p.y + p.height) {
+
+                    // Collision detected, snap player to platform top and bounce
+                    player.y = p.y - player.height;
+                    player.vy = JUMP_FORCE;
+                    playJumpSound();
+                }
+            });
+        }
+
+        /** Main game loop */
+        function gameLoop() {
+            if (!isGameRunning) return;
+
+            // 1. Update positions and check collisions
+            updatePlayer();
+            updatePlatforms();
+
+            // 2. Draw the new state
+            drawGame();
+
+            // 3. Update score display
+            updateScoreDisplay();
+
+            // 4. Request next frame
+            animationFrameId = requestAnimationFrame(gameLoop);
+        }
+
+        // --- Input Handling ---
+
+        function handleJumpInput(event) {
+            if (!isGameRunning) return;
+            // The bot automatically jumps upon collision (simulating an auto-jumper),
+            // but we can add a horizontal move on click if desired.
+
+            // For simplicity, let's make a click anywhere on the canvas trigger a horizontal move/nudge
+            const clickX = event.clientX - canvas.getBoundingClientRect().left;
+
+            // Nudge the bot towards the click location if far away
+            if (Math.abs(clickX - (player.x + player.width / 2)) > 50) {
+                player.x += (clickX > player.x + player.width / 2 ? 10 : -10);
+            }
+        }
+
+
+        // --- UI and Flow ---
+
+        function updateScoreDisplay() {
+            document.getElementById('score-display').textContent = Math.floor(score);
+            highscore = Math.max(highscore, Math.floor(score));
+            document.getElementById('high-score-display').textContent = highscore;
+        }
+
+        function showMessage(title, message) {
+            const modal = document.getElementById('message-modal');
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-message').textContent = message;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function hideMessage() {
+            const modal = document.getElementById('message-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function endGame(title, message) {
+            if (!isGameRunning) return;
+
+            isGameRunning = false;
+            cancelAnimationFrame(animationFrameId);
+
+            showMessage(title, message);
+
+            // Update Start/Stop buttons
+            document.getElementById('start-button').textContent = "Restart Jump";
+            document.getElementById('start-button').disabled = false;
+            document.getElementById('stop-button').classList.add('hidden');
+            document.getElementById('stop-button').disabled = true;
+        }
+
+        function startGame() {
+            // Initialize audio on first click interaction
+            initAudio();
+
+            // Reset state
+            score = 0;
+            cameraY = 0;
+            isGameRunning = true;
+
+            // Reset player position to start platform
+            player.x = canvas.width / 2 - player.width / 2;
+            player.y = canvas.height - 30 - player.height;
+            player.vy = 0;
+
+            initPlatforms();
+            updateScoreDisplay();
+            hideMessage();
+
+            // Update Start/Stop buttons
+            document.getElementById('start-button').disabled = true;
+            document.getElementById('start-button').textContent = "JUMPING...";
+            document.getElementById('stop-button').classList.remove('hidden');
+            document.getElementById('stop-button').disabled = false;
+
+            // Start the main loop
+            gameLoop();
+        }
+
+        // --- Event Listeners and Initial Setup ---
+
+        window.onload = function() {
+            resizeCanvas();
+
+            // Event listeners
+            document.getElementById('start-button').addEventListener('click', startGame);
+            document.getElementById('stop-button').addEventListener('click', () => endGame("MISSION ABORTED", `You manually aborted the mission. Final Score: ${Math.floor(score)}`));
+
+            // Canvas interaction for nudging the bot
+            canvas.addEventListener('click', handleJumpInput);
+            canvas.addEventListener('touchstart', (e) => { e.preventDefault(); handleJumpInput(e.touches[0]); });
+
+            window.addEventListener('resize', resizeCanvas); // Make canvas responsive
+
+            // Draw initial state and show welcome message
+            initPlatforms();
+            drawGame();
+            updateScoreDisplay();
+            showMessage("Welcome, Astro-Bot!", "Click or tap the screen to jump onto the moving platforms. Don't fall to the bottom! Use the mouse/touch to control your jump.");
+        };
+    </script>
+</body>
+</html>

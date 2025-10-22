@@ -6,26 +6,22 @@ import re
 import typing
 import typing as t
 from collections import abc
-from itertools import chain
-from itertools import groupby
+from itertools import chain, groupby
 
-from markupsafe import escape
-from markupsafe import Markup
-from markupsafe import soft_str
+from markupsafe import Markup, escape, soft_str
 
-from .async_utils import async_variant
-from .async_utils import auto_aiter
-from .async_utils import auto_await
-from .async_utils import auto_to_list
+from .async_utils import async_variant, auto_aiter, auto_await, auto_to_list
 from .exceptions import FilterArgumentError
 from .runtime import Undefined
-from .utils import htmlsafe_json_dumps
-from .utils import pass_context
-from .utils import pass_environment
-from .utils import pass_eval_context
-from .utils import pformat
-from .utils import url_quote
-from .utils import urlize
+from .utils import (
+    htmlsafe_json_dumps,
+    pass_context,
+    pass_environment,
+    pass_eval_context,
+    pformat,
+    url_quote,
+    urlize,
+)
 
 if t.TYPE_CHECKING:
     import typing_extensions as te

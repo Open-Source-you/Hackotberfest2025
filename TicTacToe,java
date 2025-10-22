@@ -12,24 +12,13 @@ public class TicTacToe implements ActionListener
 		JLabel label;
 
 		JButton btns[]=new JButton[9];
-		
+
 		boolean xturn;
 
 		TicTacToe(){
 			icon=new ImageIcon("Icon.png");
 
-			Font btn=new Font("Arial",Font.BOLD,50);
 
-			frame=new JFrame("Tic Tac Toe");
-			frame.setSize(270,360);
-			frame.setLocation(550,250);
-			frame.setLayout(null);
-			frame.setBackground(Color.WHITE);
-			frame.setIconImage(icon.getImage());
-			frame.setResizable(false);
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-			font=new Font("Courgette",Font.BOLD,50);
 
 			Container c=frame.getContentPane();
 			c.setBackground(Color.BLACK);
@@ -91,10 +80,10 @@ public class TicTacToe implements ActionListener
 			}
 		}
 	}
-}	
-	public void firstTurn() 
+}
+	public void firstTurn()
 	{
-		for (int i=1;i<=9;i++) 
+		for (int i=1;i<=9;i++)
 		{
 			if(i%2==1)
 			{
@@ -114,6 +103,49 @@ public class TicTacToe implements ActionListener
 		   (btns[1].getText()=="X")&&
 		   (btns[2].getText()=="X")){
 			xwins(0,1,2);
+label=new JLabel();
+			label.setSize(250,85);
+			label.setLocation(10,10);
+			label.setHorizontalAlignment(JLabel.CENTER);
+			label.setFont(font);
+			frame.add(label);
+
+			for (int i=0;i<9;i++) {
+			btns[i]=new JButton();
+			btns[i].setSize(75,75);
+			btns[i].setBackground(Color.GREEN);
+			btns[i].setFont(btn);
+			btns[i].setFocusable(false);
+			btns[i].addActionListener(this);
+			frame.add(btns[i]);label=new JLabel();
+			label.setSize(250,85);
+			label.setLocation(10,10);
+			label.setHorizontalAlignment(JLabel.CENTER);
+			label.setFont(font);
+			frame.add(label);
+
+			for (int i=0;i<9;i++) {
+			btns[i]=new JButton();
+			btns[i].setSize(75,75);
+			btns[i].setBackground(Color.GREEN);
+			btns[i].setFont(btn);
+			btns[i].setFocusable(false);
+			btns[i].addActionListener(this);
+			frame.add(btns[i]);label=new JLabel();
+			label.setSize(250,85);
+			label.setLocation(10,10);
+			label.setHorizontalAlignment(JLabel.CENTER);
+			label.setFont(font);
+			frame.add(label);
+
+			for (int i=0;i<9;i++) {
+			btns[i]=new JButton();
+			btns[i].setSize(75,75);
+			btns[i].setBackground(Color.GREEN);
+			btns[i].setFont(btn);
+			btns[i].setFocusable(false);
+			btns[i].addActionListener(this);
+			frame.add(btns[i]);
 		}
 		if((btns[3].getText()=="X")&&
 		   (btns[4].getText()=="X")&&
@@ -210,5 +242,5 @@ public class TicTacToe implements ActionListener
 		for (int i=0;i<9;i++) {
 			btns[i].setEnabled(false);
 		}
-	}	
-}	
+	}
+}

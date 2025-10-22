@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Fitness App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* CSS Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 100;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Updated Header Styles */
+        header {
+            position: relative;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?fit=crop&w=1600&h=900') no-repeat center center/cover;
+            color: white;
+            padding: 120px 20px;
+            text-align: center;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 2s ease-in-out;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+            z-index: -1;
+            transform: translateZ(0);
+        }
+
+        header h1 {
+            font-size: 4em;
+            font-weight: 700;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            animation: slideInFromTop 1s ease-out;
+        }
+
+        header p {
+            font-size: 1.8em;
+            margin-top: 15px;
+            max-width: 600px;
+            animation: typing 3s steps(40) forwards;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        header img.hero-icon {
+            width: 80px;
+            margin-top: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        /* Particle Animation */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        /* Parallax Effect */
+        header.parallax {
+            background-attachment: fixed;
+        }
+
+        /* Navbar Styles */
+        nav {
+            background-color: #1a252f;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul li {
+            margin: 0 10px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            display: block;
+            font-size: 1.1em;
+            transition: background 0.3s, transform 0.3s, color 0.3s;
+        }
+
+        nav ul li a:hover, nav ul li a.active {
+            background: #3498db;
+            border-radius: 5px;
+            transform: translateY(-2px);
+            color: #fff;
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 1.8em;
+            color: white;
+            cursor: pointer;
+            padding: 15px;
+            transition: transform 0.3s;
+        }
+
+        .hamburger:hover {
+            transform: scale(1.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .section {
+            min-height: 300px;
+            margin-bottom: 60px;
+            padding: 30px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+        }
+
+        h2 {
+            color: #2980b9;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            width: 60px;
+            height: 4px;
+            background: #2980b9;
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+        }
+
+        #workout-form {
+            display: flex;
+            flex-direction: column;
+            max-width: 500px;
+            margin-bottom: 20px;
+        }
+
+        #workout-form input {
+            margin-bottom: 15px;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: border 0.3s;
+        }
+
+        #workout-form input:focus {
+            border-color: #2980b9;
+            outline: none;
+        }
+
+        #workout-form button {
+            padding: 12px;
+            font-size: 16px;
+            background: linear-gradient(45deg, #2980b9, #3498db);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        #workout-form button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(41,128,185,0.3);
+        }
+
+        #workout-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        #workout-list li {
+            background: #fff;
+            margin-bottom: 15px;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        #workout-list li:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        #workout-list li i {
+            margin-right: 10px;
+            color: #2980b9;
+        }
+
+        #workout-list button {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        #workout-list button:hover {
+            background: #c0392b;
+        }
+
+        #get-tip-btn {
+            padding: 12px 20px;
+            font-size: 16px;
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-bottom: 20px;
+        }
+
+        #get-tip-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(39,174,96,0.3);
+        }
+
+        #random-tip {
+            font-style: italic;
+            color: #555;
+            padding: 15px;
+            background: #e8f4fd;
+            border-left: 5px solid #2980b9;
+            border-radius: 5px;
+            animation: fadeIn 0.5s ease-in;
+            min-height: 50px;
+        }
+
+        #all-tips li {
+            margin-bottom: 10px;
+            padding: 12px;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        #all-tips li i {
+            margin-right: 10px;
+            color: #27ae60;
+        }
+
+        #tracker img {
+            width: 100%;
+            border-radius: 10px;
+            margin-top: 20px;
+            max-height: 400px;
+            object-fit: cover;
+        }
+
+        #tracker .fallback-message {
+            color: #e74c3c;
+            font-style: italic;
+            margin: 10px 0;
+            display: none;
+        }
+
+        #recent-workouts {
+            margin-top: 20px;
+            list-style: none;
+            padding: 0;
+        }
+
+        #recent-workouts li {
+            background: #fff;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        footer {
+            background: #1a252f;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInFromTop {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                padding: 80px 20px;
+                min-height: 400px;
+            }
+
+            header h1 {
+                font-size: 2.5em;
+            }
+
+            header p {
+                font-size: 1.4em;
+            }
+
+            header img.hero-icon {
+                width: 60px;
+            }
+
+            nav ul {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background: #1a252f;
+                position: absolute;
+                top: 60px;
+                left: 0;
+            }
+
+            nav ul.active {
+                display: flex;
+            }
+
+            nav ul li {
+                margin: 0;
+                width: 100%;
+            }
+
+            nav ul li a {
+                padding: 15px;
+                text-align: center;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .container {
+                margin: 20px;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="parallax">
+        <div id="particles-js"></div>
+        <h1>Gym Fitness App</h1>
+        <p>Your ultimate companion for fitness</p>
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/dumbbell.png" alt="Dumbbell Icon" class="hero-icon">
+    </header>
+
+    <nav>
+        <div class="nav-container">
+            <div class="hamburger"><i class="fas fa-bars"></i></div>
+            <ul>
+                <li><a href="#workouts" class="nav-link active"><i class="fas fa-dumbbell"></i> Workouts</a></li>
+                <li><a href="#tips" class="nav-link"><i class="fas fa-lightbulb"></i> Tips</a></li>
+                <li><a href="#tracker" class="nav-link"><i class="fas fa-chart-line"></i> Tracker</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div id="workouts" class="section">
+            <h2>Daily Workouts</h2>
+            <p>Add and track your workouts with ease. Stay consistent!</p>
+            <form id="workout-form">
+                <input type="text" id="workout-name" placeholder="Enter workout name (e.g., Push-ups)" required>
+                <input type="number" id="workout-reps" placeholder="Enter reps" min="1" required>
+                <button type="submit">Add Workout</button>
+            </form>
+            <ul id="workout-list"></ul>
+        </div>
+
+        <div id="tips" class="section">
+            <h2>Workout Tips</h2>
+            <p>Get inspired with random tips or browse all for more ideas.</p>
+            <button id="get-tip-btn">Get Random Tip</button>
+            <div id="random-tip" role="alert"></div>
+            <div id="tips-container">
+                <h3>All Tips</h3>
+                <ul id="all-tips"></ul>
+            </div>
+        </div>
+
+        <div id="tracker" class="section">
+            <h2>Progress Tracker</h2>
+            <p>Monitor your journey. Your recent workouts are displayed below.</p>
+            <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?fit=crop&w=800&h=400" alt="Progress Chart"
+                 onerror="this.src='https://via.placeholder.com/800x400?text=Progress+Tracker+Image'; this.nextElementSibling.style.display='block';">
+            <div class="fallback-message">Image failed to load. Please check your connection.</div>
+            <h3>Recent Workouts</h3>
+            <ul id="recent-workouts"></ul>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Gym Fitness App. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        // Particles.js Configuration
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: '#ffffff' },
+                shape: { type: 'circle', stroke: { width: 0, color: '#000000' } },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: { enable: true, distance: 150, color: '#ffffff', opacity: 0.4, width: 1 },
+                move: { enable: true, speed: 2, direction: 'none', random: false, straight: false, out_mode: 'out', bounce: false }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' }, resize: true },
+                modes: { repulse: { distance: 100, duration: 0.4 }, push: { particles_nb: 4 } }
+            },
+            retina_detect: true
+        });
+
+        // Navbar Toggle for Mobile
+        const hamburger = document.querySelector('.hamburger');
+        const navUl = document.querySelector('nav ul');
+        hamburger.addEventListener('click', () => {
+            navUl.classList.toggle('active');
+        });
+
+        // Smooth Scrolling and Active Link
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                const targetId = link.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+                if (window.innerWidth <= 768) {
+                    navUl.classList.remove('active');
+                }
+            });
+        });
+
+        // Workout Tracker
+        const workoutForm = document.getElementById('workout-form');
+        const workoutList = document.getElementById('workout-list');
+        const recentWorkoutsList = document.getElementById('recent-workouts');
+        let workouts = JSON.parse(localStorage.getItem('workouts')) || [];
+
+        function renderWorkouts() {
+            workoutList.innerHTML = '';
+            recentWorkoutsList.innerHTML = '';
+            workouts.forEach((workout, index) => {
+                // Render in Daily Workouts
+                const workoutLi = document.createElement('li');
+                workoutLi.innerHTML = `<i class="fas fa-dumbbell"></i> ${workout.name} - ${workout.reps} reps
+                    <button onclick="removeWorkout(${index})">Remove</button>`;
+                workoutList.appendChild(workoutLi);
+
+                // Render in Progress Tracker (last 5 workouts)
+                if (index >= Math.max(0, workouts.length - 5)) {
+                    const recentLi = document.createElement('li');
+                    recentLi.innerHTML = `<i class="fas fa-check-circle"></i> ${workout.name} - ${workout.reps} reps`;
+                    recentWorkoutsList.appendChild(recentLi);
+                }
+            });
+        }
+
+        workoutForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const nameInput = document.getElementById('workout-name');
+            const repsInput = document.getElementById('workout-reps');
+            const name = nameInput.value.trim();
+            const reps = parseInt(repsInput.value);
+
+            if (name === '' || isNaN(reps) || reps <= 0) {
+                alert('Please enter a valid workout name and number of reps.');
+                return;
+            }
+
+            workouts.push({ name, reps });
+            localStorage.setItem('workouts', JSON.stringify(workouts));
+            renderWorkouts();
+            workoutForm.reset();
+        });
+
+        window.removeWorkout = function(index) {
+            workouts.splice(index, 1);
+            localStorage.setItem('workouts', JSON.stringify(workouts));
+            renderWorkouts();
+        };
+
+        // Initial render
+        renderWorkouts();
+
+        // Workout Tips
+        const tips = [
+            "Stay hydrated during your workouts to maintain performance.",
+            "Focus on proper form to avoid injuries.",
+            "Incorporate rest days into your routine for recovery.",
+            "Eat a balanced diet with protein for muscle repair.",
+            "Warm up before exercising to prepare your body.",
+            "Track your progress to stay motivated.",
+            "Mix cardio and strength training for best results.",
+            "Get enough sleep to support muscle growth.",
+            "Use progressive overload to build strength over time.",
+            "Listen to your body and avoid overtraining."
+        ];
+
+        const getTipBtn = document.getElementById('get-tip-btn');
+        const randomTip = document.getElementById('random-tip');
+        const allTipsList = document.getElementById('all-tips');
+
+        tips.forEach(tip => {
+            const li = document.createElement('li');
+            li.innerHTML = `<i class="fas fa-check-circle"></i> ${tip}`;
+            allTipsList.appendChild(li);
+        });
+
+        getTipBtn.addEventListener('click', () => {
+            const randomIndex = Math.floor(Math.random() * tips.length);
+            randomTip.textContent = tips[randomIndex];
+        });
+    </script>
+</body>
+</html>

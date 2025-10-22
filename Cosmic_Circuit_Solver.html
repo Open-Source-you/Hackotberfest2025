@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Circuit Solver</title>
+    <!-- Load Tailwind CSS CDN for utility classes -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Tone.js for sound effects -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script>
+    <!-- Load Orbitron font for arcade look -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+    </style>
+    <!-- Tailwind Configuration -->
+    <script>ididjdid
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Orbitron', 'sans-serif'],
+                    },
+                    colors: {
+                        'space-dark': '#0f172a', /* slate-900 */
+                        'circuit-glow': '#a7f3d0', /* emerald-200 */
+                        'star-light': '#fef3c7', /* amber-100 */
+                        'node-base': '#1e293b', /* slate-800 */
+                        'node-active': '#10b981', /* emerald-500 */
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Custom Game CSS -->
+    <style>
+        /* Base styles for the "Circuit Solver" theme */
+        body {
+            background-color: #0f172a;
+            color: #fef3c7;
+            font-family: 'Orbitron', sans-serif;
+            user-select: none;
+            touch-action: manipulation;
+        }
+
+        /* Game Board specific styling for the 3x3 grid container */
+        #circuit-board {
+            background: radial-gradient(circle at center, rgba(15, 23, 42, 0.9) 50%, rgba(0, 0, 0, 0.7) 100%);
+            box-shadow: 0 0 30px rgba(167, 243, 208, 0.7); /* Glowing border */
+            border: 3px solid #a7f3d0;
+            position: relative;
+            /* Ensure the grid is centered and square, max 500px wide */
+            width: min(90vw, 450px);
+            height: min(90vw, 450px);
+            margin: 1rem auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 10px; /* Grid spacing */
+            padding: 10px;
+        }
+
+        /* Individual circuit node styling */
+        .circuit-node {
+            background-color: #1e293b; /* Dark slate base */
+            border: 2px solid #a7f3d0;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #a7f3d0;
+            cursor: pointer;
+            transition: background-color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 0 5px rgba(167, 243, 208, 0.3);
+            pointer-events: none; /* Disabled until clicking phase starts */
+        }
+
+        /* Node flashing/active state */
+        .node-flash {
+            background-color: #10b981; /* Emerald active color */
+            box-shadow: 0 0 30px #10b981;
+            transform: scale(1.05);
+        }
+
+        /* Error state */
+        .node-error {
+            background-color: #ef4444; /* Red error color */
+            box-shadow: 0 0 30px #ef4444;
+            animation: shake 0.3s ease-in-out;
+        }
+
+        @keyframes shake {
+            0% { transform: translate(1px); }
+            50% { transform: translate(-1px); }
+            100% { transform: translate(1px); }
+        }
+
+        /* Button styling */
+        .game-button {
+            font-size: 1.25rem;
+            padding: 0.75rem 2rem;
+            cursor: pointer;
+            border: 2px solid #a7f3d0;
+            background: #1f2937;
+            color: #a7f3d0;
+            box-shadow: 0 4px 15px rgba(167, 243, 208, 0.4);
+            transition: all 0.15s ease-in-out;
+        }
+
+        .game-button:hover:not(:disabled) {
+            background: #a7f3d0;
+            color: #0f172a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(167, 243, 208, 0.6);
+        }
+
+        .game-button:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .game-button:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body class="p-4 flex flex-col items-center justify-center min-h-screen">
+
+    <div class="w-full max-w-4xl flex flex-col items-center">
+        <h1 class="text-4xl sm:text-5xl font-bold mb-4 text-circuit-glow tracking-wider text-shadow-xl">
+            🧠 COSMIC CIRCUIT SOLVER ⚡
+        </h1>
+
+        <!-- Level Display -->
+        <div class="w-full max-w-[450px] flex justify-around text-xl sm:text-2xl font-mono p-4 rounded-lg bg-gray-800 border-2 border-gray-700 shadow-lg mb-4">
+            <span>LEVEL: <span id="level-display" class="text-node-active">0</span></span>
+        </div>
+
+        <!-- Game Board Area (3x3 grid) -->
+        <div id="circuit-board" class="rounded-xl mx-auto">
+            <!-- Nodes injected by JS -->
+        </div>
+
+        <!-- Controls -->
+        <div class="flex space-x-4 mt-6">
+            <button id="start-button" class="game-button rounded-full">
+                Start Sequence
+            </button>
+            <button id="stop-button" class="game-button rounded-full hidden bg-red-800 border-red-500 text-red-300 hover:bg-red-500 hover:text-white" disabled>
+                Stop Game
+            </button>
+        </div>
+
+        <!-- Game Over / Start Message Modal -->
+        <div id="message-modal" class="hidden fixed inset-0 bg-space-dark bg-opacity-90 z-20 items-center justify-center" onclick="hideMessage()">
+            <div class="bg-gray-800 p-8 rounded-xl shadow-2xl border-4 border-circuit-glow max-w-md w-full mx-4" onclick="event.stopPropagation()">
+                <h2 id="modal-title" class="text-3xl font-bold mb-4 text-circuit-glow">System Check</h2>
+                <p id="modal-message" class="text-star-light mb-6 text-lg">Watch the nodes light up and listen to their tones. Then, click the nodes in the exact same order. The sequence gets longer every round!</p>
+
+                <button class="game-button rounded-lg w-full" onclick="hideMessage()">Initialize</button>
+            </div>
+        </div>
+
+        <!-- Signature/Credit -->
+        <p class="text-xs text-gray-500 mt-6 tracking-widest uppercase">
+            Code Signature: abhijat sarari
+        </p>
+    </div>
+
+    <!-- JavaScript Game Logic -->
+    <script>
+        // Global state variables
+        const GRID_SIZE = 3;
+        const TOTAL_CELLS = GRID_SIZE * GRID_SIZE;
+        const NODE_TONES = ["C4", "E4", "G4", "C5", "E5", "G5", "A5", "C6", "E6"]; // 9 distinct tones
+
+        let currentLevel = 0;
+        let sequence = []; // Stores the indices (0-8) of the sequence
+        let playerSequenceIndex = 0; // Tracks the current step the player needs to click
+        let isGameRunning = false;
+        let isPlayerTurn = false;
+
+        // Timing constants (in milliseconds)
+        const FLASH_DURATION = 350;
+        const PAUSE_DURATION = 150;
+        const START_DELAY = 1000;
+
+        // --- Tone.js Setup for simple arcade sounds ---
+        let nodeSynth, errorSynth;
+
+        function initAudio() {
+            try {
+                if (!nodeSynth) {
+                    Tone.start();
+                    // PolySynth for the nodes, allowing multiple notes to play (e.g., if tones overlap slightly)
+                    nodeSynth = new Tone.PolySynth(Tone.Synth, {
+                        oscillator: { type: "square" },
+                        envelope: { attack: 0.01, decay: 0.1, sustain: 0, release: 0.1 }
+                    }).toDestination();
+
+                    // Synth for error
+                    errorSynth = new Tone.NoiseSynth({
+                        noise: { type: 'white' },
+                        envelope: { attack: 0.005, decay: 0.2, sustain: 0, release: 0.1 }
+                    }).toDestination();
+                }
+            } catch (e) {
+                console.error("Tone.js failed to initialize:", e);
+            }
+        }
+
+        // Sound functions
+        function playNodeSound(index) {
+            if (nodeSynth) {
+                nodeSynth.triggerAttackRelease(NODE_TONES[index], FLASH_DURATION / 1000);
+            }
+        }
+
+        function playErrorSound() {
+            if (errorSynth) {
+                errorSynth.triggerAttackRelease("8n");
+            }
+        }
+
+        // --- Grid and Display Functions ---
+
+        /** Creates the 3x3 grid of nodes */
+        function createGrid() {
+            const board = document.getElementById('circuit-board');
+            board.innerHTML = ''; // Clear previous grid
+            for (let i = 0; i < TOTAL_CELLS; i++) {
+                const cell = document.createElement('div');
+                cell.classList.add('circuit-node');
+                cell.dataset.index = i;
+                cell.textContent = i + 1; // Node label 1-9
+                cell.onclick = handleNodeClick;
+                cell.ontouchstart = (e) => { e.preventDefault(); handleNodeClick(e); };
+                board.appendChild(cell);
+            }
+        }
+
+        function updateDisplay() {
+            document.getElementById('level-display').textContent = currentLevel;
+        }
+
+        /** Enables/Disables user interaction with the nodes */
+        function toggleNodes(enable) {
+            document.querySelectorAll('.circuit-node').forEach(cell => {
+                cell.style.pointerEvents = enable ? 'auto' : 'none';
+                if (!enable) {
+                    cell.classList.remove('node-flash', 'node-error'); // Clear visual feedback
+                }
+            });
+        }
+
+        // --- Sequence Logic ---
+
+        function addToSequence() {
+            // Add a new random node index (0-8) to the sequence
+            const newNodeIndex = Math.floor(Math.random() * TOTAL_CELLS);
+            sequence.push(newNodeIndex);
+        }
+
+        /** Iterates through and flashes the current sequence for the player to memorize */
+        function playSequence(index = 0) {
+            if (!isGameRunning) return;
+
+            const nodeIndex = sequence[index];
+            const node = document.querySelector(`.circuit-node[data-index="${nodeIndex}"]`);
+
+            // 1. Flash On
+            node.classList.add('node-flash');
+            playNodeSound(nodeIndex);
+
+            // 2. Flash Off and Move to Next Node/Player Turn
+            setTimeout(() => {
+                node.classList.remove('node-flash');
+
+                if (index < sequence.length - 1) {
+                    // Continue sequence
+                    setTimeout(() => playSequence(index + 1), PAUSE_DURATION);
+                } else {
+                    // Sequence finished, start player's turn
+                    startPlayerTurn();
+                }
+            }, FLASH_DURATION);
+        }
+
+        /** Sets up state for the player to input their sequence */
+        function startPlayerTurn() {
+            if (!isGameRunning) return;
+            isPlayerTurn = true;
+            playerSequenceIndex = 0;
+            toggleNodes(true);
+
+            document.getElementById('start-button').textContent = "YOUR TURN";
+            document.getElementById('start-button').disabled = true;
+        }
+
+        function handleNodeClick(event) {
+            if (!isGameRunning || !isPlayerTurn) return;
+
+            const clickedIndex = parseInt(event.currentTarget.dataset.index);
+            const expectedIndex = sequence[playerSequenceIndex];
+            const node = event.currentTarget;
+
+            // 1. Correct Click
+            if (clickedIndex === expectedIndex) {
+                // Flash the node immediately
+                node.classList.add('node-flash');
+                playNodeSound(clickedIndex);
+
+                // Remove flash after a short time
+                setTimeout(() => {
+                    node.classList.remove('node-flash');
+                }, 100);
+
+                playerSequenceIndex++;
+
+                // 2. Sequence Complete
+                if (playerSequenceIndex === sequence.length) {
+                    isPlayerTurn = false;
+                    toggleNodes(false);
+                    setTimeout(startLevel, START_DELAY); // Start next level
+                }
+            }
+            // 3. Incorrect Click (Game Over)
+            else {
+                playErrorSound();
+                node.classList.add('node-error');
+                isPlayerTurn = false;
+                toggleNodes(false);
+                endGame("SYSTEM FAILURE!", `Incorrect sequence! You fixed ${currentLevel} circuits.`);
+            }
+        }
+
+
+        // --- Message Modal Functions ---
+
+        function showMessage(title, message) {
+            const modal = document.getElementById('message-modal');
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-message').textContent = message;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function hideMessage() {
+            const modal = document.getElementById('message-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // --- Game Flow Functions ---
+
+        function endGame(title, message) {
+            if (!isGameRunning) return;
+
+            isGameRunning = false;
+            isPlayerTurn = false;
+            toggleNodes(false);
+
+            showMessage(title, message);
+
+            // Update Start/Stop buttons
+            document.getElementById('start-button').textContent = "Restart Sequence";
+            document.getElementById('start-button').disabled = false;
+            document.getElementById('stop-button').classList.add('hidden');
+            document.getElementById('stop-button').disabled = true;
+        }
+
+        function startLevel() {
+            if (!isGameRunning) return;
+
+            currentLevel++;
+            updateDisplay();
+            toggleNodes(false); // Disable interaction during computer playback
+
+            // 1. Add new step to the sequence
+            addToSequence();
+
+            document.getElementById('start-button').textContent = `WATCH SEQUENCE ${currentLevel}`;
+
+            // 2. Play the sequence after a short delay
+            setTimeout(playSequence, START_DELAY / 2);
+        }
+
+        function startGame() {
+            // Initialize audio on first click interaction
+            initAudio();
+
+            // Reset state
+            currentLevel = 0;
+            sequence = [];
+            isGameRunning = true;
+            isPlayerTurn = false;
+            updateDisplay();
+            hideMessage();
+
+            // Update Start/Stop buttons
+            document.getElementById('stop-button').classList.remove('hidden');
+            document.getElementById('stop-button').disabled = false;
+            document.getElementById('start-button').disabled = true;
+
+            // Start the first level
+            setTimeout(startLevel, START_DELAY);
+        }
+
+        // --- Event Listeners and Initial Setup ---
+
+        window.onload = function() {
+            createGrid();
+
+            // Event listeners
+            document.getElementById('start-button').addEventListener('click', startGame);
+            document.getElementById('stop-button').addEventListener('click', () => endGame("MISSION ABORTED", `You manually aborted the sequence. Final Level: ${currentLevel}`));
+
+            // Draw initial state and show welcome message
+            showMessage("System Check", "Watch the nodes light up and listen to their tones. Then, click the nodes in the exact same order. The sequence gets longer every round!");
+        };
+    </script>
+</body>
+</html>

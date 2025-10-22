@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Button</title>
+    <style>
+        body {
+            background-color: #0d0d0d;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: sans-serif;
+        }
+
+        .neon-button {
+            position: relative;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            color: #39ff14;
+            text-transform: uppercase;
+            text-decoration: none;
+            letter-spacing: 2px;
+            border: 2px solid #39ff14;
+            border-radius: 10px;
+            background: transparent;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 0 5px #39ff14, 0 0 10px #39ff14, 0 0 20px #39ff14, 0 0 40px #39ff14;
+        }
+
+        .neon-button:hover {
+            color: #0d0d0d;
+            background-color: #39ff14;
+            box-shadow: 0 0 10px #39ff14, 0 0 20px #39ff14, 0 0 30px #39ff14, 0 0 50px #39ff14;
+        }
+    </style>
+</head>
+
+<body>
+    <button class="neon-button">Click Me</button>
+    <script>
+        document.querySelector('.neon-button').addEventListener('click', () => {
+            alert('Neon Button Clicked!');
+        });
+    </script>
+</body>
+
+</html>

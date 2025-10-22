@@ -20,7 +20,7 @@ body{
     font-size: 60px;
     color: #3434ce;
     text-shadow: 2px 2px 4px rgba(255, 255 , 0.05);
-    
+
     margin: auto;
     margin-top: -350px;
     position: absolute;
@@ -30,22 +30,22 @@ body{
     background: radial-gradient(
         rgba(255, 255, 255, 0.09),
         rgba(255, 255, 255, 0.9)
-      );    
+      );
     width: fit-content;
     height: fit-content;
     border-radius: 20px;
     padding: 2%;
-    
+
 }
 .result{
 
     border-bottom-left-radius: 20px;
     border-top-left-radius: 20px;
-    
+
     background: radial-gradient(
         rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.5)
     );
-    
+
 }
 .result h1{
     font-size: 55px;
@@ -64,8 +64,8 @@ h2{
     text-align: center;
     justify-content: center;
     align-items: center;
-    
-    
+
+
 }
 
 input{
@@ -143,13 +143,13 @@ button{
     margin: 6px;
 }
 
-.calculator{ 
+.calculator{
     border: 4px solid #13695d;
     background-color: #5ba0a7;
     padding: 23px;
     border-radius: 53px;
     display: inline-block;
-    
+
 }
 
 h1{

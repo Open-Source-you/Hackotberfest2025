@@ -1,0 +1,21 @@
+name: Sync Labels
+
+on:
+  push:
+    paths:
+      - .github/labels.yml
+
+jobs:
+  label-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Sync labels
+        uses: EndBug/label-sync@v2
+        with:
+          config-file: .github/labels.yml
+          delete-other-labels: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

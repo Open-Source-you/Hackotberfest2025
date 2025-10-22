@@ -80,7 +80,7 @@ function play() {
                     return;
                 } else {
                     // Increase the score if player
-                    // has the successfully dodged the 
+                    // has the successfully dodged the
                     if (
                         pipe_sprite_props.right < bird_props.left &&
                         pipe_sprite_props.right +
@@ -161,4 +161,3 @@ function play() {
     }
     requestAnimationFrame(create_pipe);
 }
-

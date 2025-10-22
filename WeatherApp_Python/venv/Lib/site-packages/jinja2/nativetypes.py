@@ -1,16 +1,11 @@
 import typing as t
-from ast import literal_eval
-from ast import parse
-from itertools import chain
-from itertools import islice
+from ast import literal_eval, parse
+from itertools import chain, islice
 from types import GeneratorType
 
 from . import nodes
-from .compiler import CodeGenerator
-from .compiler import Frame
-from .compiler import has_safe_repr
-from .environment import Environment
-from .environment import Template
+from .compiler import CodeGenerator, Frame, has_safe_repr
+from .environment import Environment, Template
 
 
 def native_concat(values: t.Iterable[t.Any]) -> t.Optional[t.Any]:

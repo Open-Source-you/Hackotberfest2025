@@ -1,37 +1,16 @@
-let board;
-let boardWidth = 360;
-let boardHeight = 640;
-let context;
 
-let birdWidth = 34;
-let birdHeight = 24;
-let birdX = boardHeight/8;
-let birdY = boardHeight/2;
+let board, context;
+const boardWidth = 360, boardHeight = 640;
+const birdWidth = 34, birdHeight = 24;
+let birdX = boardHeight/8, birdY = boardHeight/2;
 let birdImg;
-
-let bird = {
-    x : birdX,
-    y : birdY,
-    width : birdWidth,
-    height : birdHeight
-}
-
+const bird = { x: birdX, y: birdY, width: birdWidth, height: birdHeight };
 let pipeArray = [];
-let pipeWidth = 64;
-let pipeHeight = 512;
-let pipeX = boardWidth;
-let pipeY = 0;
-
-let topPipeImg;
-let bottomPipeImg;
-
-let velocityX = -2;
-let velocityY = 0;
-let gravity = 0.4;
-
-let gameOver = false;
-let score = 0;
-
+const pipeWidth = 64, pipeHeight = 512;
+let pipeX = boardWidth, pipeY = 0;
+let topPipeImg, bottomPipeImg;
+let velocityX = -2, velocityY = 0, gravity = 0.4;
+let gameOver = false, score = 0;
 window.onload = function(){
     board = document.getElementById("board");
     board.height = boardHeight;
@@ -40,7 +19,7 @@ window.onload = function(){
 
     //context.fillStyle = "green";
     //context.fillRect(bird.x, bird.y, bird.width, bird.height);
-    
+
     birdImg = new Image();
     birdImg.src = "./Images/flappybird.png";
     birdImg.onload = function(){

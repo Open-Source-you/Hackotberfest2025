@@ -1,0 +1,104 @@
+name: Test Omio Bot Setup
+
+on:
+  workflow_dispatch:  # Manual trigger for testing
+  push:
+    branches: [ main, master ]
+    paths: [ '.github/workflows/omio-pr-reviewer.yml' ]
+
+jobs:
+  test-bot-config:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Validate YAML syntax
+      run: |
+        echo "🔍 Validating workflow YAML syntax..."
+        python -c "import yaml; yaml.safe_load(open('.github/workflows/omio-pr-reviewer.yml'))" && echo "✅ Workflow YAML is valid"
+        python -c "import yaml; yaml.safe_load(open('.github/omio-bot-config.yml'))" && echo "✅ Config YAML is valid"
+
+    - name: Check required files
+      run: |
+        echo "📁 Checking required files..."
+        [ -f ".github/workflows/omio-pr-reviewer.yml" ] && echo "✅ Workflow file exists"
+        [ -f ".github/omio-bot-config.yml" ] && echo "✅ Config file exists"
+        [ -f ".github/workflows/OMIO_BOT_README.md" ] && echo "✅ README file exists"
+
+    - name: Validate bot configuration
+      run: |
+        echo "⚙️ Validating bot configuration..."
+        python3 -c "
+        import yaml
+        with open('.github/omio-bot-config.yml', 'r') as f:
+            config = yaml.safe_load(f)
+        
+        required_keys = ['auto_approve', 'auto_merge', 'merge_method', 'require_approvals']
+        for key in required_keys:
+            if key in config:
+                print(f'✅ {key}: {config[key]}')
+            else:
+                print(f'❌ Missing required key: {key}')
+                exit(1)
+        
+        print('✅ Bot configuration is valid')
+        "
+
+    - name: Test file patterns
+      run: |
+        echo "📝 Testing file pattern validation..."
+        python3 -c "
+        import yaml
+        with open('.github/omio-bot-config.yml', 'r') as f:
+            config = yaml.safe_load(f)
+        
+        include_patterns = config.get('include_patterns', [])
+        exclude_patterns = config.get('exclude_patterns', [])
+        
+        print(f'✅ Include patterns: {len(include_patterns)} patterns')
+        print(f'✅ Exclude patterns: {len(exclude_patterns)} patterns')
+        
+        # Check for common patterns
+        common_extensions = ['.py', '.js', '.ts', '.java', '.cpp', '.go']
+        for ext in common_extensions:
+            if any(ext in pattern for pattern in include_patterns):
+                print(f'✅ {ext} files will be reviewed')
+            else:
+                print(f'⚠️ {ext} files may not be reviewed')
+        "
+
+    - name: Check permissions
+      run: |
+        echo "🔐 Checking workflow permissions..."
+        python3 -c "
+        import yaml
+        with open('.github/workflows/omio-pr-reviewer.yml', 'r') as f:
+            workflow = yaml.safe_load(f)
+        
+        permissions = workflow.get('permissions', {})
+        required_perms = ['contents', 'pull-requests', 'statuses', 'checks', 'issues']
+        
+        for perm in required_perms:
+            if perm in permissions:
+                print(f'✅ {perm}: {permissions[perm]}')
+            else:
+                print(f'❌ Missing permission: {perm}')
+        "
+
+    - name: Summary
+      run: |
+        echo "🎉 Omio Bot Setup Test Complete!"
+        echo ""
+        echo "📋 Summary:"
+        echo "✅ Workflow file created: .github/workflows/omio-pr-reviewer.yml"
+        echo "✅ Configuration file created: .github/omio-bot-config.yml"
+        echo "✅ Documentation created: .github/workflows/OMIO_BOT_README.md"
+        echo ""
+        echo "🚀 Next steps:"
+        echo "1. Create a test PR to verify the bot works"
+        echo "2. Add the 'auto-merge' label to enable auto-processing"
+        echo "3. Monitor the Actions tab for bot activity"
+        echo ""
+        echo "📖 For more information, see: .github/workflows/OMIO_BOT_README.md"

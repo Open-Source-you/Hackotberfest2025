@@ -1,0 +1,242 @@
+Transcript,Summary,Sentiment,ProcessedAt
+"Hi, I was trying to book a slot yesterday but the payment failed and I keep getting an error. I tried again and it charged me twice. I'm frustrated and want a refund.","Customer experienced payment failures while booking and was double-charged, requesting a refund.",negative,2025-09-15T13:31:39.454516
+"Hello, I loved the booking experience and the agent was very helpful. I just wanted to say thanks — everything worked smoothly.","Customer praised the booking process and support, reporting a smooth experience.",positive,2025-09-15T13:31:39.454528
+"Hi, I have a question about pricing — I'm comparing plans and want to confirm whether upgrades are prorated when changing mid-cycle.","Customer inquired about plan pricing details, specifically regarding proration during mid-cycle upgrades.",neutral,2025-09-15T13:31:39.454534
+hi internet not working,"Unfortunately, the provided transcript is too short to give a detailed summary. However, I can still provide a brief summary:  The customer is reporting that their internet is not working.",negative,
+Thank you for the excellent service! The technician was very professional and solved my issue quickly.,The customer is thanking the company for good service. They mention that the technician was professional and fixed their problem efficiently. The customer is expressing satisfaction with the service they received.,positive,
+the service was okk,"Unfortunately, the provided transcript is very short and doesn't give much information about the customer's experience or the service they received. However, based on the transcript, here's a possible summary:  The customer had a generally okay experience with the service, but didn't have any major complaints or praise.",neutral,
+hi i am happy with internet serbicse,"Unfortunately, the provided transcript is incomplete. However, based on the information given, here's a possible summary:  The customer is generally satisfied with their internet service.",positive,
+"Customer: Hi, I'm calling about my recent order #12345. I placed it three days ago but haven't received any shipping confirmation yet.
+
+Agent: I apologize for the confusion. Let me look that up for you right away. I can see your order here, and it looks like there was a delay in our warehouse. Your order has actually been shipped this morning and you should receive a tracking number within the next hour.
+
+Customer: Oh, that's great news! Thank you so much for checking on that. I was getting worried.
+
+Agent: No problem at all! Is there anything else I can help you with today?
+
+Customer: No, that's everything. Thanks again for your help!","A customer called about their order #12345, which they hadn't received shipping confirmation for. The agent looked into the issue and found that the order was shipped that morning, and a tracking number would be sent shortly. The customer was relieved and thanked the agent for their help.",positive,
+"Customer: Hello! I just wanted to call and say how amazing your customer service has been. Sarah helped me last week with setting up my new account and she was absolutely wonderful.
+
+Agent: That's so wonderful to hear! I'll make sure to pass along your kind words to Sarah. She'll be thrilled to know how much her help meant to you.
+
+Customer: Please do! It's rare to find such helpful and patient service these days. You guys are doing something right!
+
+Agent: Thank you so much for taking the time to share this feedback. It really makes our day. Is there anything else I can help you with?
+
+Customer: No, I just wanted to share the positive feedback. Keep up the great work!","A customer called to compliment the company's customer service, specifically praising an agent named Sarah who helped them set up their new account. The customer appreciated Sarah's helpful and patient service, saying it's rare to find such good service. The customer ended the call by thanking the company and encouraging them to keep up their good work.",positive,
+"Customer: Hi, I'm calling about my recent order #12345. I placed it three days ago but haven't received any shipping confirmation yet.
+
+Agent: I apologize for the confusion. Let me look that up for you right away. I can see your order here, and it looks like there was a delay in our warehouse. Your order has actually been shipped this morning and you should receive a tracking number within the next hour.
+
+Customer: Oh, that's great news! Thank you so much for checking on that. I was getting worried.
+
+Agent: No problem at all! Is there anything else I can help you with today?
+
+Customer: No, that's everything. Thanks again for your help!","A customer called about their order #12345, which they placed three days ago but hadn't received shipping confirmation. The agent looked into the issue and found that the order was delayed in the warehouse but had been shipped that morning. The customer was relieved to hear the update and thanked the agent for their help.",positive,
+bad service,"I don't see a customer call transcript provided. Please share the transcript, and I'll be happy to summarize it in 2-3 sentences for you.",negative,
+bad service. not happy as they were not on tim e very bad swrvice,"The customer was unhappy with the service they received because it was late. They described the service as ""very bad.""",negative,
+fg,Customer experienced technical issues with payment processing and requested assistance with refund.,neutral,
+"Customer: Hi, I'm calling about my recent order #12345. I placed it three days ago but haven't received any shipping confirmation yet.
+
+Agent: I apologize for the confusion. Let me look that up for you right away. I can see your order here, and it looks like there was a delay in our warehouse. Your order has actually been shipped this morning and you should receive a tracking number within the next hour.
+
+Customer: Oh, that's great news! Thank you so much for checking on that. I was getting worried.
+
+Agent: No problem at all! Is there anything else I can help you with today?
+
+Customer: No, that's everything. Thanks again for your help!",Customer experienced technical issues with payment processing and requested assistance with refund.,negative,
+"Customer: I'm extremely frustrated! I've been trying to cancel my subscription for weeks and your website keeps giving me errors. This is completely unacceptable!
+
+Agent: I sincerely apologize for the technical difficulties you've experienced. That must be very frustrating. Let me help you cancel that subscription right now.
+
+Customer: Finally! I've wasted so much time on this.
+
+Agent: I understand your frustration completely. I've successfully canceled your subscription and you'll receive a confirmation email shortly. I've also noted this technical issue for our IT team to investigate.
+
+Customer: Well, at least it's finally done. Thank you for actually helping me.",Customer experienced technical issues with payment processing and requested assistance with refund.,negative,
+"Customer: Hello! I just wanted to call and say how amazing your customer service has been. Sarah helped me last week with setting up my new account and she was absolutely wonderful.
+
+Agent: That's so wonderful to hear! I'll make sure to pass along your kind words to Sarah. She'll be thrilled to know how much her help meant to you.
+
+Customer: Please do! It's rare to find such helpful and patient service these days. You guys are doing something right!
+
+Agent: Thank you so much for taking the time to share this feedback. It really makes our day. Is there anything else I can help you with?
+
+Customer: No, I just wanted to share the positive feedback. Keep up the great work!",Customer experienced technical issues with payment processing and requested assistance with refund.,positive,
+"Customer: Hi, I'm calling about my recent order #12345. I placed it three days ago but haven't received any shipping confirmation yet.
+
+Agent: I apologize for the confusion. Let me look that up for you right away. I can see your order here, and it looks like there was a delay in our warehouse. Your order has actually been shipped this morning and you should receive a tracking number within the next hour.
+
+Customer: Oh, that's great news! Thank you so much for checking on that. I was getting worried.
+
+Agent: No problem at all! Is there anything else I can help you with today?
+
+Customer: No, that's everything. Thanks again for your help!",Customer experienced technical issues with payment processing and requested assistance with refund.,negative,
+"Transcript,Summary,Sentiment,ProcessedAt
+""Hi, I was trying to book a slot yesterday but the payment failed and I keep getting an error. I tried again and it charged me twice. I'm frustrated and want a refund."",""Customer experienced payment failures while booking and was double-charged, requesting a refund."",negative,2025-09-15T13:31:39.454516
+""Hello, I loved the booking experience and the agent was very helpful. I just wanted to say thanks — everything worked smoothly."",""Customer praised the booking process and support, reporting a smooth experience."",positive,2025-09-15T13:31:39.454528
+""Hi, I have a question about pricing — I'm comparing plans and want to confirm whether upgrades are prorated when changing mid-cycle."",""Customer inquired about plan pricing details, specifically regarding proration during mid-cycle upgrades."",neutral,2025-09-15T13:31:39.454534
+hi internet not working,""Unfortunately, the provided transcript is too short to give a detailed summary. However, I can still provide a brief summary:  The customer is reporting that their internet is not working."",negative,
+Thank you for the excellent service! The technician was very professional and solved my issue quickly.,The customer is thanking the company for good service. They mention that the technician was professional and fixed their problem efficiently. The customer is expressing satisfaction with the service they received.,positive,
+the service was okk,""Unfortunately, the provided transcript is very short and doesn't give much information about the customer's experience or the service they received. However, based on the transcript, here's a possible summary:  The customer had a generally okay experience with the service, but didn't have any major complaints or praise."",neutral,
+hi i am happy with internet serbicse,""Unfortunately, the provided transcript is incomplete. However, based on the information given, here's a possible summary:  The customer is generally satisfied with their internet service."",positive,
+""Customer: Hi, I'm calling about my recent order #12345. I placed it three days ago but haven't received any shipping confirmation yet.
+
+Agent: I apologize for the confusion. Let me look that up for you right away. I can see your order here, and it looks like there was a delay in our warehouse. Your order has actually been shipped this morning and you should receive a tracking number within the next hour.
+
+Customer: Oh, that's great news! Thank you so much for checking on that. I was getting worried.
+
+Agent: No problem at all! Is there anything else I can help you with today?
+
+Customer: No, that's everything. Thanks again for your help!"",""A customer called about their order #12345, which they hadn't received shipping confirmation for. The agent looked into the issue and found that the order was shipped that morning, and a tracking number would be sent shortly. The customer was relieved and thanked the agent for their help."",positive,
+""Customer: Hello! I just wanted to call and say how amazing your customer service has been. Sarah helped me last week with setting up my new account and she was absolutely wonderful.
+
+Agent: That's so wonderful to hear! I'll make sure to pass along your kind words to Sarah. She'll be thrilled to know how much her help meant to you.
+
+Customer: Please do! It's rare to find such helpful and patient service these days. You guys are doing something right!
+
+Agent: Thank you so much for taking the time to share this feedback. It really makes our day. Is there anything else I can help you with?
+
+Customer: No, I just wanted to share the positive feedback. Keep up the great work!"",""A customer called to compliment the company's customer service, specifically praising an agent named Sarah who helped them set up their new account. The customer appreciated Sarah's helpful and patient service, saying it's rare to find such good service. The customer ended the call by thanking the company and encouraging them to keep up their good work."",positive,
+""Customer: Hi, I'm calling about my recent order #12345. I placed it three days ago but haven't received any shipping confirmation yet.
+
+Agent: I apologize for the confusion. Let me look that up for you right away. I can see your order here, and it looks like there was a delay in our warehouse. Your order has actually been shipped this morning and you should receive a tracking number within the next hour.
+
+Customer: Oh, that's great news! Thank you so much for checking on that. I was getting worried.
+
+Agent: No problem at all! Is there anything else I can help you with today?
+
+Customer: No, that's everything. Thanks again for your help!"",""A customer called about their order #12345, which they placed three days ago but hadn't received shipping confirmation. The agent looked into the issue and found that the order was delayed in the warehouse but had been shipped that morning. The customer was relieved to hear the update and thanked the agent for their help."",positive,
+bad service,""I don't see a customer call transcript provided. Please share the transcript, and I'll be happy to summarize it in 2-3 sentences for you."",negative,
+bad service. not happy as they were not on tim e very bad swrvice,""The customer was unhappy with the service they received because it was late. They described the service as """"very bad."""""",negative,
+fg,Customer experienced technical issues with payment processing and requested assistance with refund.,neutral,
+""Customer: Hi, I'm calling about my recent order #12345. I placed it three days ago but haven't received any shipping confirmation yet.
+
+Agent: I apologize for the confusion. Let me look that up for you right away. I can see your order here, and it looks like there was a delay in our warehouse. Your order has actually been shipped this morning and you should receive a tracking number within the next hour.
+
+Customer: Oh, that's great news! Thank you so much for checking on that. I was getting worried.
+
+Agent: No problem at all! Is there anything else I can help you with today?
+
+Customer: No, that's everything. Thanks again for your help!"",Customer experienced technical issues with payment processing and requested assistance with refund.,negative,
+""Customer: I'm extremely frustrated! I've been trying to cancel my subscription for weeks and your website keeps giving me errors. This is completely unacceptable!
+
+Agent: I sincerely apologize for the technical difficulties you've experienced. That must be very frustrating. Let me help you cancel that subscription right now.
+
+Customer: Finally! I've wasted so much time on this.
+
+Agent: I understand your frustration completely. I've successfully canceled your subscription and you'll receive a confirmation email shortly. I've also noted this technical issue for our IT team to investigate.
+
+Customer: Well, at least it's finally done. Thank you for actually helping me."",Customer experienced technical issues with payment processing and requested assistance with refund.,negative,
+""Customer: Hello! I just wanted to call and say how amazing your customer service has been. Sarah helped me last week with setting up my new account and she was absolutely wonderful.
+
+Agent: That's so wonderful to hear! I'll make sure to pass along your kind words to Sarah. She'll be thrilled to know how much her help meant to you.
+
+Customer: Please do! It's rare to find such helpful and patient service these days. You guys are doing something right!
+
+Agent: Thank you so much for taking the time to share this feedback. It really makes our day. Is there anything else I can help you with?
+
+Customer: No, I just wanted to share the positive feedback. Keep up the great work!"",Customer experienced technical issues with payment processing and requested assistance with refund.,positive,
+""Customer: Hi, I'm calling about my recent order #12345. I placed it three days ago but haven't received any shipping confirmation yet.
+
+Agent: I apologize for the confusion. Let me look that up for you right away. I can see your order here, and it looks like there was a delay in our warehouse. Your order has actually been shipped this morning and you should receive a tracking number within the next hour.
+
+Customer: Oh, that's great news! Thank you so much for checking on that. I was getting worried.
+
+Agent: No problem at all! Is there anything else I can help you with today?
+
+Customer: No, that's everything. Thanks again for your help!"",Customer experienced technical issues with payment processing and requested assistance with refund.,negative,",Customer experienced technical issues with payment processing and requested assistance with refund.,neutral,
+"Customer: I'm extremely frustrated! I've been trying to cancel my subscription for weeks and your website keeps giving me errors. This is completely unacceptable!
+
+Agent: I sincerely apologize for the technical difficulties you've experienced. That must be very frustrating. Let me help you cancel that subscription right now.
+
+Customer: Finally! I've wasted so much time on this.
+
+Agent: I understand your frustration completely. I've successfully canceled your subscription and you'll receive a confirmation email shortly. I've also noted this technical issue for our IT team to investigate.
+
+Customer: Well, at least it's finally done. Thank you for actually helping me.",Customer experienced technical issues with payment processing and requested assistance with refund.,negative,
+"Customer: Hello! I just wanted to call and say how amazing your customer service has been. Sarah helped me last week with setting up my new account and she was absolutely wonderful.
+
+Agent: That's so wonderful to hear! I'll make sure to pass along your kind words to Sarah. She'll be thrilled to know how much her help meant to you.
+
+Customer: Please do! It's rare to find such helpful and patient service these days. You guys are doing something right!
+
+Agent: Thank you so much for taking the time to share this feedback. It really makes our day. Is there anything else I can help you with?
+
+Customer: No, I just wanted to share the positive feedback. Keep up the great work!",Customer experienced technical issues with payment processing and requested assistance with refund.,positive,
+"Customer: Hi, I'm calling about my recent order #12345. I placed it three days ago but haven't received any shipping confirmation yet.
+
+Agent: I apologize for the confusion. Let me look that up for you right away. I can see your order here, and it looks like there was a delay in our warehouse. Your order has actually been shipped this morning and you should receive a tracking number within the next hour.
+
+Customer: Oh, that's great news! Thank you so much for checking on that. I was getting worried.
+
+Agent: No problem at all! Is there anything else I can help you with today?
+
+Customer: No, that's everything. Thanks again for your help!",Customer inquired about their order status and shipping details. Agent provided tracking information and estimated delivery timeline.,positive,
+"Customer: Hello! I just wanted to call and say how amazing your customer service has been. Sarah helped me last week with setting up my new account and she was absolutely wonderful.
+
+Agent: That's so wonderful to hear! I'll make sure to pass along your kind words to Sarah. She'll be thrilled to know how much her help meant to you.
+
+Customer: Please do! It's rare to find such helpful and patient service these days. You guys are doing something right!
+
+Agent: Thank you so much for taking the time to share this feedback. It really makes our day. Is there anything else I can help you with?
+
+Customer: No, I just wanted to share the positive feedback. Keep up the great work!",Customer had issues accessing their account. Agent helped reset credentials and verified account security.,positive,
+"Customer: Hi, I'm calling about my recent order #12345. I placed it three days ago but haven't received any shipping confirmation yet.
+
+Agent: I apologize for the confusion. Let me look that up for you right away. I can see your order here, and it looks like there was a delay in our warehouse. Your order has actu\
+Customer: No, that's everything. Thanks again for your help!",Customer inquired about their order status and shipping details. Agent provided tracking information and estimated delivery timeline.,neutral,
+"Agent (A): Thank you for calling BrightNet Internet Services, this is Sarah. How can I help you today?
+
+Customer (C): Hi Sarah, I’m having trouble with my internet connection. It keeps dropping every few minutes.
+
+A: I’m sorry to hear that. Let me check your account. May I have your registered phone number or account ID?
+
+C: Sure, it’s 9876543210.
+
+A:",Customer had issues accessing their account. Agent helped reset credentials and verified account security.,neutral,
+"Customer: Hello! I just wanted to call and say how amazing your customer service has been. Sarah helped me last week with setting up my new account and she was absolutely wonderful.
+
+Agent: That's so wonderful to hear! I'll make sure to pass along your kind words to Sarah. She'll be thrilled to know how much her help meant to you.
+
+Customer: Please do! It's rare to find such helpful and patient service these days. You guys are doing something right!
+
+Agent: Thank you so much for taking the time to share this feedback. It really makes our day. Is there anything else I can help you with?
+
+Customer: No, I just wanted to share the positive feedback. Keep up the great work!",Customer had issues accessing their account. Agent helped reset credentials and verified account security.,positive,
+"Customer: Hi, I'm calling about my recent order #12345. I placed it three days ago but haven't received any shipping confirmation yet.
+
+Agent: I apologize for the confusion. Let me look that up for you right away. I can see your order here, and it looks like there was a delay in our warehouse. Your order has actually been shipped this morning and you should receive a tracking number within the next hour.
+
+Customer: Oh, that's great news! Thank you so much for checking on that. I was getting worried.
+
+Agent: No problem at all! Is there anything else I can help you with today?
+
+Customer: No, that's everything. Thanks again for your help!",Customer inquired about their order status and shipping details. Agent provided tracking information and estimated delivery timeline.,positive,
+"Customer: I'm extremely frustrated! I've been trying to cancel my subscription for weeks and your website keeps giving me errors. This is completely unacceptable!
+
+Agent: I sincerely apologize for the technical difficulties you've experienced. That must be very frustrating. Let me help you cancel that subscription right now.
+
+Customer: Finally! I've wasted so much time on this.
+
+Agent: I understand your frustration completely. I've successfully canceled your subscription and you'll receive a confirmation email shortly. I've also noted this technical issue for our IT team to investigate.
+
+Customer: Well, at least it's finally done. Thank you for actually helping me.",Customer requested a refund for their recent purchase. Agent processed the return and explained the refund timeline.,negative,
+"Customer: I'm extremely frustrated! I've been trying to cancel my subscription for weeks and your website keeps giving me errors. This is completely unacceptable!
+
+Agent: I sincerely apologize for the technical difficulties you've experienced. That must be very frustrating. Let me help you cancel that subscription right now.
+
+Customer: Finally! I've wasted so much time on this.
+
+Agent: I understand your frustration completely. I've successfully canceled your subscription and you'll receive a confirmation email shortly. I've also noted this technical issue for our IT team to investigate.
+
+Customer: Well, at least it's finally done. Thank you for actually helping me.",Customer requested a refund for their recent purchase. Agent processed the return and explained the refund timeline.,negative,
+"Customer: Hi, I'm calling about my recent order #12345. I placed it three days ago but haven't received any shipping confirmation yet.
+
+Agent: I apologize for the confusion. Let me look that up for you right away. I can see your order here, and it looks like there was a delay in our warehouse. Your order has actually been shipped this morning and you should receive a tracking number within the next hour.
+
+Customer: Oh, that's great news! Thank you so much for checking on that. I was getting worried.
+
+Agent: No problem at all! Is there anything else I can help you with today?
+
+Customer: No, that's everything. Thanks again for your help!",Customer inquired about their order status and shipping details. Agent provided tracking information and estimated delivery timeline.,positive,

@@ -55,6 +55,7 @@ class SeparateBodyBaseCache(BaseCache):
 
     Similarly, the body should be loaded separately via ``get_body()``.
     """
+
     def set_body(self, key, body):
         raise NotImplementedError()
 

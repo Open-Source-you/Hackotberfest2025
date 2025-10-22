@@ -1,18 +1,32 @@
-# Simple Calculator
+import math
+import cmath
+import statistics
+import re
+from typing import Union, List, Tuple, Optional
+from dataclasses import dataclass
+from enum import Enum
+import numpy as np
+from fractions import Fraction
+from decimal import Decimal, getcontext
+
 
 def add(x, y):
     return x + y
 
+
 def subtract(x, y):
     return x - y
 
+
 def multiply(x, y):
     return x * y
+
 
 def divide(x, y):
     if y == 0:
         return "Error! Division by zero."
     return x / y
+
 
 def calculator():
     print("Select operation:")
@@ -24,7 +38,7 @@ def calculator():
     while True:
         choice = input("Enter choice (1/2/3/4): ")
 
-        if choice in ('1', '2', '3', '4'):
+        if choice in ("1", "2", "3", "4"):
             try:
                 num1 = float(input("Enter first number: "))
                 num2 = float(input("Enter second number: "))
@@ -32,20 +46,25 @@ def calculator():
                 print("Invalid input! Please enter numeric values.")
                 continue
 
-            if choice == '1':
+            if choice == "1":
                 print(f"{num1} + {num2} = {add(num1, num2)}")
-            elif choice == '2':
+            elif choice == "2":
                 print(f"{num1} - {num2} = {subtract(num1, num2)}")
-            elif choice == '3':
+            elif choice == "3":
                 print(f"{num1} * {num2} = {multiply(num1, num2)}")
-            elif choice == '4':
+            elif choice == "4":
                 print(f"{num1} / {num2} = {divide(num1, num2)}")
         else:
             print("Invalid choice! Please select a valid operation.")
 
-        next_calculation = input("Do you want to perform another calculation? (yes/no): ")
-        if next_calculation.lower() != 'yes':
+        next_calculation = input(
+            "Do you want to perform another calculation? (yes/no): "
+        )
+        if next_calculation.lower() != "yes":
             break
 
+
 if __name__ == "__main__":
-    calculator()
+    # Install numpy: pip install numpy
+    calculator_ui = CalculatorUI()
+    calculator_ui.run()

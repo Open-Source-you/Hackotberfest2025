@@ -1,5 +1,6 @@
 #  Hacktoberfest 2025 Is Awesome🔥
-![image](https://user-images.githubusercontent.com/70385488/192114009-0830321a-d227-4a4d-8411-6c03b54d7ce6.png)
+<img width="1814" height="891" alt="image" src="https://github.com/user-attachments/assets/fb5725be-afeb-4a97-96f1-e3d05a73fc7b" />
+
 
 <div align="center">
 
@@ -20,7 +21,7 @@
 ### This repository is open to all members of the GitHub community. Any member can contribute to this project! :grin:
 
 ## What is Hacktoberfest? :thinking:
-A month-long celebration from October 1st to October 31st presented by [Digital Ocean](https://hacktoberfest.digitalocean.com/) and [DEV Community](https://dev.to/) collaborated with [GitHub](https://github.com/blog/2433-celebrate-open-source-this-october-with-hacktoberfest) to get people involved in [Open Source](https://github.com/open-source). Create your very first pull request to any public repository on GitHub and contribute to the open-source developer community.
+A month-long celebration from October 1st to October 31st, presented by [DigitalOcean](https://www.digitalocean.com/) and [DEV Community](https://dev.to/), in collaboration with [GitHub](https://github.com/blog/2433-celebrate-open-source-this-october-with-hacktoberfest), to get people involved in [Open Source](https://github.com/open-source). Create your very first pull request to any public repository on GitHub and contribute to the open-source developer community.
 
 [https://hacktoberfest.digitalocean.com/](https://hacktoberfest.digitalocean.com/)
 
@@ -37,7 +38,7 @@ flowchart LR
     branch-->Edit[Edit file]
     Edit-->commit[Commit the changes]
     commit -->|Finally|creatpr((Create a Pull Request))
-    
+
  ```
 
 ### 1. Star The Repository :star2:
@@ -46,7 +47,7 @@ Star the repository by pressing the topmost-right button to start your wonderful
 
 ### 2. Fork it :fork_and_knife:
 
-You can get your own fork/copy of [HacktoberFest-2024](https://github.com/Open-Source-you/Hackotberfest2024 by using the <a href="https://github.com/Open-Source-you/HacktoberFest2024/new/master?readme=1#fork-destination-box"><kbd><b>Fork</b></kbd></a> button.
+You can get your own fork/copy of [Hacktoberfest2025](https://github.com/Open-Source-you/Hackotberfest2025/fork) by using the <a href="https://github.com/Open-Source-you/Hackotberfest2025/fork"><kbd><b>Fork</b></kbd></a> button.
 
 
 ### 3. Clone it :busts_in_silhouette:
@@ -64,7 +65,7 @@ Once you have cloned the `Hacktoberfest-2025` repository in Github, move to that
 
 ```sh
 # This will change directory to a folder Hacktoberfest-2025
-$ cd Hackotberfest2024
+$ cd Hackotberfest2025
 ```
 
 Move to this folder for all other commands.
@@ -79,10 +80,10 @@ origin  https://github.com/Your_Username/Hacktoberfest-2025.git (fetch)
 origin  https://github.com/Your_Username/Hacktoberfest-2025.git (push)
 ```
 
-Now, let's add a reference to the original [Hacktoberfest-2025]https://github.com/Open-Source-you/Hackotberfest2022) repository using
+Now, let's add a reference to the original [Hacktoberfest-2025](https://github.com/Open-Source-you/Hackotberfest2022) repository using
 
 ```sh
-$ git remote add upstream https://github.com/Open-Source-you/Hackotberfest2024.git
+$ git remote add upstream https://github.com/Open-Source-you/Hackotberfest2025.git
 ```
 
 > This adds a new remote named ***upstream***.
@@ -176,3 +177,43 @@ We love to have `articles` and `codes` in different languages and the `bettermen
 Please discuss it with us first by creating a new issue.
 
 :tada: :confetti_ball: :smiley: _**Happy Contributing**_ :smiley: :confetti_ball: :tada:
+
+## 🤝 Contributing - Code Quality (Optional)
+
+### For New Contributors
+
+Our CI runs code quality checks but **won't block your PR**. These are informational only:
+- ✅ Your PR will be reviewed based on functionality
+- ℹ️ Code quality suggestions are helpful but not required
+- 🎯 We're gradually improving code quality over time
+
+### Optional: Install Pre-commit Hooks (Recommended)
+
+If you want to automatically format your code:
+```bash
+# Install pre-commit
+pip install pre-commit
+
+# Install the hooks (one-time setup)
+pre-commit install
+
+# Now hooks run automatically on commit
+git commit -m "your message"
+
+
+```markdown
+---
+
+## 🌟 Contributor Recognition
+
+We love to highlight our amazing contributors!  
+Every contribution — whether it’s fixing a typo, improving documentation, or adding a new feature — helps this project grow.
+
+Want to be featured here?  
+Contribute by solving an issue, improving the docs, or enhancing the user experience.
+
+| Contributor | Contribution |
+|--------------|--------------|
+| [@supriya-cybertech](https://github.com/supriya-cybertech) | Documentation improvements: Enhanced community and contribution guidelines |
+
+Thank you for making open source awesome! 🙌

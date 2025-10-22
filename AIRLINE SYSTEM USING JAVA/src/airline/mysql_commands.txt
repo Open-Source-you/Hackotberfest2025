@@ -1,10 +1,10 @@
-This file contains information on creating a database for the Airline Management System project. 
+This file contains information on creating a database for the Airline Management System project.
 It's assumed that this process is performed at the command line.
 
 Tasks:
 
 1. Create Database
-SQL Command: 
+SQL Command:
 create database ams;
 
 2. Switch to the ams database
@@ -81,7 +81,6 @@ create table sector (
     class_name varchar(255)
 );
 
-10. Insert values into login table 
+10. Insert values into login table
 insert into login
 values ('admin', '12345');
-

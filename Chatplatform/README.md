@@ -4,7 +4,7 @@ LAN messaging software is a type of software that allows users to communicate wi
 
 ```
 cd chatplatform
-$npm install express  
-$npm install nodemon -D` 
-$nodemon index.js 
+$npm install express
+$npm install nodemon -D`
+$nodemon index.js
 ```

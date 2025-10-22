@@ -20,8 +20,8 @@ HISTOGRAM_TYPE = "histogram"
 
 
 class Statsd(Logger):
-    """statsD-based instrumentation, that passes as a logger
-    """
+    """statsD-based instrumentation, that passes as a logger"""
+
     def __init__(self, cfg):
         Logger.__init__(self, cfg)
         self.prefix = sub(r"^(.+[^.]+)\.*$", "\\g<1>.", cfg.statsd_prefix)
@@ -65,8 +65,7 @@ class Statsd(Logger):
         self.log(logging.DEBUG, msg, *args, **kwargs)
 
     def log(self, lvl, msg, *args, **kwargs):
-        """Log a given statistic if metric, value and type are present
-        """
+        """Log a given statistic if metric, value and type are present"""
         try:
             extra = kwargs.get("extra", None)
             if extra is not None:
@@ -95,10 +94,12 @@ class Statsd(Logger):
         request_time is a datetime.timedelta
         """
         Logger.access(self, resp, req, environ, request_time)
-        duration_in_ms = request_time.seconds * 1000 + float(request_time.microseconds) / 10 ** 3
+        duration_in_ms = (
+            request_time.seconds * 1000 + float(request_time.microseconds) / 10**3
+        )
         status = resp.status
         if isinstance(status, bytes):
-            status = status.decode('utf-8')
+            status = status.decode("utf-8")
         if isinstance(status, str):
             status = int(status.split(None, 1)[0])
         self.histogram("gunicorn.request.duration", duration_in_ms)
@@ -111,10 +112,14 @@ class Statsd(Logger):
         self._sock_send("{0}{1}:{2}|g".format(self.prefix, name, value))
 
     def increment(self, name, value, sampling_rate=1.0):
-        self._sock_send("{0}{1}:{2}|c|@{3}".format(self.prefix, name, value, sampling_rate))
+        self._sock_send(
+            "{0}{1}:{2}|c|@{3}".format(self.prefix, name, value, sampling_rate)
+        )
 
     def decrement(self, name, value, sampling_rate=1.0):
-        self._sock_send("{0}{1}:-{2}|c|@{3}".format(self.prefix, name, value, sampling_rate))
+        self._sock_send(
+            "{0}{1}:-{2}|c|@{3}".format(self.prefix, name, value, sampling_rate)
+        )
 
     def histogram(self, name, value):
         self._sock_send("{0}{1}:{2}|ms".format(self.prefix, name, value))
@@ -126,7 +131,7 @@ class Statsd(Logger):
 
             # http://docs.datadoghq.com/guides/dogstatsd/#datagram-format
             if self.dogstatsd_tags:
-                msg = msg + b"|#" + self.dogstatsd_tags.encode('ascii')
+                msg = msg + b"|#" + self.dogstatsd_tags.encode("ascii")
 
             if self.sock:
                 self.sock.send(msg)

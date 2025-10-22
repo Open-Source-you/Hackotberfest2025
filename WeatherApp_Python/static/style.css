@@ -44,9 +44,9 @@ form{
 }
 input, .btn ::placeholder{
   background-color: transparent;
-  
+
     /* color: var(--off-white);
-    border-bottom: 2px solid var(--transp-white-1);   */ 
+    border-bottom: 2px solid var(--transp-white-1);   */
   padding: .5rem;
   border-radius: 10px;
   outline: none;
@@ -74,7 +74,7 @@ input, .btn ::placeholder{
   justify-content: space-between;
   align-items:center;
   height:200px;
-  
+
 }
 .left{
   width:100%;
@@ -87,7 +87,7 @@ input, .btn ::placeholder{
   text-transform: uppercase;
   background: var(--transp-white-2);
   backdrop-filter: blur(10px);
-  
+
 }
 .temp{
   text-align: center;
@@ -128,8 +128,8 @@ input, .btn ::placeholder{
 }
 @media only screen and (max-width: 1000px) {
   .container{
-   width:80%; 
-  } 
+   width:80%;
+  }
 }
 @media only screen and (max-width: 700px) {
   .weather {
@@ -153,7 +153,7 @@ input, .btn ::placeholder{
 
 }
 
-/* 
+/*
 
 @import url('https://fonts.googleapis.com/css?family=Source+Code+Pro:200'); */
 
@@ -163,6 +163,5 @@ body  {
   background-repeat: no-repeat;
   margin: 0;
   width: 1920px;
-       
-}
 
+}

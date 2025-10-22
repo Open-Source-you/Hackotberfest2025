@@ -27,19 +27,19 @@ overflow: hidden;
 transition: all 300ms ease-out;
 }
 .container .button:nth-child(1):hover .icon{
-    background:  #4267b2; 
+    background:  #4267b2;
 }
 .container .button:nth-child(2):hover .icon{
-    background:   #8a3ab9 ; 
+    background:   #8a3ab9 ;
 }
 .container .button:nth-child(3):hover .icon{
-    background:  #333; 
+    background:  #333;
 }
 .container .button:nth-child(4):hover .icon{
-    background:  #ff0000; 
+    background:  #ff0000;
 }
 .container .button:nth-child(5):hover .icon  {
-    background:   #0077b5; 
+    background:   #0077b5;
 }
 .container .button:hover{
     width: 200px;
@@ -68,17 +68,17 @@ line-height: 60px;
     transition: all 300ms ease-out;
 }
 .container .button:nth-child(1) span{
-    color:  #4267b2; 
+    color:  #4267b2;
 }
 .container .button:nth-child(2) span{
-    color:   #8a3ab9 ; 
+    color:   #8a3ab9 ;
 }
 .container .button:nth-child(3) span{
-    color:  #333; 
+    color:  #333;
 }
 .container .button:nth-child(4) span{
-    color:  #ff0000; 
+    color:  #ff0000;
 }
 .container .button:nth-child(5) span  {
-    color:   #0077b5; 
+    color:   #0077b5;
 }

@@ -1,5 +1,6 @@
-import pyfiglet
 import random
+
+import pyfiglet
 
 # Some cool fonts you can experiment with
 fonts = ["slant", "block", "digital", "bubble", "starwars", "doom", "big"]
