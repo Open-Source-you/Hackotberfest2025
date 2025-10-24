@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connected Sun</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            overflow: hidden;
+            background: #000;
+            font-family: Arial, sans-serif;
+        }
+        
+        canvas {
+            display: block;
+            cursor: move;
+        }
+        
+        .info {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            z-index: 1000;
+            pointer-events: none;
+        }
+        
+        .info h3 {
+            margin-bottom: 10px;
+            color: #ffd700;
+        }
+        
+        .lightning-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+    <canvas class="lightning-overlay" id="lightningCanvas"></canvas>
+    <canvas id="canvas"></canvas>
+    <div class="info">
+        <h3>⚡ Multi-Tab Sun Network</h3>
+        <p>Open this in multiple tabs!</p>
+        <p>Drag the sun to move it</p>
+        <p id="tabInfo">Tab ID: Loading...</p>
+        <p id="connectionInfo">Connected tabs: 0</p>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const lightningCanvas = document.getElementById('lightningCanvas');
+        const lightningCtx = lightningCanvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        lightningCanvas.width = window.innerWidth;
+        lightningCanvas.height = window.innerHeight;
+        
+        // Generate unique tab ID
+        const tabId = 'tab_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        
+        // BroadcastChannel for cross-tab communication
+        const channel = new BroadcastChannel('sun_network');
+        
+        // Sun object for this tab
+        const sun = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            radius: 50,
+            dragging: false,
+            offsetX: 0,
+            offsetY: 0,
+            exploded: false,
+            explosionProgress: 0
+        };
+        
+        // Store other tabs' data
+        const otherTabs = new Map();
+        
+        // Persistent lightning connections (one per connected tab)
+        const activeLightnings = new Map();
+        
+        // Update UI
+        document.getElementById('tabInfo').textContent = `Tab: ${tabId.substr(4, 8)}`;
+        
+        // Get window position relative to screen
+        function getScreenPosition() {
+            return {
+                screenX: window.screenX || window.screenLeft || 0,
+                screenY: window.screenY || window.screenTop || 0,
+                sunX: sun.x,
+                sunY: sun.y,
+                windowWidth: window.innerWidth,
+                windowHeight: window.innerHeight
+            };
+        }
+        
+        // Broadcast sun position and window position
+        function broadcastPosition() {
+            const pos = getScreenPosition();
+            channel.postMessage({
+                type: 'position',
+                tabId: tabId,
+                ...pos,
+                timestamp: Date.now()
+            });
+        }
+        
+        // Handle messages from other tabs
+        channel.onmessage = (event) => {
+            const data = event.data;
+            
+            if (data.tabId === tabId) return;
+            
+            if (data.type === 'position') {
+                otherTabs.set(data.tabId, {
+                    screenX: data.screenX,
+                    screenY: data.screenY,
+                    sunX: data.sunX,
+                    sunY: data.sunY,
+                    windowWidth: data.windowWidth,
+                    windowHeight: data.windowHeight,
+                    timestamp: data.timestamp
+                });
+            } else if (data.type === 'disconnect') {
+                otherTabs.delete(data.tabId);
+                activeLightnings.delete(data.tabId);
+            }
+        };
+        
+        // Calculate the exact position of another tab's sun in this tab's viewport
+        function calculateOtherSunPosition(otherTabData) {
+            const myPos = getScreenPosition();
+            
+            // Absolute screen positions (accounting for browser chrome ~70px)
+            const myAbsoluteX = myPos.screenX;
+            const myAbsoluteY = myPos.screenY + 70; // Browser chrome height
+            
+            const otherAbsoluteX = otherTabData.screenX + otherTabData.sunX;
+            const otherAbsoluteY = otherTabData.screenY + 70 + otherTabData.sunY;
+            
+            // Convert to this tab's canvas coordinates
+            const relativeX = otherAbsoluteX - myAbsoluteX;
+            const relativeY = otherAbsoluteY - myAbsoluteY;
+            
+            return { x: relativeX, y: relativeY };
+        }
+        
+        // Generate lightning path between two points
+        function generateLightningPath(x1, y1, x2, y2) {
+            const segments = [];
+            const distance = Math.sqrt((x2-x1)**2 + (y2-y1)**2);
+            const steps = Math.max(15, Math.floor(distance / 25));
+            
+            for (let i = 0; i <= steps; i++) {
+                const t = i / steps;
+                let x = x1 + (x2 - x1) * t;
+                let y = y1 + (y2 - y1) * t;
+                
+                // Add jagged displacement (less at endpoints)
+                if (i > 0 && i < steps) {
+                    const displacement = Math.sin(t * Math.PI) * 50; // Max displacement in middle
+                    x += (Math.random() - 0.5) * displacement;
+                    y += (Math.random() - 0.5) * displacement;
+                }
+                
+                segments.push({ x, y });
+            }
+            
+            return segments;
+        }
+        
+        // Update lightning connections in real-time
+        function updateLightningConnections() {
+            const now = Date.now();
+            
+            // Clean up stale tabs
+            otherTabs.forEach((tab, id) => {
+                if (now - tab.timestamp > 2000) {
+                    otherTabs.delete(id);
+                    activeLightnings.delete(id);
+                }
+            });
+            
+            // Update or create lightning for each connected tab
+            otherTabs.forEach((otherTab, otherId) => {
+                const targetPos = calculateOtherSunPosition(otherTab);
+                
+                // Check if we need to regenerate the path (every few frames for animation)
+                if (!activeLightnings.has(otherId) || Math.random() < 0.1) {
+                    activeLightnings.set(otherId, {
+                        segments: generateLightningPath(sun.x, sun.y, targetPos.x, targetPos.y),
+                        targetX: targetPos.x,
+                        targetY: targetPos.y,
+                        intensity: 0.7 + Math.random() * 0.3
+                    });
+                } else {
+                    // Update endpoints if positions changed
+                    const lightning = activeLightnings.get(otherId);
+                    const dist = Math.sqrt((lightning.targetX - targetPos.x)**2 + (lightning.targetY - targetPos.y)**2);
+                    
+                    // Regenerate if target moved significantly
+                    if (dist > 5) {
+                        lightning.segments = generateLightningPath(sun.x, sun.y, targetPos.x, targetPos.y);
+                        lightning.targetX = targetPos.x;
+                        lightning.targetY = targetPos.y;
+                    }
+                }
+            });
+        }
+        
+        // Draw sun
+        function drawSun(x, y, radius) {
+            // Outer glow
+            const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius * 3);
+            gradient.addColorStop(0, 'rgba(255, 220, 100, 0.9)');
+            gradient.addColorStop(0.2, 'rgba(255, 180, 50, 0.6)');
+            gradient.addColorStop(0.5, 'rgba(255, 100, 0, 0.3)');
+            gradient.addColorStop(1, 'rgba(255, 50, 0, 0)');
+            
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(x, y, radius * 3, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Middle layer
+            const midGradient = ctx.createRadialGradient(x, y, 0, x, y, radius * 1.5);
+            midGradient.addColorStop(0, 'rgba(255, 255, 200, 1)');
+            midGradient.addColorStop(0.5, 'rgba(255, 200, 50, 0.8)');
+            midGradient.addColorStop(1, 'rgba(255, 150, 0, 0)');
+            
+            ctx.fillStyle = midGradient;
+            ctx.beginPath();
+            ctx.arc(x, y, radius * 1.5, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Core
+            const coreGradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
+            coreGradient.addColorStop(0, '#ffffff');
+            coreGradient.addColorStop(0.3, '#ffeb3b');
+            coreGradient.addColorStop(0.7, '#ff9800');
+            coreGradient.addColorStop(1, '#ff5722');
+            
+            ctx.fillStyle = coreGradient;
+            ctx.beginPath();
+            ctx.arc(x, y, radius, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Pulsing ring
+            const pulse = Math.sin(Date.now() / 400) * 8;
+            ctx.strokeStyle = `rgba(255, 255, 255, ${0.3 + Math.sin(Date.now() / 400) * 0.2})`;
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.arc(x, y, radius + 10 + pulse, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            // Energy particles
+            const time = Date.now() / 1000;
+            for (let i = 0; i < 8; i++) {
+                const angle = (i / 8) * Math.PI * 2 + time;
+                const distance = radius + 15 + Math.sin(time * 3 + i) * 5;
+                const px = x + Math.cos(angle) * distance;
+                const py = y + Math.sin(angle) * distance;
+                
+                ctx.fillStyle = 'rgba(255, 255, 150, 0.6)';
+                ctx.beginPath();
+                ctx.arc(px, py, 2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        
+        // Draw lightning
+        function drawLightning(lightning) {
+            lightningCtx.save();
+            
+            const flicker = 0.8 + Math.random() * 0.2;
+            lightningCtx.globalAlpha = lightning.intensity * flicker;
+            
+            // Main bolt - outer glow
+            lightningCtx.strokeStyle = '#00b4ff';
+            lightningCtx.shadowColor = '#00d4ff';
+            lightningCtx.shadowBlur = 25;
+            lightningCtx.lineWidth = 5;
+            lightningCtx.lineCap = 'round';
+            lightningCtx.lineJoin = 'round';
+            
+            lightningCtx.beginPath();
+            lightning.segments.forEach((seg, i) => {
+                if (i === 0) {
+                    lightningCtx.moveTo(seg.x, seg.y);
+                } else {
+                    lightningCtx.lineTo(seg.x, seg.y);
+                }
+            });
+            lightningCtx.stroke();
+            
+            // Bright core
+            lightningCtx.strokeStyle = '#ffffff';
+            lightningCtx.shadowBlur = 15;
+            lightningCtx.lineWidth = 2;
+            lightningCtx.stroke();
+            
+            // Inner bright line
+            lightningCtx.strokeStyle = '#e0f7ff';
+            lightningCtx.shadowBlur = 5;
+            lightningCtx.lineWidth = 1;
+            lightningCtx.stroke();
+            
+            lightningCtx.restore();
+        }
+        
+        // Animation loop
+        function animate() {
+            // Clear canvases
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            lightningCtx.clearRect(0, 0, lightningCanvas.width, lightningCanvas.height);
+            
+            // Update lightning connections
+            updateLightningConnections();
+            
+            // Draw all active lightnings
+            activeLightnings.forEach((lightning) => {
+                drawLightning(lightning);
+            });
+            
+            // Draw this tab's sun
+            drawSun(sun.x, sun.y, sun.radius);
+            
+            // Update connection count
+            document.getElementById('connectionInfo').textContent = `Connected tabs: ${otherTabs.size}`;
+            
+            requestAnimationFrame(animate);
+        }
+        
+        // Mouse events
+        canvas.addEventListener('mousedown', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+            const dx = mouseX - sun.x;
+            const dy = mouseY - sun.y;
+            
+            if (Math.sqrt(dx * dx + dy * dy) <= sun.radius * 2) {
+                sun.dragging = true;
+                sun.offsetX = dx;
+                sun.offsetY = dy;
+            }
+        });
+        
+        canvas.addEventListener('mousemove', (e) => {
+            if (sun.dragging) {
+                const rect = canvas.getBoundingClientRect();
+                sun.x = e.clientX - rect.left - sun.offsetX;
+                sun.y = e.clientY - rect.top - sun.offsetY;
+                broadcastPosition();
+            }
+        });
+        
+        canvas.addEventListener('mouseup', () => {
+            sun.dragging = false;
+        });
+        
+        canvas.addEventListener('mouseleave', () => {
+            sun.dragging = false;
+        });
+        
+        // Touch events for mobile
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            const touchX = touch.clientX - rect.left;
+            const touchY = touch.clientY - rect.top;
+            const dx = touchX - sun.x;
+            const dy = touchY - sun.y;
+            
+            if (Math.sqrt(dx * dx + dy * dy) <= sun.radius * 2) {
+                sun.dragging = true;
+                sun.offsetX = dx;
+                sun.offsetY = dy;
+            }
+        });
+        
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            if (sun.dragging) {
+                const touch = e.touches[0];
+                const rect = canvas.getBoundingClientRect();
+                sun.x = touch.clientX - rect.left - sun.offsetX;
+                sun.y = touch.clientY - rect.top - sun.offsetY;
+                broadcastPosition();
+            }
+        });
+        
+        canvas.addEventListener('touchend', () => {
+            sun.dragging = false;
+        });
+        
+        // Window resize and move
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            lightningCanvas.width = window.innerWidth;
+            lightningCanvas.height = window.innerHeight;
+            broadcastPosition();
+        });
+        
+        // Detect window movement
+        let lastScreenX = window.screenX;
+        let lastScreenY = window.screenY;
+        setInterval(() => {
+            if (window.screenX !== lastScreenX || window.screenY !== lastScreenY) {
+                lastScreenX = window.screenX;
+                lastScreenY = window.screenY;
+                broadcastPosition();
+            }
+        }, 100);
+        
+        // Disconnect on close
+        window.addEventListener('beforeunload', () => {
+            channel.postMessage({
+                type: 'disconnect',
+                tabId: tabId
+            });
+        });
+        
+        // Broadcast position regularly
+        setInterval(broadcastPosition, 50);
+        
+        // Start
+        animate();
+        broadcastPosition();
+    </script>
+</body>
+</html>
