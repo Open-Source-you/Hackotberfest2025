@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>City Traffic Simulator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+        
+        canvas {
+            display: block;
+            background: #2d5016;
+        }
+        
+        .dashboard {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            min-width: 280px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .dashboard h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px;
+            border-radius: 10px;
+            color: white;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .control-group {
+            margin-bottom: 15px;
+        }
+        
+        .control-group label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .value-badge {
+            background: #667eea;
+            color: white;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            background: #e0e0e0;
+            outline: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+        
+        input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: pointer;
+            border-radius: 50%;
+            border: none;
+        }
+        
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        button {
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button.danger {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .legend {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .legend h3 {
+            color: #2c3e50;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-size: 13px;
+            color: #555;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 2px solid #333;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    
+    <div class="dashboard">
+        <h2>🚦 Traffic Control</h2>
+        
+        <div class="stat-grid">
+            <div class="stat-card">
+                <span class="stat-value" id="carCount">0</span>
+                <span class="stat-label">Cars</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value" id="avgSpeed">0</span>
+                <span class="stat-label">Avg Speed</span>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label>
+                Traffic Density
+                <span class="value-badge" id="densityValue">50</span>
+            </label>
+            <input type="range" id="density" min="10" max="100" value="50">
+        </div>
+        
+        <div class="control-group">
+            <label>
+                Traffic Light Duration
+                <span class="value-badge" id="lightValue">3s</span>
+            </label>
+            <input type="range" id="lightDuration" min="2" max="10" value="3">
+        </div>
+        
+        <div class="control-group">
+            <label>
+                Max Speed
+                <span class="value-badge" id="speedValue">5</span>
+            </label>
+            <input type="range" id="maxSpeed" min="2" max="10" value="5">
+        </div>
+        
+        <div class="button-group">
+            <button id="addCars">➕ Add Cars</button>
+            <button id="removeCars" class="danger">➖ Remove</button>
+        </div>
+        
+        <button id="jamMode" style="width: 100%; margin-top: 10px;">🚨 Create Traffic Jam</button>
+    </div>
+    
+    <div class="legend">
+        <h3>Legend</h3>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #ff4444;"></div>
+            <span>Red Car</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #4444ff;"></div>
+            <span>Blue Car</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #44ff44;"></div>
+            <span>Green Car</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #ffff44;"></div>
+            <span>Yellow Car</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #333; width: 30px; height: 4px;"></div>
+            <span>Road</span>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        let cars = [];
+        let trafficLights = [];
+        let buildings = [];
+        
+        const settings = {
+            density: 50,
+            lightDuration: 3,
+            maxSpeed: 5
+        };
+        
+        const carColors = ['#ff4444', '#4444ff', '#44ff44', '#ffff44', '#ff44ff', '#44ffff'];
+        
+        class Building {
+            constructor(x, y, width, height) {
+                this.x = x;
+                this.y = y;
+                this.width = width;
+                this.height = height;
+                this.color = `hsl(${Math.random() * 30 + 200}, 30%, ${Math.random() * 20 + 40}%)`;
+                this.windows = [];
+                
+                // Generate windows
+                for (let i = 10; i < this.height - 10; i += 20) {
+                    for (let j = 10; j < this.width - 10; j += 15) {
+                        this.windows.push({
+                            x: j,
+                            y: i,
+                            lit: Math.random() > 0.5
+                        });
+                    }
+                }
+            }
+            
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+                
+                ctx.strokeStyle = '#000';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(this.x, this.y, this.width, this.height);
+                
+                // Windows
+                this.windows.forEach(w => {
+                    ctx.fillStyle = w.lit ? '#ffffaa' : '#333333';
+                    ctx.fillRect(this.x + w.x, this.y + w.y, 8, 10);
+                });
+            }
+        }
+        
+        class TrafficLight {
+            constructor(x, y, direction) {
+                this.x = x;
+                this.y = y;
+                this.direction = direction; // 'horizontal' or 'vertical'
+                this.state = Math.random() > 0.5 ? 'green' : 'red';
+                this.timer = 0;
+            }
+            
+            update(deltaTime) {
+                this.timer += deltaTime;
+                if (this.timer >= settings.lightDuration) {
+                    this.state = this.state === 'green' ? 'red' : 'green';
+                    this.timer = 0;
+                }
+            }
+            
+            draw() {
+                const size = 20;
+                ctx.fillStyle = '#222';
+                ctx.fillRect(this.x - size/2, this.y - size/2, size, size * 2);
+                
+                ctx.fillStyle = this.state === 'red' ? '#ff0000' : '#440000';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y - size/2, 7, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.fillStyle = this.state === 'green' ? '#00ff00' : '#004400';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y + size/2, 7, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        
+        class Car {
+            constructor(lane, direction) {
+                this.lane = lane;
+                this.direction = direction; // 'right', 'left', 'up', 'down'
+                this.width = 40;
+                this.height = 20;
+                this.speed = Math.random() * 2 + 2;
+                this.maxSpeed = settings.maxSpeed;
+                this.color = carColors[Math.floor(Math.random() * carColors.length)];
+                
+                // Position based on direction
+                if (direction === 'right') {
+                    this.x = -this.width;
+                    this.y = lane;
+                } else if (direction === 'left') {
+                    this.x = canvas.width + this.width;
+                    this.y = lane;
+                } else if (direction === 'down') {
+                    this.x = lane;
+                    this.y = -this.height;
+                } else {
+                    this.x = lane;
+                    this.y = canvas.height + this.height;
+                }
+            }
+            
+            update() {
+                // Check traffic lights
+                let shouldStop = false;
+                trafficLights.forEach(light => {
+                    if (light.state === 'red') {
+                        if (this.direction === 'right' && 
+                            Math.abs(this.x - light.x + 40) < 50 && 
+                            Math.abs(this.y - light.y) < 30) {
+                            shouldStop = true;
+                        } else if (this.direction === 'left' && 
+                            Math.abs(this.x - light.x - 40) < 50 && 
+                            Math.abs(this.y - light.y) < 30) {
+                            shouldStop = true;
+                        } else if (this.direction === 'down' && 
+                            Math.abs(this.y - light.y + 40) < 50 && 
+                            Math.abs(this.x - light.x) < 30) {
+                            shouldStop = true;
+                        } else if (this.direction === 'up' && 
+                            Math.abs(this.y - light.y - 40) < 50 && 
+                            Math.abs(this.x - light.x) < 30) {
+                            shouldStop = true;
+                        }
+                    }
+                });
+                
+                // Check other cars
+                cars.forEach(other => {
+                    if (other !== this && this.direction === other.direction) {
+                        const distance = this.direction === 'right' || this.direction === 'left' ?
+                            Math.abs(this.x - other.x) : Math.abs(this.y - other.y);
+                        
+                        if (distance < 50 && Math.abs(this.y - other.y) < 30 && 
+                            Math.abs(this.x - other.x) < 30) {
+                            shouldStop = true;
+                        }
+                    }
+                });
+                
+                // Update speed
+                if (shouldStop) {
+                    this.speed = Math.max(0, this.speed - 0.5);
+                } else {
+                    this.speed = Math.min(this.maxSpeed, this.speed + 0.2);
+                }
+                
+                // Move
+                if (this.direction === 'right') {
+                    this.x += this.speed;
+                } else if (this.direction === 'left') {
+                    this.x -= this.speed;
+                } else if (this.direction === 'down') {
+                    this.y += this.speed;
+                } else {
+                    this.y -= this.speed;
+                }
+            }
+            
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                
+                if (this.direction === 'down') {
+                    ctx.rotate(Math.PI / 2);
+                } else if (this.direction === 'up') {
+                    ctx.rotate(-Math.PI / 2);
+                } else if (this.direction === 'left') {
+                    ctx.rotate(Math.PI);
+                }
+                
+                // Car body
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
+                
+                // Car outline
+                ctx.strokeStyle = '#000';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(-this.width/2, -this.height/2, this.width, this.height);
+                
+                // Windows
+                ctx.fillStyle = 'rgba(100, 150, 200, 0.7)';
+                ctx.fillRect(-this.width/2 + 5, -this.height/2 + 3, 12, this.height - 6);
+                ctx.fillRect(this.width/2 - 17, -this.height/2 + 3, 12, this.height - 6);
+                
+                // Headlights
+                if (this.speed > 0) {
+                    ctx.fillStyle = '#ffffaa';
+                    ctx.fillRect(this.width/2 - 5, -this.height/2 + 2, 3, 4);
+                    ctx.fillRect(this.width/2 - 5, this.height/2 - 6, 3, 4);
+                }
+                
+                ctx.restore();
+            }
+            
+            isOffScreen() {
+                return this.x < -100 || this.x > canvas.width + 100 ||
+                       this.y < -100 || this.y > canvas.height + 100;
+            }
+        }
+        
+        function initCity() {
+            // Create buildings
+            buildings = [];
+            
+            // Top left
+            buildings.push(new Building(50, 50, 150, 200));
+            buildings.push(new Building(220, 50, 120, 150));
+            
+            // Top right
+            buildings.push(new Building(canvas.width - 200, 50, 150, 180));
+            buildings.push(new Building(canvas.width - 370, 50, 140, 220));
+            
+            // Bottom left
+            buildings.push(new Building(50, canvas.height - 250, 180, 200));
+            buildings.push(new Building(250, canvas.height - 200, 100, 150));
+            
+            // Bottom right
+            buildings.push(new Building(canvas.width - 180, canvas.height - 230, 130, 180));
+            buildings.push(new Building(canvas.width - 330, canvas.height - 280, 120, 230));
+            
+            // Traffic lights at intersections
+            trafficLights = [
+                new TrafficLight(canvas.width/2, canvas.height/3, 'both'),
+                new TrafficLight(canvas.width/2, 2*canvas.height/3, 'both'),
+                new TrafficLight(canvas.width/3, canvas.height/2, 'both'),
+                new TrafficLight(2*canvas.width/3, canvas.height/2, 'both'),
+            ];
+        }
+        
+        function spawnCar() {
+            const directions = ['right', 'left', 'up', 'down'];
+            const lanes = {
+                right: [canvas.height/3 - 30, 2*canvas.height/3 - 30],
+                left: [canvas.height/3 + 30, 2*canvas.height/3 + 30],
+                up: [canvas.width/3 + 30, 2*canvas.width/3 + 30],
+                down: [canvas.width/3 - 30, 2*canvas.width/3 - 30]
+            };
+            
+            const direction = directions[Math.floor(Math.random() * directions.length)];
+            const availableLanes = lanes[direction];
+            const lane = availableLanes[Math.floor(Math.random() * availableLanes.length)];
+            
+            cars.push(new Car(lane, direction));
+        }
+        
+        let lastTime = 0;
+        let spawnTimer = 0;
+        
+        function animate(currentTime) {
+            const deltaTime = (currentTime - lastTime) / 1000;
+            lastTime = currentTime;
+            
+            // Clear canvas
+            ctx.fillStyle = '#4a7c59';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw roads
+            ctx.fillStyle = '#333333';
+            
+            // Horizontal roads
+            ctx.fillRect(0, canvas.height/3 - 40, canvas.width, 80);
+            ctx.fillRect(0, 2*canvas.height/3 - 40, canvas.width, 80);
+            
+            // Vertical roads
+            ctx.fillRect(canvas.width/3 - 40, 0, 80, canvas.height);
+            ctx.fillRect(2*canvas.width/3 - 40, 0, 80, canvas.height);
+            
+            // Road lines
+            ctx.strokeStyle = '#ffff00';
+            ctx.lineWidth = 3;
+            ctx.setLineDash([20, 15]);
+            
+            ctx.beginPath();
+            ctx.moveTo(0, canvas.height/3);
+            ctx.lineTo(canvas.width, canvas.height/3);
+            ctx.moveTo(0, 2*canvas.height/3);
+            ctx.lineTo(canvas.width, 2*canvas.height/3);
+            ctx.moveTo(canvas.width/3, 0);
+            ctx.lineTo(canvas.width/3, canvas.height);
+            ctx.moveTo(2*canvas.width/3, 0);
+            ctx.lineTo(2*canvas.width/3, canvas.height);
+            ctx.stroke();
+            
+            ctx.setLineDash([]);
+            
+            // Draw buildings
+            buildings.forEach(b => b.draw());
+            
+            // Update and draw traffic lights
+            trafficLights.forEach(light => {
+                light.update(deltaTime);
+                light.draw();
+            });
+            
+            // Spawn cars
+            spawnTimer += deltaTime;
+            const spawnRate = 10 / settings.density;
+            if (spawnTimer >= spawnRate && cars.length < settings.density) {
+                spawnCar();
+                spawnTimer = 0;
+            }
+            
+            // Update and draw cars
+            cars.forEach(car => {
+                car.maxSpeed = settings.maxSpeed;
+                car.update();
+                car.draw();
+            });
+            
+            // Remove off-screen cars
+            cars = cars.filter(car => !car.isOffScreen());
+            
+            // Update stats
+            document.getElementById('carCount').textContent = cars.length;
+            const avgSpeed = cars.length > 0 ? 
+                (cars.reduce((sum, car) => sum + car.speed, 0) / cars.length).toFixed(1) : 
+                0;
+            document.getElementById('avgSpeed').textContent = avgSpeed;
+            
+            requestAnimationFrame(animate);
+        }
+        
+        // Event listeners
+        document.getElementById('density').addEventListener('input', (e) => {
+            settings.density = parseInt(e.target.value);
+            document.getElementById('densityValue').textContent = settings.density;
+        });
+        
+        document.getElementById('lightDuration').addEventListener('input', (e) => {
+            settings.lightDuration = parseInt(e.target.value);
+            document.getElementById('lightValue').textContent = settings.lightDuration + 's';
+        });
+        
+        document.getElementById('maxSpeed').addEventListener('input', (e) => {
+            settings.maxSpeed = parseInt(e.target.value);
+            document.getElementById('speedValue').textContent = settings.maxSpeed;
+        });
+        
+        document.getElementById('addCars').addEventListener('click', () => {
+            for (let i = 0; i < 5; i++) {
+                spawnCar();
+            }
+        });
+        
+        document.getElementById('removeCars').addEventListener('click', () => {
+            cars = cars.slice(0, Math.max(0, cars.length - 5));
+        });
+        
+        document.getElementById('jamMode').addEventListener('click', () => {
+            trafficLights.forEach(light => {
+                light.state = 'red';
+                light.timer = 0;
+            });
+            
+            for (let i = 0; i < 20; i++) {
+                spawnCar();
+            }
+        });
+        
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initCity();
+        });
+        
+        // Initialize
+        initCity();
+        animate(0);
+    </script>
+</body>
+</html>
