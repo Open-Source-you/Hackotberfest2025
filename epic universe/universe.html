@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Particle Universe</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            overflow: hidden;
+            background: #000;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        canvas {
+            display: block;
+            cursor: move;
+        }
+        
+        .controls {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            z-index: 10;
+            max-width: 250px;
+        }
+        
+        .controls h3 {
+            margin-bottom: 15px;
+            font-size: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .control-group {
+            margin-bottom: 15px;
+        }
+        
+        .control-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 12px;
+            color: #aaa;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            outline: none;
+            border-radius: 2px;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        
+        input[type="range"]::-moz-range-thumb {
+            width: 15px;
+            height: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: pointer;
+            border-radius: 50%;
+            border: none;
+        }
+        
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: transform 0.2s;
+        }
+        
+        button:hover {
+            transform: scale(1.05);
+        }
+        
+        button:active {
+            transform: scale(0.95);
+        }
+        
+        .info {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 12px;
+            max-width: 300px;
+        }
+        
+        .value-display {
+            display: inline-block;
+            float: right;
+            color: #667eea;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    
+    <div class="controls">
+        <h3>⚡ Universe Controls</h3>
+        
+        <div class="control-group">
+            <label>Particle Count <span class="value-display" id="particleValue">5000</span></label>
+            <input type="range" id="particleCount" min="1000" max="15000" value="5000" step="500">
+        </div>
+        
+        <div class="control-group">
+            <label>Speed <span class="value-display" id="speedValue">1.0</span></label>
+            <input type="range" id="speed" min="0.1" max="3" value="1" step="0.1">
+        </div>
+        
+        <div class="control-group">
+            <label>Connection Distance <span class="value-display" id="distValue">120</span></label>
+            <input type="range" id="distance" min="50" max="250" value="120" step="10">
+        </div>
+        
+        <div class="control-group">
+            <label>Wave Intensity <span class="value-display" id="waveValue">0.5</span></label>
+            <input type="range" id="wave" min="0" max="2" value="0.5" step="0.1">
+        </div>
+        
+        <button id="randomize">🎲 Randomize</button>
+        <button id="explode">💥 Explode!</button>
+    </div>
+    
+    <div class="info">
+        <strong>🎮 Controls:</strong><br>
+        • Drag to rotate<br>
+        • Scroll to zoom<br>
+        • Adjust sliders for effects
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+        
+        let particles = [];
+        let mouse = { x: 0, y: 0, down: false };
+        let rotation = { x: 0, y: 0 };
+        let targetRotation = { x: 0, y: 0 };
+        let zoom = 1;
+        
+        // Settings
+        let settings = {
+            particleCount: 5000,
+            speed: 1,
+            connectionDistance: 120,
+            waveIntensity: 0.5
+        };
+        
+        class Particle {
+            constructor() {
+                this.reset();
+                this.z = Math.random() * 2000 - 1000;
+            }
+            
+            reset() {
+                const angle = Math.random() * Math.PI * 2;
+                const radius = Math.random() * 500 + 200;
+                this.x = Math.cos(angle) * radius;
+                this.y = Math.sin(angle) * radius;
+                this.z = Math.random() * 2000 - 1000;
+                
+                this.vx = (Math.random() - 0.5) * 2;
+                this.vy = (Math.random() - 0.5) * 2;
+                this.vz = (Math.random() - 0.5) * 2;
+                
+                this.hue = Math.random() * 360;
+                this.size = Math.random() * 2 + 1;
+            }
+            
+            update(time) {
+                // Wave motion
+                this.x += Math.sin(time * 0.001 + this.y * 0.01) * settings.waveIntensity;
+                this.y += Math.cos(time * 0.001 + this.x * 0.01) * settings.waveIntensity;
+                
+                // Orbital motion
+                this.x += this.vx * settings.speed;
+                this.y += this.vy * settings.speed;
+                this.z += this.vz * settings.speed;
+                
+                // Boundary check
+                if (Math.abs(this.x) > 1000 || Math.abs(this.y) > 1000 || Math.abs(this.z) > 1000) {
+                    this.reset();
+                }
+            }
+            
+            project() {
+                const perspective = 800;
+                const z = Math.max(this.z * zoom, -perspective + 1);
+                const scale = perspective / (perspective + z);
+                return {
+                    x: this.x * scale + width / 2,
+                    y: this.y * scale + height / 2,
+                    scale: Math.max(scale, 0.001)
+                };
+            }
+        }
+        
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < settings.particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+        
+        function rotatePoint(x, y, z) {
+            // Rotate around Y axis
+            let cosY = Math.cos(rotation.y);
+            let sinY = Math.sin(rotation.y);
+            let tempX = x * cosY - z * sinY;
+            let tempZ = x * sinY + z * cosY;
+            x = tempX;
+            z = tempZ;
+            
+            // Rotate around X axis
+            let cosX = Math.cos(rotation.x);
+            let sinX = Math.sin(rotation.x);
+            let tempY = y * cosX - z * sinX;
+            z = y * sinX + z * cosX;
+            y = tempY;
+            
+            return { x, y, z };
+        }
+        
+        function animate(time) {
+            // Smooth rotation interpolation
+            rotation.x += (targetRotation.x - rotation.x) * 0.1;
+            rotation.y += (targetRotation.y - rotation.y) * 0.1;
+            
+            // Fade effect
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, width, height);
+            
+            // Update and draw particles
+            const projectedParticles = [];
+            
+            particles.forEach(p => {
+                p.update(time);
+                
+                const rotated = rotatePoint(p.x, p.y, p.z);
+                p.rx = rotated.x;
+                p.ry = rotated.y;
+                p.rz = rotated.z;
+                
+                const projected = p.project();
+                projectedParticles.push({ ...projected, particle: p });
+            });
+            
+            // Sort by z-index
+            projectedParticles.sort((a, b) => b.particle.rz - a.particle.rz);
+            
+            // Draw connections
+            ctx.strokeStyle = 'rgba(102, 126, 234, 0.1)';
+            ctx.lineWidth = 1;
+            
+            for (let i = 0; i < projectedParticles.length; i++) {
+                const p1 = projectedParticles[i];
+                
+                for (let j = i + 1; j < Math.min(i + 5, projectedParticles.length); j++) {
+                    const p2 = projectedParticles[j];
+                    
+                    const dx = p1.particle.rx - p2.particle.rx;
+                    const dy = p1.particle.ry - p2.particle.ry;
+                    const dz = p1.particle.rz - p2.particle.rz;
+                    const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+                    
+                    if (dist < settings.connectionDistance) {
+                        const alpha = (1 - dist / settings.connectionDistance) * 0.3;
+                        ctx.strokeStyle = `hsla(${p1.particle.hue}, 80%, 60%, ${alpha})`;
+                        ctx.beginPath();
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            
+            // Draw particles
+            projectedParticles.forEach(({ x, y, scale, particle }) => {
+                const size = particle.size * scale;
+                const alpha = scale * 0.8;
+                
+                ctx.fillStyle = `hsla(${particle.hue}, 80%, 60%, ${alpha})`;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Glow effect
+                ctx.shadowBlur = 15 * scale;
+                ctx.shadowColor = `hsla(${particle.hue}, 80%, 60%, ${alpha})`;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            });
+            
+            requestAnimationFrame(animate);
+        }
+        
+        // Event listeners
+        canvas.addEventListener('mousedown', (e) => {
+            mouse.down = true;
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+        
+        canvas.addEventListener('mousemove', (e) => {
+            if (mouse.down) {
+                const dx = e.clientX - mouse.x;
+                const dy = e.clientY - mouse.y;
+                
+                targetRotation.y += dx * 0.005;
+                targetRotation.x += dy * 0.005;
+                
+                mouse.x = e.clientX;
+                mouse.y = e.clientY;
+            }
+        });
+        
+        canvas.addEventListener('mouseup', () => {
+            mouse.down = false;
+        });
+        
+        canvas.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            zoom += e.deltaY * 0.001;
+            zoom = Math.max(0.5, Math.min(2, zoom));
+        });
+        
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+        
+        // Controls
+        document.getElementById('particleCount').addEventListener('input', (e) => {
+            settings.particleCount = parseInt(e.target.value);
+            document.getElementById('particleValue').textContent = settings.particleCount;
+            initParticles();
+        });
+        
+        document.getElementById('speed').addEventListener('input', (e) => {
+            settings.speed = parseFloat(e.target.value);
+            document.getElementById('speedValue').textContent = settings.speed.toFixed(1);
+        });
+        
+        document.getElementById('distance').addEventListener('input', (e) => {
+            settings.connectionDistance = parseInt(e.target.value);
+            document.getElementById('distValue').textContent = settings.connectionDistance;
+        });
+        
+        document.getElementById('wave').addEventListener('input', (e) => {
+            settings.waveIntensity = parseFloat(e.target.value);
+            document.getElementById('waveValue').textContent = settings.waveIntensity.toFixed(1);
+        });
+        
+        document.getElementById('randomize').addEventListener('click', () => {
+            particles.forEach(p => {
+                p.hue = Math.random() * 360;
+                p.vx = (Math.random() - 0.5) * 4;
+                p.vy = (Math.random() - 0.5) * 4;
+                p.vz = (Math.random() - 0.5) * 4;
+            });
+        });
+        
+        document.getElementById('explode').addEventListener('click', () => {
+            particles.forEach(p => {
+                const angle = Math.atan2(p.y, p.x);
+                const force = 20;
+                p.vx = Math.cos(angle) * force;
+                p.vy = Math.sin(angle) * force;
+                p.vz = (Math.random() - 0.5) * force;
+            });
+        });
+        
+        // Initialize
+        initParticles();
+        animate(0);
+    </script>
+</body>
+</html>
