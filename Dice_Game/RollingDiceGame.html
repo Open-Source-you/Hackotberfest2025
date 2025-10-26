@@ -1,62 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=100%, initial-scale=1.0" />
-    <title>Rolling Dice Game</title>
-    <link rel="stylesheet" href="DiceStyle.css" />
-  </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Dice Battle</title>
+   
+</head>
+<body>
+    <div class="particles" id="particles"></div>
 
-  <body>
-    <script
-      src="https://kit.fontawesome.com/aba415448e.js"
-      crossorigin="anonymous"
-    ></script>
-    <div class="main">
-      <h1>Rolling Dice Game</h1>
-      <div class="cont">
-        <p>Player 1</p>
-        <img />
-      </div>
+    <div class="game-container">
+        <div class="game-header">
+            <h1>⚔️ DICE BATTLE ⚔️</h1>
+            <div class="game-mode">
+                <button class="mode-btn active" onclick="setGameMode('bestOf5')">Best of 5</button>
+                <button class="mode-btn" onclick="setGameMode('firstTo10')">First to 10</button>
+                <button class="mode-btn" onclick="setGameMode('endless')">Endless</button>
+            </div>
+        </div>
 
-      <div class="cont">
-        <p>Player 2</p>
-        <img />
-      </div>
+        <div class="stats-bar">
+            <div class="stat-card">
+                <h3>Round</h3>
+                <div class="value" id="roundDisplay">1</div>
+            </div>
+            <div class="stat-card">
+                <h3>P1 Wins</h3>
+                <div class="value" id="p1Wins">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>P2 Wins</h3>
+                <div class="value" id="p2Wins">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Ties</h3>
+                <div class="value" id="tieCount">0</div>
+            </div>
+        </div>
+
+        <div class="battle-arena">
+            <div class="player-zone" id="player1Zone">
+                <div class="player-avatar">👤</div>
+                <div class="player-name" id="player1Name">Player 1</div>
+                <div class="dice-display">
+                    <div class="dice" id="dice1">🎲</div>
+                </div>
+                <div class="score-display">
+                    <div class="score-label">Total Score</div>
+                    <div class="score-value" id="score1">0</div>
+                </div>
+            </div>
+
+            <div class="vs-divider">
+                <div class="vs-text">VS</div>
+            </div>
+
+            <div class="player-zone" id="player2Zone">
+                <div class="player-avatar">👤</div>
+                <div class="player-name" id="player2Name">Player 2</div>
+                <div class="dice-display">
+                    <div class="dice" id="dice2">🎲</div>
+                </div>
+                <div class="score-display">
+                    <div class="score-label">Total Score</div>
+                    <div class="score-value" id="score2">0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="rollBtn" onclick="rollDice()">
+                🎲 ROLL DICE
+            </button>
+            <button class="btn-secondary" onclick="resetGame()">
+                🔄 NEW GAME
+            </button>
+            <button class="btn-secondary" onclick="toggleSettings()">
+                ⚙️ SETTINGS
+            </button>
+        </div>
+
+        <div class="settings-panel" id="settingsPanel">
+            <div class="setting-item">
+                <label>Player 1 Name</label>
+                <input type="text" id="p1NameInput" placeholder="Enter name" maxlength="15" onchange="updatePlayerName(1)">
+            </div>
+            <div class="setting-item">
+                <label>Player 2 Name</label>
+                <input type="text" id="p2NameInput" placeholder="Enter name" maxlength="15" onchange="updatePlayerName(2)">
+            </div>
+            <div class="setting-item">
+                <label>Animation Speed</label>
+                <select id="speedToggle">
+                    <option value="normal">Normal</option>
+                    <option value="fast">Fast</option>
+                    <option value="slow">Slow</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="game-history">
+            <div class="history-title">📜 Battle History</div>
+            <div class="history-list" id="historyList">
+                <div style="color: rgba(255,255,255,0.5); text-align: center; padding: 20px;">
+                    No battles yet. Roll the dice to start!
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="col-lg-8 col-md-8 col-12 float-right">
-      Made by: <a href="https://its-hrs.tech" target="_blank">its-hrs</a>
-      <h3 style="margin-left: 10px">Contact Me:</h3>
-      <br />
-      <a
-        href="https://www.linkedin.com/in/harsh-saxena-8a9429178/"
-        target="_blank"
-        ><i style="padding: 8px" class="fab fa-linkedin fa-2x" id="linkedin"></i
-      ></a>
-      <a href="https://github.com/its-hrs" target="_blank"
-        ><i style="padding: 3px" class="fab fa-github fa-2x" id="github"></i
-      ></a>
-      <a href="https://www.instagram.com/_its_hrs/" target="_blank"
-        ><i style="padding: 3px" class="fab fa-instagram fa-2x" id="insta"></i
-      ></a>
-      <a href="https://twitter.com/its_hrs_" target="_blank"
-        ><i style="padding: 3px" class="fab fa-twitter fa-2x" id="tweet"></i
-      ></a>
-      <a href="mailto: harsh27725@gmail.com" target="_blank"
-        ><i style="padding: 8px" class="fas fa-paper-plane fa-2x" id="mail"></i
-      ></a>
+    <div class="winner-overlay" id="winnerOverlay">
+        <div class="winner-card">
+            <div class="trophy">🏆</div>
+            <h2 id="winnerText">Player 1 Wins!</h2>
+            <p style="color: #fff; font-size: 1.3em; margin-bottom: 30px;">
+                Final Score: <span id="finalScore"></span>
+            </p>
+            <button onclick="closeWinnerOverlay()">PLAY AGAIN</button>
+        </div>
     </div>
 
-    <button type="button" onClick="refreshPage()">Play Again !</button>
-
-    <script>
-      function refreshPage() {
-        window.location.reload();
-      }
-    </script>
-
-    <script src="DiceJS.js" charset="UTF-8"></script>
-  </body>
-</html>
+    <script src="DiceJS.js"></script>
+</body>
