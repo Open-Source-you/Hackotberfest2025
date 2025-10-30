@@ -26,7 +26,7 @@ A month-long celebration from October 1st to October 31st, presented by [Digital
 [https://hacktoberfest.digitalocean.com/](https://hacktoberfest.digitalocean.com/)
 
 ## Rules :fire:
-To qualify for the __official limited edition Hacktoberfest shirt__, you must register [here](https://hacktoberfest.digitalocean.com/) and make four Pull Requests (PRs) between October 1-31, 2025 (in any time zone). PRs can be made to any public repository on GitHub, not only the ones with issues labeled Hacktoberfest. This year, the __first 10,000__ participants who complete the challenge will earn a T-shirt.
+To qualify for the __official limited edition Hacktoberfest shirt__, you must register [here](https://hacktoberfest.digitalocean.com/) and make six Pull Requests (PRs) between October 1-31, 2025 (in any time zone). Contributions will count toward Hacktoberfest progress only if they are made to public repositories tagged with the topic 'hacktoberfest' or have a 'hacktoberfest-accepted' label. This year, the __first 10,000__ participants who complete the challenge will earn a T-shirt.
 
 ## Steps to follow :scroll:
 
@@ -167,6 +167,11 @@ $ git push -u origin BranchName
 Finally, go to your repository in the browser and click on `compare and pull requests`.
 Then add a title and description to your pull request that explains your precious effort.
 
+## Get Started with a Checklist  
+We’ve created a [Beginner Contributor Checklist](./docs/beginner-checklist.md) to guide your first steps.  
+Once you’re done, you can proudly display this badge:
+
+![My First Contribution](https://img.shields.io/badge/first-contribution-success-green)
 
 
 

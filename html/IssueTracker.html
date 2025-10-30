@@ -1,238 +1,399 @@
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Issue Tracker - Github</title>
-    <meta name="keywords" content="hacktoberfest2025, hacktoberfest, open source, issues, tracker" />
-    <meta name="tags" content="hacktoberfest2025, good-first-issue, help-wanted" />
-
-    <!-- Linking bootstrap CDN for adding CSS classes using Bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-      crossorigin="anonymous"/>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Issue Tracker</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <style>
-      html, body { height: 100%; }
-      body { background: linear-gradient(135deg, #eef2f7 0%, #e6f7ff 100%); }
-      header { background: transparent; color: #1f2d3d; text-align: center; padding: 30px 0; }
-      .jumbotron { background: #ffffff; border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
-      .panel { border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,0.06); }
-      .panel-heading { border-top-left-radius: 8px !important; border-top-right-radius: 8px !important; }
-      .well { background: #ffffff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
-      .footer { text-align: center; color: #6b7a8c; margin: 30px 0; }
+        body { 
+            background: linear-gradient(135deg, #eef2f7 0%, #e6f7ff 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container { max-width: 1200px; }
+        .issue-card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .issue-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .filter-section {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .priority-high { color: #dc3545; }
+        .priority-medium { color: #ffc107; }
+        .priority-low { color: #28a745; }
+        .label { margin-right: 5px; }
+        .stats-panel {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .stat-box {
+            text-align: center;
+            padding: 10px;
+            border-right: 1px solid #eee;
+        }
+        .stat-box:last-child { border-right: none; }
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #337ab7;
+        }
+        .keyboard-shortcut {
+            color: #666;
+            font-size: 12px;
+            margin-left: 8px;
+        }
     </style>
-  </head>
-
-
-  <body onload="fetchIssues()">
-    <header>
-      <div class="overlay">
-        <h1>Issue Tracker</h1>
-        <h3>Manage your important issues here !!</h3>
-        <br>
-      </div>
-    </header>
-    
-        <div class="container">
-          <div class="jumbotron">
-            <h3 style="text-align: center;">Add New Issue:</h3>
-            <form id="issueInputForm">
-              <div class="form-group">
-                <label for="issueDescInput">Description</label>
-                <input type="text" class="form-control" id="issueDescInput" placeholder="Describe the issue ...">
-              </div>
-              <div class="form-group">
-                <label for="issueDescInput">Severity</label>
-                 <select class="form-control" id="issueSeverityInput">
-                  <option value="Low">Low</option>
-                  <option value="Medium">Medium</option>
-                  <option value="High">High</option>
-                </select> 
-              </div>
-              <div class="form-group">
-                <label for="issueDescInput">Assigned To</label>
-                <input type="text" class="form-control" id="issueAssignedToInput" placeholder="Enter responsible ...">
-              </div>          <button type="submit" class="btn btn-primary">Add</button>
-            </form>
-          </div>
-          <div class="panel panel-default" style="margin-bottom: 20px;">
-            <div class="panel-heading"><strong>Filters</strong></div>
-            <div class="panel-body">
-              <div class="row">
-                <div class="col-sm-3">
-                  <label for="filterSeverity">Severity</label>
-                  <select id="filterSeverity" class="form-control">
-                    <option value="">All</option>
-                    <option value="Low">Low</option>
-                    <option value="Medium">Medium</option>
-                    <option value="High">High</option>
-                  </select>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Project Issue Tracker</h1>
+        
+        <div class="stats-panel">
+            <div class="row">
+                <div class="col-md-3 stat-box">
+                    <div class="stat-number" id="totalIssues">0</div>
+                    <div>Total Issues</div>
                 </div>
-                <div class="col-sm-3">
-                  <label for="filterStatus">Status</label>
-                  <select id="filterStatus" class="form-control">
-                    <option value="">All</option>
-                    <option value="Open">Open</option>
-                    <option value="Closed">Closed</option>
-                  </select>
+                <div class="col-md-3 stat-box">
+                    <div class="stat-number" id="openIssues">0</div>
+                    <div>Open Issues</div>
                 </div>
-                <div class="col-sm-3">
-                  <label for="filterAssignee">Assignee</label>
-                  <input id="filterAssignee" type="text" class="form-control" placeholder="Assignee name">
+                <div class="col-md-3 stat-box">
+                    <div class="stat-number" id="inProgressIssues">0</div>
+                    <div>In Progress</div>
                 </div>
-                <div class="col-sm-3">
-                  <label for="searchText">Search</label>
-                  <input id="searchText" type="text" class="form-control" placeholder="Search description or assignee">
+                <div class="col-md-3 stat-box">
+                    <div class="stat-number" id="highPriorityIssues">0</div>
+                    <div>High Priority</div>
                 </div>
-              </div>
-              <div class="row" style="margin-top: 10px;">
-                <div class="col-sm-12">
-                  <button id="clearFilters" class="btn btn-default">Clear Filters</button>
-                </div>
-              </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-12">
-              <div id="issuesList">
-              </div>
-            </div>
-          </div>
-          <div class="footer">
-            <p>Made with <3</p>
-          </div>    
         </div>
-    
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous"></script>
-    <!-- To generate unique identifiers to the issues, a library of JS called Chance.js is used -->
-    <script src="https://chancejs.com/chance.min.js"></script>
+
+        <div class="filter-section">
+            <div class="row">
+                <div class="col-md-3">
+                    <select id="filterSeverity" class="form-control">
+                        <option value="">Filter by Priority</option>
+                        <option value="High">High</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Low">Low</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select id="filterStatus" class="form-control">
+                        <option value="">Filter by Status</option>
+                        <option value="Open">Open</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Closed">Closed</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <input type="text" id="searchText" class="form-control" 
+                            placeholder="Search issues... (Alt + F)">
+                </div>
+                <div class="col-md-2">
+                    <button id="clearFilters" class="btn btn-default btn-block">
+                        Clear Filters (Alt + C)
+                    </button>
+                </div>
+            </div>
+            <div id="filterCount" class="text-muted mt-2 text-right"></div>
+        </div>
+
+        <div class="filter-section">
+            <h3>Add New Issue</h3>
+            <form id="issueForm">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Title <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="issueTitle" **required**>
+                        </div>
+                        <div class="form-group">
+                            <label>Description (Optional)</label>
+                            <textarea class="form-control" id="issueDescription" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Priority</label>
+                            <select class="form-control" id="issueSeverity">
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Assigned To <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="issueAssignee" **required**>
+                        </div>
+                        <div class="form-group">
+                            <label>Project <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="issueProject" **required**>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Issue (Alt + S)</button>
+            </form>
+        </div>
+
+        <div id="issuesList"></div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script>
-      (function() {
-        var form = document.getElementById('issueInputForm');
-        var issuesListEl = document.getElementById('issuesList');
-        var filterSeverity = document.getElementById('filterSeverity');
-        var filterStatus = document.getElementById('filterStatus');
-        var filterAssignee = document.getElementById('filterAssignee');
-        var searchText = document.getElementById('searchText');
-        var clearBtn = document.getElementById('clearFilters');
-
-        function getIssues() {
-          try { return JSON.parse(localStorage.getItem('issues')) || []; } catch(e) { return []; }
-        }
-        function setIssues(issues) { localStorage.setItem('issues', JSON.stringify(issues)); }
-
-        window.fetchIssues = function() {
-          renderIssues(getIssues());
-        }
-
-        function renderIssues(issues) {
-          issuesListEl.innerHTML = '';
-          if (!issues.length) {
-            issuesListEl.innerHTML = '<div class="alert alert-info">No issues found.</div>';
-            return;
-          }
-          issues.forEach(function(issue) {
-            var statusLabel = issue.status === 'Closed' ? 'label-success' : 'label-info';
-            var html = ''+
-              '<div class="well">'+
-                '<h6>Issue ID: ' + issue.id + '</h6>'+
-                '<p><span class="label ' + statusLabel + '">' + issue.status + '</span></p>'+
-                '<h3>' + escapeHtml(issue.description) + '</h3>'+
-                '<p><span class="glyphicon glyphicon-time"></span> ' + issue.severity + ' '+
-                ' <span class="glyphicon glyphicon-user"></span> ' + escapeHtml(issue.assignedTo) + '</p>'+
-                '<a class="btn btn-warning" data-action="close" data-id="' + issue.id + '" ' + (issue.status === 'Closed' ? 'disabled' : '') + '>Close</a> '+
-                '<a class="btn btn-danger" data-action="delete" data-id="' + issue.id + '">Delete</a>'+
-              '</div>';
-            var wrapper = document.createElement('div');
-            wrapper.innerHTML = html;
-            issuesListEl.appendChild(wrapper);
-          });
-        }
-
-        function escapeHtml(str){
-          return String(str || '').replace(/[&<>"]?/g, function(s){
-            return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[s] || s);
-          });
-        }
-
-        function applyFilters() {
-          var severity = filterSeverity.value.trim();
-          var status = filterStatus.value.trim();
-          var assignee = filterAssignee.value.trim().toLowerCase();
-          var q = searchText.value.trim().toLowerCase();
-          var issues = getIssues().filter(function(it){
-            if (severity && it.severity !== severity) return false;
-            if (status && it.status !== status) return false;
-            if (assignee && !(it.assignedTo || '').toLowerCase().includes(assignee)) return false;
-            if (q) {
-              var hay = ((it.description || '') + ' ' + (it.assignedTo || '')).toLowerCase();
-              if (!hay.includes(q)) return false;
+        // Real issue data initialization
+        const initialIssues = [
+            {
+                id: Date.now() + 1,
+                title: "API Authentication Failure",
+                description: "Users unable to login after recent deployment. Error occurs in production environment only.",
+                severity: "High",
+                assignedTo: "Sarah Chen",
+                project: "User Authentication Service",
+                status: "Open",
+                createdAt: new Date().toISOString()
+            },
+            {
+                id: Date.now() + 2,
+                title: "Dashboard Performance Issues",
+                description: "Dashboard loading time exceeds 5 seconds on the production environment.",
+                severity: "Medium",
+                assignedTo: "Michael Rodriguez",
+                project: "Analytics Dashboard",
+                status: "In Progress",
+                createdAt: new Date().toISOString()
+            },
+            {
+                id: Date.now() + 3,
+                title: "Mobile Responsive Design",
+                description: "Navigation menu not properly displayed on mobile devices < 375px width.",
+                severity: "Low",
+                assignedTo: "Emma Wilson",
+                project: "Frontend UI",
+                status: "Open",
+                createdAt: new Date().toISOString()
             }
-            return true;
-          });
-          renderIssues(issues);
+        ];
+
+        // Initialize application
+        function init() {
+            if (!localStorage.getItem('issues')) {
+                localStorage.setItem('issues', JSON.stringify(initialIssues));
+            }
+            setupEventListeners();
+            updateStats();
+            filterIssues();
+        }
+
+        // Event Listeners Setup
+        function setupEventListeners() {
+            document.getElementById('issueForm').addEventListener('submit', handleSubmit);
+            document.getElementById('filterSeverity').addEventListener('change', filterIssues);
+            document.getElementById('filterStatus').addEventListener('change', filterIssues);
+            // Changed from 'input' to 'keyup' for potentially better responsiveness, though 'input' is usually fine.
+            document.getElementById('searchText').addEventListener('input', filterIssues); 
+            document.getElementById('clearFilters').addEventListener('click', clearFilters);
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if (e.altKey) {
+                    switch(e.key.toLowerCase()) {
+                        case 'f': 
+                            e.preventDefault();
+                            document.getElementById('searchText').focus();
+                            break;
+                        case 'c':
+                            e.preventDefault();
+                            clearFilters();
+                            break;
+                        case 's':
+                            e.preventDefault();
+                            document.getElementById('issueTitle').focus();
+                            break;
+                    }
+                }
+            });
+        }
+
+        // Update Statistics
+        function updateStats() {
+            const issues = getIssues();
+            document.getElementById('totalIssues').textContent = issues.length;
+            document.getElementById('openIssues').textContent = 
+                issues.filter(i => i.status === 'Open').length;
+            document.getElementById('inProgressIssues').textContent = 
+                issues.filter(i => i.status === 'In Progress').length;
+            document.getElementById('highPriorityIssues').textContent = 
+                issues.filter(i => i.severity === 'High').length;
+        }
+
+        // Handle Form Submission
+        function handleSubmit(e) {
+            e.preventDefault();
+            const issue = {
+                id: Date.now(),
+                title: document.getElementById('issueTitle').value,
+                // Description is no longer required and can be an empty string
+                description: document.getElementById('issueDescription').value, 
+                severity: document.getElementById('issueSeverity').value,
+                assignedTo: document.getElementById('issueAssignee').value,
+                project: document.getElementById('issueProject').value,
+                status: 'Open',
+                createdAt: new Date().toISOString()
+            };
+            
+            const issues = getIssues();
+            issues.push(issue);
+            localStorage.setItem('issues', JSON.stringify(issues));
+            
+            this.reset();
+            updateStats();
+            filterIssues();
+        }
+
+        // Filter Issues - MODIFIED FOR OPTIONAL DESCRIPTION
+        function filterIssues() {
+            const severity = document.getElementById('filterSeverity').value;
+            const status = document.getElementById('filterStatus').value;
+            const searchQuery = document.getElementById('searchText').value.toLowerCase();
+            
+            let issues = getIssues();
+            
+            // Apply Priority and Status filters first
+            if (severity) {
+                issues = issues.filter(i => i.severity === severity);
+            }
+            if (status) {
+                issues = issues.filter(i => i.status === status);
+            }
+            
+            // Apply Search Query filter across multiple fields (including potentially empty description)
+            if (searchQuery) {
+                issues = issues.filter(i => 
+                    // Check Title
+                    i.title.toLowerCase().includes(searchQuery) ||
+                    // Check Description (will check empty string if description is blank, which is fine)
+                    (i.description ? i.description.toLowerCase().includes(searchQuery) : false) || 
+                    // Check Assignee
+                    i.assignedTo.toLowerCase().includes(searchQuery) ||
+                    // Check Project
+                    i.project.toLowerCase().includes(searchQuery)
+                );
+            }
+            
+            document.getElementById('filterCount').textContent = 
+                `Showing ${issues.length} of ${getIssues().length} issues`;
+            
+            renderIssues(issues);
+        }
+
+        // Render Issues List
+        function renderIssues(issues) {
+            const issuesList = document.getElementById('issuesList');
+            issuesList.innerHTML = issues.map(issue => `
+                <div class="issue-card">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h4>${issue.title}</h4>
+                            <p class="text-muted">${issue.description || 'No description provided.'}</p>
+                        </div>
+                        <div class="col-md-4 text-right">
+                            <span class="label label-${getStatusClass(issue.status)}">${issue.status}</span>
+                            <span class="label label-${getSeverityClass(issue.severity)}">${issue.severity}</span>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Project:</strong> ${issue.project}</p>
+                            <p><strong>Assigned to:</strong> ${issue.assignedTo}</p>
+                            <p><strong>Created:</strong> ${new Date(issue.createdAt).toLocaleDateString()}</p>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <button onclick="updateStatus('${issue.id}')" 
+                                    class="btn btn-${getStatusClass(issue.status)}">
+                                ${getNextStatus(issue.status)}
+                            </button>
+                            <button onclick="deleteIssue('${issue.id}')" 
+                                    class="btn btn-danger">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('') || '<div class="alert alert-info">No issues found</div>';
+        }
+
+        // Utility Functions
+        function getIssues() {
+            return JSON.parse(localStorage.getItem('issues')) || [];
         }
 
         function clearFilters() {
-          filterSeverity.value = '';
-          filterStatus.value = '';
-          filterAssignee.value = '';
-          searchText.value = '';
-          renderIssues(getIssues());
+            document.getElementById('filterSeverity').value = '';
+            document.getElementById('filterStatus').value = '';
+            document.getElementById('searchText').value = '';
+            filterIssues();
         }
 
-        if (form) {
-          form.addEventListener('submit', function(e){
-            e.preventDefault();
-            var desc = document.getElementById('issueDescInput').value.trim();
-            var sev = document.getElementById('issueSeverityInput').value;
-            var assign = document.getElementById('issueAssignedToInput').value.trim();
-            if (!desc) return;
-            var issue = {
-              id: (window.chance && chance.guid) ? chance.guid() : String(Date.now()),
-              description: desc,
-              severity: sev,
-              assignedTo: assign,
-              status: 'Open'
-            };
-            var issues = getIssues();
-            issues.push(issue);
-            setIssues(issues);
-            form.reset();
-            applyFilters();
-          });
+        function updateStatus(id) {
+            const issues = getIssues();
+            const issue = issues.find(i => i.id == id);
+            issue.status = getNextStatus(issue.status);
+            localStorage.setItem('issues', JSON.stringify(issues));
+            updateStats();
+            filterIssues();
         }
 
-        issuesListEl.addEventListener('click', function(e){
-          var target = e.target;
-          var action = target.getAttribute('data-action');
-          var id = target.getAttribute('data-id');
-          if (!action || !id) return;
-          var issues = getIssues();
-          if (action === 'close') {
-            issues = issues.map(function(it){ if (it.id === id) it.status = 'Closed'; return it; });
-            setIssues(issues);
-            applyFilters();
-          } else if (action === 'delete') {
-            issues = issues.filter(function(it){ return it.id !== id; });
-            setIssues(issues);
-            applyFilters();
-          }
-        });
+        function deleteIssue(id) {
+            const issues = getIssues().filter(i => i.id != id);
+            localStorage.setItem('issues', JSON.stringify(issues));
+            updateStats();
+            filterIssues();
+        }
 
-        [filterSeverity, filterStatus, filterAssignee, searchText].forEach(function(el){
-          el.addEventListener('input', applyFilters);
-          el.addEventListener('change', applyFilters);
-        });
-        clearBtn.addEventListener('click', function(e){ e.preventDefault(); clearFilters(); });
+        function getStatusClass(status) {
+            return {
+                'Open': 'warning',
+                'In Progress': 'info',
+                'Closed': 'success'
+            }[status] || 'default';
+        }
 
-        // initial render happens via body onload calling fetchIssues
-      })();
+        function getSeverityClass(severity) {
+            return {
+                'High': 'danger',
+                'Medium': 'warning',
+                'Low': 'success'
+            }[severity] || 'default';
+        }
+
+        function getNextStatus(status) {
+            return {
+                'Open': 'Start Progress',
+                'In Progress': 'Close Issue',
+                'Closed': 'Closed'
+            }[status] || 'Start Progress';
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', init);
     </script>
-  </body>
+</body>
 </html>

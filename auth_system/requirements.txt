@@ -4,3 +4,8 @@ Flask-SQLAlchemy==3.0.3
 oauthlib==3.2.2
 PyJWT==2.7.0
 requests==2.31.0
+# auth_system/requirements.txt
+fastapi
+uvicorn
+pydantic
+python-jose # For JWT handling (assumed)

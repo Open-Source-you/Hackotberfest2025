@@ -1,44 +1,26 @@
-// Java program to determine whether the
-// Number is Armstrong number or not
+import java.util.stream.IntStream;
+
 public class Armstrong {
-	// Function to calculate x raised to the
-	// power y
-
-	// Function to calculate order of the number
-	int order(int x)
-	{
-		int n = 0;
-		while (x != 0) {
-			n++;
-			x = x / 10;
-		}
-		return n;
-	}
-
-	// Function to check whether the given number is
-	// Armstrong number or not
-	boolean isArmstrong(int x)
-	{
-		// Calling order function
-		int n = order(x);
-		int temp = x, sum = 0;
-		while (temp != 0) {
-			int r = temp % 10;
-			sum = sum + power(r, n);
-			temp = temp / 10;
-		}
-
-		// If satisfies Armstrong condition
-		return (sum == x);
-	}
-
-	// Driver Program
-	public static void main(String[] args)
-	{
-		Armstrong ob = new Armstrong();
-		int x = 153;
-		System.out.println(x + " : " + ob.isArmstrong(x));
-		x = 1253;
-		System.out.println(x + " : " + ob.isArmstrong(x));
-	}
+    
+    public static boolean isArmstrong(int num) {
+        String digits = String.valueOf(num);
+        int power = digits.length();
+        
+        return digits.chars()
+            .map(c -> c - '0')
+            .map(d -> (int) Math.pow(d, power))
+            .sum() == num;
+    }
+    
+    public static void main(String[] args) {
+        // Test numbers
+        IntStream.of(153, 1253, 371, 9474, 1634)
+            .forEach(n -> System.out.printf("%d: %s\n", n, isArmstrong(n)));
+        
+        // Find all Armstrong numbers up to 10000
+        System.out.println("\nArmstrong numbers (1-10000):");
+        IntStream.range(1, 10000)
+            .filter(Armstrong::isArmstrong)
+            .forEach(n -> System.out.print(n + " "));
+    }
 }
